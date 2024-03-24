@@ -15,7 +15,7 @@
 		<style>
 			main {
 				padding: 15px;
-				background-color: #EEEEEE;
+				background-color: #eeeeee;
 				margin: 0;
 				width: 100%;
 				min-height: 100vh;
@@ -23,17 +23,17 @@
 				box-sizing: border-box;
 			}
 			section {
-				background-color: #FFFFFF;
+				background-color: #ffffff;
 				border-radius: 10px;
 				padding: 15px 30px;
 			}
-			h1{
+			h1 {
 				font-size: 32px;
 			}
-			h2{
+			h2 {
 				font-size: 26px;
 			}
-			h3{
+			h3 {
 				font-size: 20px;
 			}
 		</style>
@@ -43,10 +43,25 @@
 			<h1>JS Web Components</h1>
 			<section>
 				<h2>Inputs</h2>
-				<h3>Textfields</h3>
-				
-				<text-field onchange="handler(event)"></text-field>
-				<number-field></number-field>
+				<h3>Textfield</h3>
+
+				<text-field label="Label" errormessage="tt"></text-field>
+				<text-field filled="false"></text-field>
+				<text-field label="Icons" iconleft="search" iconright="highlight_off"></text-field>
+				<text-field label="Disable" iconleft="search" disabled="true"></text-field>
+				<text-field label="Error" iconright="home" errormessage="Le champ est vide"></text-field>
+
+				<h3>Passwordfield</h3>
+				<password-field label="Password" iconLeft="fingerprint"></password-field>
+
+				<h3>Numberfield</h3>
+				<number-field label="Number" integer="2" decimal="1" min="-1"></number-field>
+
+				<h3>Phonefield</h3>
+				<phone-field label="Phone"></phone-field>
+
+				<h3>Emailfields</h3>
+				<email-field label="Email"></email-field>
 			</section>
 		</main>
 	</body>
