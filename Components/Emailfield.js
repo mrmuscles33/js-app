@@ -1,6 +1,6 @@
 import TextField from "./TextField.js";
 
-export default class Emailfield extends TextField {
+export default class EmailField extends TextField {
 	static attrs = [...TextField.attrs];
 	static counter = 1;
 	connectedCallback() {

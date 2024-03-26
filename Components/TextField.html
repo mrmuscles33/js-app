@@ -1,0 +1,18 @@
+<div class="textfield-main ${this.cls} ${this.iconleft ? 'textfield-icon-left' : ''} ${this.iconright ? 'textfield-icon-right' : ''} ${this.disabled === 'true' ? 'disable' : ''} ${this.filled === 'true' ? 'filled' : ''} ${this.flex === 'true' ? 'flex' : ''} ${this.label ? 'labelled' : ''} ${this.haserror === 'true' ? 'textfield-error' : ''}">
+    <input id="${this.id}" name="${this.name}"
+        type="${this.type || 'text'}"
+        maxlength="${this.maxlength || '128'}"
+        placeholder="."
+        tabindex="${this.readonly === 'true' || this.disabled === 'true' ? '-1' : '0'}"
+        value="${this.value || ''}"
+        "${this.disabled === 'true' ? 'disabled' : ''}"
+        ${this.readonly === 'true' ? 'readonly' : ''}
+        ${this.required === 'true' ? 'required' : ''}
+        ${this.pattern ? `pattern=${this.pattern}` : ''}
+        ${this.cls ? `class=${this.cls}` : ''}
+    />
+    ${this.label ? `<label>${this.label}</label>` : ''}
+    ${this.iconleft ? `<span class='textfield-icon textfield-icon-left material-icons-round'>${this.iconleft}</span>` : ''}
+    ${this.iconright ? `<span class='textfield-icon textfield-icon-right material-icons-round' role='button' tabindex='0'>${this.iconright}</span>` : ''}
+    ${this.haserror === 'true' ? `<span class='textfield-error-msg'>${this.errormessage}</span>` : ''}
+</div>

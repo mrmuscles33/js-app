@@ -1,6 +1,6 @@
 import TextField from "./TextField.js";
 
-export default class NumberField extends TextField {
+export default class PhoneField extends TextField {
 	static attrs = [...TextField.attrs];
 	connectedCallback() {
 		this.pattern = this.pattern || "^\\+?(\\d[\\d-. ]+)?(\\([\\d-. ]+\\))?\\d[\\d-. ]+\\d$";
