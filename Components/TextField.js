@@ -112,7 +112,7 @@ export default class TextField extends BaseElement {
 		if (me.disabled === "true") return;
 		me.errormessage = me.required === "true" && !me.value ? `La donnée ${me.label} est obligatoire` : "";
 		if (me.pattern && !me.errormessage) {
-			if (new RegExp(me.pattern).test(me.value) || !me.value) {
+			if (!me.value || me.value.match(me.pattern)) {
 				me.errormessage = "";
 			} else if (me.format) {
 				me.errormessage = `La donnée ${me.label} doit être au format ${me.format}`;
