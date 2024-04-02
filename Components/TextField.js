@@ -42,14 +42,14 @@ export default class TextField extends BaseElement {
 		this.id = this.id || `text-field-${TextField.counter++}`;
 		super.connectedCallback();
 	}
-	update() {
+	render() {
 		// Dynamics variables
 		let me = this;
 		me.inputWidth = me.width - (me.iconleft != "" ? 40 : 12) - (me.iconright != "" ? 32 : 0) - 12;
 		me.haserror = me.errormessage ? "true" : "false";
 
 		// The update methods breaks listeners and bindings
-		super.update();
+		super.render();
 		me.div = me.shadowRoot.querySelector("div");
 		me.input = me.shadowRoot.querySelector("input");
 		me.icon = me.shadowRoot.querySelector("span.textfield-icon-right");

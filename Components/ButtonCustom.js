@@ -14,12 +14,12 @@ export default class ButtonCustom extends BaseElement {
 		this.id = this.id || `button-${ButtonCustom.counter++}`;
 		super.connectedCallback();
 	}
-	update() {
+	render() {
 		// Dynamics variables
 		let me = this;
 
 		// The update methods breaks listeners and bindings
-		super.update();
+		super.render();
 
 		if (!me.disabled || me.disabled == "false") {
 			me.button = me.shadowRoot.querySelector("span.btn-main");

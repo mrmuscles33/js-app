@@ -11,12 +11,12 @@ export default class CheckboxCustom extends BaseElement {
 		this.id = this.id || `checkbox-${CheckboxCustom.counter++}`;
 		super.connectedCallback();
 	}
-	update() {
+	render() {
 		// Dynamics variables
 		let me = this;
 
 		// The update methods breaks listeners and bindings
-		super.update();
+		super.render();
 
 		// Listeners
 		// input

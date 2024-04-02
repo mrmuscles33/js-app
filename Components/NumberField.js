@@ -12,7 +12,7 @@ export default class NumberField extends TextField {
 		this.max = this.max || "";
 		super.connectedCallback();
 	}
-	update() {
+	render() {
 		// Dynamics variables
 		this.ignoreChange = true;
 		this.pattern =
@@ -26,7 +26,7 @@ export default class NumberField extends TextField {
 		this.maxlength = ((this.min != null) & (this.min < 0) ? 1 : 0) + this.integer + (this.decimal > 0 ? 1 : 0) + this.decimal;
 		this.ignoreChange = false;
 
-		super.update();
+		super.render();
 	}
 	onChange(evt) {
 		super.onChange(evt);

@@ -1,4 +1,6 @@
 import BaseElement from "./BaseElement.js";
+import Html from "../Utils/Html.js";
+import Events from "../Utils/Events.js";
 
 export default class RadioCustom extends BaseElement {
 	static attrs = [...BaseElement.attrs, "label", "checked", "value", "disabled"];
@@ -11,31 +13,68 @@ export default class RadioCustom extends BaseElement {
 		this.id = this.id || `radio-${RadioCustom.counter++}`;
 		super.connectedCallback();
 	}
-	update() {
+	focus() {
+		this.input.focus();
+	}
+	render() {
 		// Dynamics variables
 		let me = this;
 
 		// The update methods breaks listeners and bindings
-		super.update();
+		super.render();
 
 		// Listeners
 		// input
 		me.input = me.shadowRoot.querySelector("input");
 		me.input.addEventListener("change", (event) => {
-			me.twoWayBinding(event.target);
-			me.fireHandler("change", event);
+			me.checked = event.target.checked;
+			me.onChange(event);
+		});
+		me.input.addEventListener("keydown", (event) => {
+			// Change radio using arrow keys
+			if (Events.isArrow(event)) {
+				// Uncheck current radio
+				me.checked = "false";
+
+				// Find all radios not disabled
+				let radios = Html.search(`radio-custom[name=${this.name}][disabled=false]`);
+				let index = radios.findIndex((radio) => radio.id == me.id);
+				if (Events.isArrowUp(event) || Events.isArrowLeft(event)) {
+					// Previous radio
+					index = index == 0 ? radios.length - 1 : index - 1;
+				} else {
+					// Next radio
+					index = index == radios.length - 1 ? 0 : index + 1;
+				}
+				// Check new radio
+				radios[index].checked = "true";
+				// Focus new radio
+				setTimeout(() => {
+					radios[index].focus();
+				}, 50);
+			}
+		});
+
+		// label
+		me.spanLabel = me.shadowRoot.querySelector("label");
+		me.spanLabel.addEventListener("click", (event) => {
+			me.input.focus();
 		});
 
 		// Dispatch event to real component
-		if(!this.disabled || this.disabled == "false") {
+		if (!this.disabled || this.disabled == "false") {
 			me.dispatch(me.input, "change");
 		}
 	}
-	twoWayBinding(elt) {
-		this.checked = elt.checked;
-	}
 	onChange(event) {
-		alert('toto');
+		let me = this;
+		// Find all others radios and uncheck them
+		let radios = Html.search(`radio-custom[name=${this.name}]`);
+		radios.forEach((radio) => {
+			if (radio.id != me.id) {
+				radio.checked = "false";
+			}
+		});
 	}
 	template() {
 		return [
@@ -45,26 +84,29 @@ export default class RadioCustom extends BaseElement {
 			`	${this.name ? "name='" + this.name + "'" : ""} `,
 			`	${this.value ? "value='" + this.value + "'" : ""} `,
 			`	${this.disabled == "true" ? "disabled" : ""}`,
+			`	tabindex=${this.checked == "true" ? "0" : "-1"}`,
 			`>`,
 			`<label `,
 			`	class="radio-main"`,
 			`	for=${this.id}`,
 			`>`,
-			`	<span class="material-icons-round" role="presentation">${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}</span>`,
+			`	<span class="material-icons-round" role="presentation">
+					${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}
+				</span>`,
 			`	<span>${this.label}</span>`,
-			`</label>`
+			`</label>`,
 		];
 	}
 	style() {
 		return [
 			...super.style(),
 			`input {`,
-            `    opacity: 0;`,
-            `    width: 0px;`,
-            `    height: 0px;`,
-            `    padding: 0px;`,
-            `    margin: 0px;`,
-            `    position: absolute;`,
+			`    opacity: 0;`,
+			`    width: 0px;`,
+			`    height: 0px;`,
+			`    padding: 0px;`,
+			`    margin: 0px;`,
+			`    position: absolute;`,
 			`}`,
 			`.radio-main {`,
 			`	margin:         10px 5px 10px 0;`,

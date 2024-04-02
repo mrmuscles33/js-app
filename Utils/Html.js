@@ -1,15 +1,17 @@
 const Html = {
-	search: (root, selector) => {
+	search: (selector, root = document.body) => {
 		let elements = Array.from(root.querySelectorAll(selector));
-		const shadowRoots = root.querySelectorAll("*").filter((el) => el.shadowRoot);
+		const shadowRoots = Array.from(root.querySelectorAll("*")).filter((el) => el.shadowRoot);
 		shadowRoots.forEach((shadowRoot) => {
-			const shadowElements = Html.search(shadowRoot, selector);
-			elements = [...elements, shadowElements];
+			const shadowElements = Html.search(selector, shadowRoot);
+			if (shadowElements.length > 0) {
+				elements = [...elements, shadowElements];
+			}
 		});
 		return elements;
 	},
 	render: (root, html) => {
 		root.innerHTML = html;
-	}
+	},
 };
 export default Html;

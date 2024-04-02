@@ -8,6 +8,7 @@ export default class BaseElement extends HTMLElement {
 		super();
 		this.cls = this.cls || "";
 		this.ignoreChange = true;
+		this.skipFocus = false;
 		this.attachShadow({ mode: "open" });
 		this.constructor.attrs.forEach((attr) => {
 			if (!Object.getOwnPropertyDescriptor(this.constructor.prototype, attr)) {
@@ -28,12 +29,12 @@ export default class BaseElement extends HTMLElement {
 	connectedCallback() {
 		this.id = this.id || `base-element-${BaseElement.idCounter++}`;
 		this.name = this.name || "";
-		this.update();
+		this.render();
 	}
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (!this.ignoreChange) this.update();
+		if (!this.ignoreChange) this.render();
 	}
-	update() {
+	render() {
 		let me = this;
 
 		// Remove extra space in html and css
@@ -51,12 +52,16 @@ export default class BaseElement extends HTMLElement {
 		Html.render(me.shadowRoot, (style ? `<style>${style}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering
-		if (activeId == me.id) {
+		if (activeId == me.id && !me.skipFocus) {
 			setTimeout(() => {
-				me.shadowRoot.getElementById(me.id).focus();
+				me.focus();
 			}, 50);
 		}
 		me.ignoreChange = false;
+	}
+	focus() {
+		// Focus on the element with the id
+		this.shadowRoot.getElementById(this.id).focus();
 	}
 	style() {
 		return [`@import url('../public/themes/light.css');`, `@import url('../public/google_icons.css');`];
