@@ -5,6 +5,7 @@ export default class BaseElement extends HTMLElement {
 	static idCounter = 1;
 	constructor() {
 		super();
+		this.cls = this.cls || "";
 		this.ignoreChange = true;
 		this.attachShadow({ mode: "open" });
 		this.constructor.attrs.forEach((attr) => {

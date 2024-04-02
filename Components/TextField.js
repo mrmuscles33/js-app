@@ -55,51 +55,53 @@ export default class TextField extends BaseElement {
 		me.icon = me.shadowRoot.querySelector("span.textfield-icon-right");
 
 		// Listeners
-		// div
-		me.div.addEventListener("click", (event) => {
-			// Focus input when cliking on global div
-			if (me.readonly === "false") {
-				me.input.focus();
-			}
-			event.stopPropagation();
-		});
-		me.div.addEventListener("keypress", (event) => {
-			// Do nothing and disable event
-			return;
-		});
-		// icon
-		if (me.icon) {
-			me.icon.addEventListener("click", (event) => {
-				me.fireHandler("click", event);
-				event.stopPropagation();
-			});
-			me.icon.addEventListener("keydown", (event) => {
-				// On Enter trigger click
-				if (Events.isEnter(event)) {
-					me.fireHandler("click", event);
-					Events.dispatch(me, "click", event, me.getDetail());
+		if (!this.disabled || this.disabled == "false") {
+			// div
+			me.div.addEventListener("click", (event) => {
+				// Focus input when cliking on global div
+				if (me.readonly === "false") {
+					me.input.focus();
 				}
 				event.stopPropagation();
 			});
-		}
-		// input
-		["change", "input", "focus", "focusout", "blur", "keydown", "keyup"].forEach((evt) => {
-			me.input.addEventListener(evt, (event) => {
-				me.twoWayBinding(event.target);
-				me.fireHandler(evt, event);
+			me.div.addEventListener("keypress", (event) => {
+				// Do nothing and disable event
+				return;
 			});
-		});
+			// icon
+			if (me.icon) {
+				me.icon.addEventListener("click", (event) => {
+					me.fireHandler("click", event);
+					event.stopPropagation();
+				});
+				me.icon.addEventListener("keydown", (event) => {
+					// On Enter trigger click
+					if (Events.isEnter(event)) {
+						me.fireHandler("click", event);
+						Events.dispatch(me, "click", event, me.getDetail());
+					}
+					event.stopPropagation();
+				});
+			}
+			// input
+			["change", "input", "focus", "focusout", "blur", "keydown", "keyup"].forEach((evt) => {
+				me.input.addEventListener(evt, (event) => {
+					me.twoWayBinding(event.target);
+					me.fireHandler(evt, event);
+				});
+			});
 
-		// Dispatch event to real component
-		if (me.icon) {
-			me.dispatch(me.icon, "click");
+			// Dispatch event to real component
+			if (me.icon) {
+				me.dispatch(me.icon, "click");
+			}
+			me.dispatch(me.input, "change");
+			me.dispatch(me.input, "input");
+			me.dispatch(me.input, "focus");
+			me.dispatch(me.input, "blur");
+			me.dispatch(me.input, "keydown");
+			me.dispatch(me.input, "keyup");
 		}
-		me.dispatch(me.input, "change");
-		me.dispatch(me.input, "input");
-		me.dispatch(me.input, "focus");
-		me.dispatch(me.input, "blur");
-		me.dispatch(me.input, "keydown");
-		me.dispatch(me.input, "keyup");
 	}
 	twoWayBinding(elt) {
 		// Disable update method
@@ -316,7 +318,7 @@ export default class TextField extends BaseElement {
 			`	font-size: 12px;`,
 			`	color: var(--color-error);`,
 			`}`,
-			this.styles ? this.styles : "",
+			this.styles || "",
 		];
 	}
 }
