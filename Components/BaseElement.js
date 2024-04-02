@@ -1,4 +1,5 @@
 import Events from "../Utils/Events.js";
+import Html from "../Utils/Html.js";
 
 export default class BaseElement extends HTMLElement {
 	static attrs = ["id", "name", "cls", "styles"];
@@ -47,7 +48,7 @@ export default class BaseElement extends HTMLElement {
 			.filter((l) => l != "")
 			.join(" ");
 		let activeId = document.activeElement.id;
-		me.shadowRoot.innerHTML = (style ? `<style>${style}</style>` : "") + tpl;
+		Html.render(me.shadowRoot, (style ? `<style>${style}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering
 		if (activeId == me.id) {
