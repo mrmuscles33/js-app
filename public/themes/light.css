@@ -1,21 +1,21 @@
 /* SUMMARY */
 
-/* Button.svelte */
-/* CounterButton.svelte */
-/* Checkbox.svelte */
-/* Radio.svelte */
-/* Switch.svelte */
-/* Textfield.svelte */
-/* DatePicker.svelte */
-/* TimePicker.svelte */
-/* Droplist.svelte */
+/* ButtonCustom.js */
+/* CheckboxCustom.js */
+/* RadioCustom.js */
+/* Switch.js */
+/* TextField.js */
+/* DatePicker.js */
+/* TimePicker.js */
+/* Droplist.js */
+/* Tooltip.js */
 
 html {
     --scroolbar-color: #777;
     --mask-color: rgba(150, 150, 150, 0.5);
 }
 
-/* Button.svelte */
+/* ButtonCustom.js */
 .btn-main {
     /* Border color */
     --color-primary: #1D2B83;
@@ -34,26 +34,7 @@ html {
 }
 
 
-/* CounterButton.svelte */
-.counter-main {
-    /* Background, border & count color */
-    --color: #666; 
-    /* Background, border & count hover color */
-    --color-hover: #111; 
-    /* Background, border & count checked color */
-    --color-checked: #1D2B83; 
-    /* Background, border & count checked hover color */
-    --color-checked-hover: #5a6ad1;
-    /* Text & icon color */
-    --color-text: #FFFFFF;
-    /* Text & icon checked color */
-    --color-text-checked: #FFFFFF; 
-    /* Background color */
-    --color-background: #FFFFFF;
-}
-
-
-/* Checkbox.svelte */
+/* CheckboxCustom.js */
 .checkbox-main {
     /* Icon color */
     --color-primary: #666; 
@@ -68,7 +49,7 @@ html {
 }
 
 
-/* Radio.svelte */
+/* RadioCustom.js */
 .radio-main {
     /* Icon color */
     --color-primary: #666; 
@@ -83,7 +64,7 @@ html {
 }
 
 
-/* Switch.svelte */
+/* Switch.js */
 .switch-main {
     /* Background color */
     --color-primary: #666;
@@ -98,7 +79,7 @@ html {
 }
 
 
-/* Textfield.svelte */
+/* TextField.js */
 .textfield-main {
     /* Background color */
     --color-backgroud: #EEEEEE; 
@@ -112,7 +93,7 @@ html {
     --color-error: #cc4141;
 }
 
-/* DatePicker.svelte */
+/* DatePicker.js */
 .datepicker-mask {
     --color-primary:#5a6ad1; 
     --color-background: #FFFFFF; 
@@ -122,7 +103,7 @@ html {
     --color-font-other: #AAAAAA;
 }
 
-/* TimePicker.svelte */
+/* TimePicker.js */
 .timepicker-mask {
     --color-primary:#5a6ad1; 
     --color-background: #FFFFFF;
@@ -134,11 +115,17 @@ html {
     --color-font-other: #AAAAAA;
 }
 
-/* Droplist.svelte */
+/* Droplist.js */
 .droplist-main {
     --color-backgroud: #EEEEEE; 
     --color-backgroud-hover: #DDDDDD;
     --color: #666666;
     --color-focus: #0d31a6;
     --color-error: #cc4141;
+}
+
+/* Tooltip.js */
+.tooltip-main {
+	--color-background: #6C6C6C;
+	--color-font: #FFFFFF;
 }
