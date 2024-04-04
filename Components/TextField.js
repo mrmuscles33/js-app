@@ -95,12 +95,11 @@ export default class TextField extends BaseElement {
 			if (me.icon) {
 				me.dispatch(me.icon, "click");
 			}
-			me.dispatch(me.input, "change");
-			me.dispatch(me.input, "input");
-			me.dispatch(me.input, "focus");
-			me.dispatch(me.input, "blur");
-			me.dispatch(me.input, "keydown");
-			me.dispatch(me.input, "keyup");
+			if(!me.disabled || me.disabled == "false") {
+				["change", "input", "focus", "blur", "keydown", "keyup"].forEach((evt) => {
+					me.dispatch(me.input, evt);
+				});
+			}
 		}
 	}
 	twoWayBinding(elt) {

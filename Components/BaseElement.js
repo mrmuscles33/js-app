@@ -85,7 +85,7 @@ export default class BaseElement extends HTMLElement {
 	}
 	fireHandler(eventName, event) {
 		let handler = "on" + eventName.charAt(0).toUpperCase() + eventName.substring(1);
-		if (this[handler]) {
+		if (this[handler] && typeof this[handler] == "function") {
 			this[handler](event);
 		}
 	}

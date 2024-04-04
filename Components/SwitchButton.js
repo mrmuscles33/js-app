@@ -7,6 +7,7 @@ export default class SwitchButton extends BaseElement {
 	connectedCallback() {
 		this.disabled = this.disabled || "false";
 		this.checked = this.checked || "false";
+		this.id = this.id || `switch-button-${SwitchButton.counter++}`;
 		super.connectedCallback();
 	}
 	render() {

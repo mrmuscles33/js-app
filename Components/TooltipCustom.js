@@ -4,7 +4,7 @@ export default class TooltipCustom extends BaseElement {
 	static attrs = [...BaseElement.attrs, "position", "text"];
 	static counter = 1;
 	connectedCallback() {
-		this.position = this.position || "bottom";
+		this.position = this.position || "top";
 		this.text = this.text || "";
 		super.connectedCallback();
 	}
