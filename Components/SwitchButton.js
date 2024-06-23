@@ -1,5 +1,4 @@
 import BaseElement from "./BaseElement.js";
-import Events from "../Utils/Events.js";
 
 export default class SwitchButton extends BaseElement {
 	static attrs = [...BaseElement.attrs, "disabled", "checked"];

@@ -9,6 +9,7 @@ import RadioCustom from "../Components/RadioCustom.js";
 import TooltipCustom from "../Components/TooltipCustom.js";
 import SwitchButton from "../Components/SwitchButton.js";
 import DatePicker from "../Components/DatePicker.js";
+import ToolbarCustom from "../Components/ToolbarCustom.js";
 
 customElements.define("text-field", TextField);
 customElements.define("number-field", NumberField);
@@ -21,3 +22,4 @@ customElements.define("radio-custom", RadioCustom);
 customElements.define("tooltip-custom", TooltipCustom);
 customElements.define("switch-button", SwitchButton);
 customElements.define("date-picker", DatePicker);
+customElements.define("toolbar-custom", ToolbarCustom);

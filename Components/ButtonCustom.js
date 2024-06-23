@@ -37,7 +37,7 @@ export default class ButtonCustom extends BaseElement {
 		}
 	}
 	template() {
-		return [
+		let tpl = [
 			`<span id="${this.id}" class="btn-main ${this.cls} `,
 			`    ${this.icon ? "btn-with-icon" : ""} `,
 			`    ${this.primary == "true" ? "primary" : ""} `,
@@ -46,10 +46,19 @@ export default class ButtonCustom extends BaseElement {
 			`    ${this.flex == "true" ? "flex" : ""}" `,
 			`    role="button" `,
 			`    tabindex=${this.disabled == "true" ? "-1" : "0"}>`,
-			`        <span class="btn-icon material-icons-round" role="presentation">${this.icon}</span>`,
-			`        <span class="btn-text">${this.text}</span>`,
+		];
+		if(this.icon && this.icon != "") {
+			tpl = [
+				...tpl,
+				`<span class="btn-icon material-icons-round" role="presentation">${this.icon}</span>`
+			];
+		}
+		tpl = [
+			...tpl,
+			`	<span class="btn-text">${this.text}</span>`,
 			`</span>`,
 		];
+		return tpl;
 	}
 	style() {
 		return [
@@ -93,8 +102,9 @@ export default class ButtonCustom extends BaseElement {
 			`	border-color: var(--color-hover);`,
 			`}`,
 			`.btn-main.flex {`,
-			`	flex-grow: 1;`,
+			`	width: 100%;`,
 			`	text-align: center;`,
+			`	box-sizing: border-box;`,
 			`}`,
 			`.btn-with-icon {`,
 			`	padding: var(${this.text == "" ? "0 12px" : "0 16px 0 12px"});`,
