@@ -16,7 +16,17 @@ export default class DatePicker extends TextField {
 		super.connectedCallback();
 	}
 	render() {
+		let me = this;
 		super.render();
+
+		// Add event listener
+		// Close button
+		me.closeButton = me.shadowRoot.querySelector('[name="close-button"]');
+		me.closeButton.addEventListener('click', me.close.bind(me));
+
+		// Valid button
+		me.validButton = me.shadowRoot.querySelector('[name="valid-button"]');
+		me.validButton.addEventListener('click', me.valid.bind(me));
 	}
 	onClick() {
 		let me = this;
@@ -37,7 +47,6 @@ export default class DatePicker extends TextField {
 	getDisplayedMonth(){
 		let date =  Dates.toDate(this.value, this.format);
 		let str = DatePicker.months[date.getMonth()] + ' ' + date.getFullYear();
-		console.log(str);
 		return str;
  	}
 	template() {
@@ -64,14 +73,22 @@ export default class DatePicker extends TextField {
 		];
 		tpl = [...tpl,
 			`			<toolbar-custom gap="10px">`,
-			`				<button-custom text="Fermer" flex="true" bordered="false" style="flex:1"></button-custom>`,
-			`				<button-custom text="Valider" flex="true" primary="true" bordered="false" style="flex:1"></button-custom>`,
+			`				<button-custom name="close-button" text="Fermer" flex="true" bordered="false" style="flex:1"></button-custom>`,
+			`				<button-custom name="valid-button" text="Valider" flex="true" primary="true" bordered="false" style="flex:1"></button-custom>`,
 			`			</toolbar-custom>`,
 			`		</div>`,
 			`	</div>`,
 			`</div>`,
 		];
 		return tpl;
+	}
+	close(){
+		let me = this;
+		me.visible = 'false';
+	}
+	valid(){
+		let me = this;
+		me.close();
 	}
 	style() {
 		return [
