@@ -34,20 +34,19 @@ export default class BaseElement extends HTMLElement {
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (!this.ignoreChange) this.render();
 	}
+	cleanString(strings, ...values) {
+		return strings
+			.map((str, i) => `${str}${values[i] || ''}`)
+			.join('')
+			.replace(/\s*\n\s*/g, ' ')
+			.trim();
+	}
 	render() {
 		let me = this;
 
 		// Remove extra space in html and css
-		let tpl = me
-			.template()
-			.map((l) => l.trim())
-			.filter((l) => l != "")
-			.join(" ");
-		let style = me
-			.style()
-			.map((l) => l.trim())
-			.filter((l) => l != "")
-			.join(" ");
+		let tpl = me.cleanString`${me.template()}`;
+		let style = me.cleanString`${me.style()}`;
 		let activeId = document.activeElement.id;
 		Html.render(me.shadowRoot, (style ? `<style>${style}</style>` : "") + tpl);
 
@@ -64,7 +63,10 @@ export default class BaseElement extends HTMLElement {
 		this.shadowRoot.getElementById(this.id).focus();
 	}
 	style() {
-		return [`@import url('../public/themes/light.css');`, `@import url('../public/google_icons.css');`];
+		return `
+			@import url('../public/themes/light.css');
+			@import url('../public/google_icons.css');
+		`;
 	}
 	template() {
 		return [];

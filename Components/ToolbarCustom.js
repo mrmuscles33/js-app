@@ -12,24 +12,24 @@ export default class ToolbarCustom extends BaseElement {
 		super.connectedCallback();
 	}
 	template() {
-		return [
-			`<div class="toolbar" role="toolbar" id="${this.id}">`,
-			`	<slot></slot>`,
-			`</div>`
-		];
+		return `
+			<div class="toolbar" role="toolbar" id="${this.id}">
+				<slot></slot>
+			</div>
+		`;
 	}
 	style() {
-		return [
-			...super.style(),
-			`.toolbar {`,
-			`	width: 100%;`,
-			`	display: flex;`,
-			`	justify-content: ${this.justify};`,
-			`	align-items: ${this.align};`,
-			`	flex-direction: ${this.direction};`,
-			`	gap: ${this.gap};`,
-			`}`,
-			this.styles || "",
-		];
+		return `
+			${super.style()}
+			.toolbar {
+				width: 100%;
+				display: flex;
+				justify-content: ${this.justify};
+				align-items: ${this.align};
+				flex-direction: ${this.direction};
+				gap: ${this.gap};
+			}
+			${this.styles || ""}
+		`;
 	}
 }
