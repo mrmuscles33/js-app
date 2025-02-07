@@ -23,7 +23,7 @@ export default class NumberField extends TextField {
 			(this.min & (this.min < 0) ? "-" : "") +
 			"".padStart(this.integer, "X") +
 			(this.decimal > 0 ? ".".padEnd(parseInt(this.decimal) + 1, "x") : "");
-		this.maxlength = ((this.min != null) & (this.min < 0) ? 1 : 0) + this.integer + (this.decimal > 0 ? 1 : 0) + this.decimal;
+		this.maxlength = ((this.min != null) & (this.min < 0) ? 1 : 0) + parseInt(this.integer) + (this.decimal > 0 ? 1 : 0) + parseInt(this.decimal);
 		this.ignoreChange = false;
 
 		super.render();
