@@ -1,6 +1,6 @@
 import Dates from "../Utils/Dates.js";
-import Html from "../Utils/Html.js";
 import TextField from "./TextField.js";
+import Events from "../Utils/Events.js";
 
 export default class DatePicker extends TextField {
 	static attrs = [...TextField.attrs, "visible", "showYear", "startWeek", "minDate", "maxDate"];
@@ -26,9 +26,18 @@ export default class DatePicker extends TextField {
 		me.endWeek = me.startWeek == 0 ? 6 : me.startWeek - 1;
 		me.realMinDate = Dates.toDate(me.minDate, me.format);
 		me.realMaxDate = Dates.toDate(me.maxDate, me.format);
-		me.currentMonth = Dates.format(me.tmpValue, Dates.D_M_Y, Dates.M_Y)
+		me.currentMonth = Dates.format(me.focusedDate || me.tmpValue, Dates.D_M_Y, Dates.M_Y)
 		
 		super.render();
+		if(me.visible == "true") {
+			setTimeout(() => {
+				me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
+			}, 100);
+		} else {
+			setTimeout(() => {
+				me.shadowRoot.querySelector('.textfield-main input').focus();
+			}, 100);
+		}
 
 		// Add event listener
 		// Close button
@@ -38,6 +47,76 @@ export default class DatePicker extends TextField {
 		// Valid button
 		me.validButton = me.shadowRoot.querySelector('[name="valid-button"]');
 		me.validButton.addEventListener('click', me.valid.bind(me));
+
+		// Next button
+		me.nextButton = me.shadowRoot.querySelector('[name="next-button"]');
+		me.nextButton.addEventListener('click', () => {
+			if(me.showYear == "true") {
+				// TODO
+			} else {
+				if(!me.getDisplayedDays().some(d => d == this.realMaxDate)) {
+					let date = Dates.toDate(me.currentMonth, Dates.M_Y);
+					date.setMonth(date.getMonth() + 1);
+					me.currentMonth = Dates.toText(date, Dates.M_Y);
+				}
+				// TODO : focus on first day of month
+				me.focusedDate = Dates.toText(Dates.toDate(me.currentMonth, Dates.M_Y), Dates.D_M_Y);
+			}
+			me.render();
+		});
+
+		// Previous button
+		me.previousButton = me.shadowRoot.querySelector('[name="previous-button"]');
+		me.previousButton.addEventListener('click', () => {
+			if(me.showYear == "true") {
+				// TODO
+			} else {
+				if(!me.getDisplayedDays().some(d => d == this.realMinDate)) {
+					let date = Dates.toDate(me.currentMonth, Dates.M_Y);
+					date.setMonth(date.getMonth() - 1);
+					me.currentMonth = Dates.toText(date, Dates.M_Y);
+				}
+				// TODO : focus on first day of month
+				me.focusedDate = Dates.toText(Dates.toDate(me.currentMonth, Dates.M_Y), Dates.D_M_Y);
+			}
+			me.render();
+		});
+
+		// Days
+		me.days = me.shadowRoot.querySelectorAll('.datepicker-day');
+		me.days.forEach((day) => {
+			day.addEventListener('click', (event) => {
+				let clickedDate = Dates.toDate(day.getAttribute('value'));
+				if(clickedDate < me.realMinDate || clickedDate > me.realMaxDate) return false;
+				me.tmpValue = Dates.toText(clickedDate, me.format);
+				me.focusedDate = me.tmpValue;
+				me.render();
+			});
+			day.addEventListener('keydown', (event) => {
+				let clickedDate = Dates.toDate(day.getAttribute('value'));
+				let nextDate = null;
+				if(Events.isArrow(event)) {
+					if(event.key == "ArrowRight") {
+						nextDate = Dates.addDays(clickedDate, 1);
+					} else if(event.key == "ArrowLeft") {
+						nextDate = Dates.addDays(clickedDate, -1);
+					} else if(event.key == "ArrowDown") {
+						nextDate = Dates.addDays(clickedDate, 7);
+					} else if(event.key == "ArrowUp") {
+						nextDate = Dates.addDays(clickedDate, -7);
+					} 
+					if(me.realMinDate <= nextDate  && nextDate <= me.realMaxDate) {
+						me.focusedDate = Dates.toText(nextDate, Dates.D_M_Y);
+					}
+					me.render();
+				}
+			});
+			day.addEventListener('keypress', (event) => {
+				if(event.key == "Enter") {
+					day.click();
+				}
+			});
+		});
 	}
 	onClick() {
 		let me = this;
@@ -51,49 +130,45 @@ export default class DatePicker extends TextField {
 		// Wait for animation to finish
 		setTimeout(() => {
 			me.render();
-			setTimeout(() => {
-				me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
-			}, 100);
 		}, 200);
 	}
 	getDisplayedDate() {
-		let date = Dates.toDate(this.value,this.format);
+		let date = Dates.toDate(this.tmpValue,this.format);
 		return DatePicker.days[date.getDay()] + ' ' + date.getDate() + ' ' + DatePicker.months[date.getMonth()] + ' ' + date.getFullYear();
 	}
 	getDisplayedMonth(){
-		let date =  Dates.toDate(this.value, this.format);
+		let date =  Dates.toDate(this.currentMonth, Dates.M_Y);
 		let str = DatePicker.months[date.getMonth()] + ' ' + date.getFullYear();
 		return str;
  	}
 	getDisplayedDays(){
-		var monthYear = Dates.format(this.tmpValue, Dates.D_M_Y, Dates.M_Y);
 		// If the first day of month is not the beginning of the week, replace by first day of week
-		var initFirstDay = Dates.toDate(monthYear, Dates.M_Y);
-		var firstDay = Dates.copy(initFirstDay);
+		let initFirstDay = Dates.toDate(this.currentMonth, Dates.M_Y);
+		let firstDay = Dates.copy(initFirstDay);
 		if(firstDay.getDay() != this.startWeek) {
-				if(firstDay.getDay() > this.startWeek) {
-						firstDay.setDate(firstDay.getDate() - (firstDay.getDay() - this.startWeek));
-				} else {
-						firstDay.setDate(firstDay.getDate() - (7 - (this.startWeek - firstDay.getDay())));
-				}
+			if(firstDay.getDay() > this.startWeek) {
+				firstDay.setDate(firstDay.getDate() - (firstDay.getDay() - this.startWeek));
+			} else {
+				firstDay.setDate(firstDay.getDate() - (7 - (this.startWeek - firstDay.getDay())));
+			}
 		}
 		
 		// If the last day of month is not the end of the week, replace by last day of week
-		var initLastDay = Dates.lastDay(initFirstDay);
-		var lastDay = Dates.copy(initLastDay);
+		let initLastDay = Dates.lastDay(initFirstDay);
+		let lastDay = Dates.copy(initLastDay);
 		if(lastDay.getDay() != this.endWeek) {
-				if(lastDay.getDay() < this.endWeek) {
-						lastDay.setDate(lastDay.getDate() + (this.endWeek - lastDay.getDay()));
-				} else {
-						lastDay.setDate(lastDay.getDate() + (7 - (lastDay.getDay() - this.endWeek)));
-				}
+			if(lastDay.getDay() < this.endWeek) {
+				lastDay.setDate(lastDay.getDate() + (this.endWeek - lastDay.getDay()));
+			} else {
+				lastDay.setDate(lastDay.getDate() + (7 - (lastDay.getDay() - this.endWeek)));
+			}
 		}
 
-		var days = [];
-		var oneDay = firstDay;
+		let days = [];
+		let oneDay = firstDay;
 		while(oneDay <= lastDay) {
-				days.push(Dates.copy(oneDay));
-				oneDay.setDate(oneDay.getDate() + 1);
+			days.push(Dates.copy(oneDay));
+			oneDay.setDate(oneDay.getDate() + 1);
 		}
 
 		return days;
@@ -116,14 +191,15 @@ export default class DatePicker extends TextField {
 								<button-custom
 									text="${this.getDisplayedMonth()}"
 									bordered="false"
+									name="month-button"
 								></button-custom>
 							</tooltip-custom>
 							<span style="flex:1"></span>
 							<tooltip-custom position="bottom" text="${this.showYears == "true" ? "Années précédentes" : "Mois précedent"}">
-								<button-custom icon="keyboard_arrow_left" bordered="false"></button-custom>
+								<button-custom icon="keyboard_arrow_left" bordered="false" name="previous-button"></button-custom>
 							</tooltip-custom>
 							<tooltip-custom position="bottom" text="${this.showYears == "true" ? "Années suivantes" : "Mois suivant"}">
-								<button-custom icon="keyboard_arrow_right" bordered="false"></button-custom>
+								<button-custom icon="keyboard_arrow_right" bordered="false" name="next-button"></button-custom>
 							</tooltip-custom>
 						</toolbar-custom>
 						<div class="datepicker-days">
@@ -142,7 +218,7 @@ export default class DatePicker extends TextField {
 										(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.realMinDate <= d  && d <= this.realMaxDate) == day)
 										? "0" : "-1"
 									}"
-								>${day.getDate()}</span>
+								value=${Dates.toText(day, Dates.D_M_Y)}>${day.getDate()}</span>
 							`).join('')}
 						</div>
 						<toolbar-custom gap="10px">
@@ -246,6 +322,7 @@ export default class DatePicker extends TextField {
 			.datepicker-years {
 					display: grid;
 					grid-template-columns: repeat(7, 1fr);
+					grid-template-rows: repeat(7, 50px);
 					margin: 0 0 5px 0;
 			}
 			.datepicker-years {
