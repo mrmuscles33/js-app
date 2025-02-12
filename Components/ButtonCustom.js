@@ -21,19 +21,14 @@ export default class ButtonCustom extends BaseElement {
 		// The update methods breaks listeners and bindings
 		super.render();
 
-		if (!me.disabled || me.disabled == "false") {
+		if (me.disabled == "false") {
 			me.button = me.shadowRoot.querySelector("span.btn-main");
 			me.button.addEventListener("keyup", (event) => {
 				if (Events.isEnter(event) || Events.isSpace(event)) {
-					Events.dispatch(me, "click", event, this.getDetail());
+					me.fireHandler("click", event);
 				}
 			});
-
-			// Listeners
-
-			// Dispatch event to real component
-			me.dispatch(me.button, "click");
-			me.dispatch(me.button, "keydown");
+			me.button.addEventListener("click", (event) => me.fireHandler("click", event));
 		}
 	}
 	template() {
@@ -84,12 +79,10 @@ export default class ButtonCustom extends BaseElement {
 				border-color: var(--color-primary);
 			}
 			.btn-main:hover,
-			.btn-main:focus,
 			.btn-main:focus-visible {
 				background-color: var(--color-hover);
 			}
 			.btn-main.primary:hover,
-			.btn-main.primary:focus,
 			.btn-main.primary:focus-visible {
 				border-color: var(--color-hover);
 			}

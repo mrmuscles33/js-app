@@ -19,13 +19,11 @@ export default class SwitchButton extends BaseElement {
 		// Listeners
 		// input
 		me.input = me.shadowRoot.querySelector("input");
-		me.input.addEventListener("change", (event) => {
-			me.twoWayBinding(event.target);
-		});
-
-		// Dispatch event to real component
-		if(!this.disabled || this.disabled == "false") {
-			me.dispatch(me.input, "change");
+		if(me.disabled == "false") {
+			me.input.addEventListener("change", (event) => {
+				me.twoWayBinding(event.target);
+				me.fireHandler("change", event);
+			});
 		}
 	}
 	twoWayBinding(elt) {

@@ -78,7 +78,6 @@ export default class TextField extends BaseElement {
 					// On Enter trigger click
 					if (Events.isEnter(event)) {
 						me.fireHandler("click", event);
-						Events.dispatch(me, "click", event, me.getDetail());
 					}
 					event.stopPropagation();
 				});
@@ -90,16 +89,6 @@ export default class TextField extends BaseElement {
 					me.fireHandler(evt, event);
 				});
 			});
-
-			// Dispatch event to real component
-			if (me.icon) {
-				me.dispatch(me.icon, "click");
-			}
-			if(!me.disabled || me.disabled == "false") {
-				["change", "input", "focus", "blur", "keydown", "keyup"].forEach((evt) => {
-					me.dispatch(me.input, evt);
-				});
-			}
 		}
 	}
 	twoWayBinding(elt) {

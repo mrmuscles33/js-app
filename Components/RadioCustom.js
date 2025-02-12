@@ -26,44 +26,41 @@ export default class RadioCustom extends BaseElement {
 		// Listeners
 		// input
 		me.input = me.shadowRoot.querySelector("input");
-		me.input.addEventListener("change", (event) => {
-			me.checked = event.target.checked;
-			me.onChange(event);
-		});
-		me.input.addEventListener("keydown", (event) => {
-			// Change radio using arrow keys
-			if (Events.isArrow(event)) {
-				// Uncheck current radio
-				me.checked = "false";
+		if(me.disabled == "false") {
+			me.input.addEventListener("change", (event) => {
+				me.checked = event.target.checked;
+				me.onChange(event);
+			});
+			me.input.addEventListener("keydown", (event) => {
+				// Change radio using arrow keys
+				if (Events.isArrow(event)) {
+					// Uncheck current radio
+					me.checked = "false";
 
-				// Find all radios not disabled
-				let radios = Html.search(`radio-custom[name=${this.name}][disabled=false]`);
-				let index = radios.findIndex((radio) => radio.id == me.id);
-				if (Events.isArrowUp(event) || Events.isArrowLeft(event)) {
-					// Previous radio
-					index = index == 0 ? radios.length - 1 : index - 1;
-				} else {
-					// Next radio
-					index = index == radios.length - 1 ? 0 : index + 1;
+					// Find all radios not disabled
+					let radios = Html.search(`radio-custom[name=${this.name}][disabled=false]`);
+					let index = radios.findIndex((radio) => radio.id == me.id);
+					if (Events.isArrowUp(event) || Events.isArrowLeft(event)) {
+						// Previous radio
+						index = index == 0 ? radios.length - 1 : index - 1;
+					} else {
+						// Next radio
+						index = index == radios.length - 1 ? 0 : index + 1;
+					}
+					// Check new radio
+					radios[index].checked = "true";
+					// Focus new radio
+					setTimeout(() => {
+						radios[index].focus();
+					}, 50);
 				}
-				// Check new radio
-				radios[index].checked = "true";
-				// Focus new radio
-				setTimeout(() => {
-					radios[index].focus();
-				}, 50);
-			}
-		});
+			});
 
-		// label
-		me.spanLabel = me.shadowRoot.querySelector("label");
-		me.spanLabel.addEventListener("click", (event) => {
-			me.input.focus();
-		});
-
-		// Dispatch event to real component
-		if (!this.disabled || this.disabled == "false") {
-			me.dispatch(me.input, "change");
+			// label
+			me.spanLabel = me.shadowRoot.querySelector("label");
+			me.spanLabel.addEventListener("click", (event) => {
+				me.input.focus();
+			});
 		}
 	}
 	onChange(event) {

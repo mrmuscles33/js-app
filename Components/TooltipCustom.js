@@ -1,19 +1,44 @@
 import BaseElement from "./BaseElement.js";
 
 export default class TooltipCustom extends BaseElement {
-	static attrs = [...BaseElement.attrs, "position", "text"];
+	static attrs = [...BaseElement.attrs, "position", "text", "show"];
 	static counter = 1;
 	connectedCallback() {
 		this.id = this.id || `tooltip-${TooltipCustom.counter++}`;
 		this.position = this.position || "top";
 		this.text = this.text || "";
+		this.show = this.show || "false";
 		super.connectedCallback();
+	}
+	render() {
+		super.render();
+
+		let me = this;
+		let main = this.shadowRoot.querySelector(".tooltip-main");
+		main.addEventListener("mouseenter", (event) => {
+			me.show = "true";
+			event.stopPropagation();
+		});
+		main.addEventListener("mouseleave", (event) => {
+			me.show = "false";
+			event.stopPropagation();
+		});
+		main.addEventListener("focusin", (event) => {
+			// Only for keyboard navigation
+			me.show = "true";
+			event.stopPropagation();
+		});
+		main.addEventListener("focusout", (event) => {
+			// Only for keyboard navigation
+			me.show = "false";
+			event.stopPropagation();
+		});
 	}
 	template() {
 		return `
 			<span class="tooltip-main tooltip-position-${this.position}">
 				<slot></slot>
-				<div class="tooltip-text">${this.text}</div>
+				<div class="tooltip-text ${this.show == "true" ? "show" : ""}">${this.text}</div>
 			</span>
 		`;
 	}
@@ -41,8 +66,7 @@ export default class TooltipCustom extends BaseElement {
 				transition: opacity 0.2s ease-in;
 				z-index: 2;
 			}
-			.tooltip-main:hover .tooltip-text,
-			.tooltip-main:focus-within .tooltip-text {
+			.tooltip-main .tooltip-text.show {
 				visibility: visible;
 				opacity: 1;
 			}
