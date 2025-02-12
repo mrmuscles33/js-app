@@ -3,7 +3,7 @@ import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
 
 export default class DatePicker extends TextField {
-	static attrs = [...TextField.attrs, "visible", "showYear", "startWeek", "minDate", "maxDate"];
+	static attrs = [...TextField.attrs, "startWeek", "minDate", "maxDate"];
 	static counter = 1;
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -13,7 +13,6 @@ export default class DatePicker extends TextField {
 		this.format = this.format || Dates.D_M_Y;
 		this.maxlength = this.format.length;
 		this.visible = this.visible || "false";
-		this.showYear = this.showYear || "false";
 		this.startWeek = this.startWeek || Dates.MONDAY;
 		this.minDate = this.minDate || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
 		this.maxDate = this.maxDate || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
@@ -28,6 +27,8 @@ export default class DatePicker extends TextField {
 		me.realMaxDate = Dates.toDate(me.maxDate, me.format);
 		me.currentMonth = Dates.format(me.focusedDate || me.tmpValue, Dates.D_M_Y, Dates.M_Y);
 		me.yearsPage = me.yearsPage || 0;
+		me.showYear = me.showYear || "false";
+		me.visible = me.visible || "false";
 		
 		super.render();
 
