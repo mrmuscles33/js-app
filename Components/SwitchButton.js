@@ -18,9 +18,9 @@ export default class SwitchButton extends BaseElement {
 
 		// Listeners
 		// input
-		me.input = me.querySelector("input");
+		let input = me.querySelector("input");
 		if(me.disabled == "false") {
-			me.input.addEventListener("change", (event) => {
+			input.addEventListener("change", (event) => {
 				me.twoWayBinding(event.target);
 				me.fireHandler("change", event);
 			});
@@ -59,14 +59,14 @@ export default class SwitchButton extends BaseElement {
 			.switch-main.disable {
 				opacity: .5;
 			}
-			input {
+			.switch-main > input {
 				opacity: 0;
 				width: 0px;
 				height: 0px;
 				padding: 0px;
 				margin: 0px;
 			}
-			.switch-background {
+			.switch-main > label.switch-background {
 				width: 50px;
 				height: 30px;
 				border-radius: 50px;
@@ -76,14 +76,32 @@ export default class SwitchButton extends BaseElement {
 				cursor: pointer;
 				transition: background-color .3s;
 			}
-			.disable .switch-background {
+			.switch-main > label.switch-background:after {
+				content: " ";
+				border-radius: 50px;
+				border: 2px solid transparent;
+				width: 54px;
+				height: 34px;
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.switch-main.disable > label.switch-background {
 				cursor: not-allowed;
 			}
-			input:focus ~ .switch-background,
-			.switch-main:hover .switch-background {
+			.switch-main:hover > label.switch-background,
+			.switch-main > input:focus-visible + .switch-background {
 				background-color: var(--color-hover);
 			}
-			.switch-button {
+			.switch-main > input:focus-visible + label.switch-background:after {
+				border-color: var(--color-hover);
+			}
+			.switch-main > input:checked:focus-visible + label.switch-background:after {
+				border-color: var(--color-checked-hover);
+			}
+			.switch-main > label > .switch-button {
 				position: absolute;
 				width: 24px;
 				height: 24px;
@@ -94,17 +112,17 @@ export default class SwitchButton extends BaseElement {
 				cursor: pointer;
 				transition: left .3s;
 			}
-			.disable .switch-button {
+			.switch-main.disable > label > .switch-button {
 				cursor: not-allowed;
 			}
-			input:checked ~ .switch-background {
+			.switch-main > input:checked + .switch-background {
 				background-color: var(--color-checked);
 			}
-			input:checked:focus ~ .switch-background,
-			.switch-main:hover input:checked ~ .switch-background {
+			.switch-main > input:checked:focus-visible + .switch-background,
+			.switch-main:hover > input:checked + .switch-background {
 				background-color: var(--color-checked-hover);
 			}
-			input:checked ~ .switch-background .switch-button {
+			.switch-main > input:checked + .switch-background .switch-button {
 				left: 23px; 
 			}
 		`;

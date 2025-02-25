@@ -90,19 +90,19 @@ export default class ButtonCustom extends BaseElement {
 				text-align: center;
 				box-sizing: border-box;
 			}
-			.btn-main:has(.btn-text:empty).btn-with-icon {
+			.btn-main:has(> .btn-text:empty) > .btn-with-icon {
 				padding: 0 12px;
 			}
-			.btn-main:has(.btn-text:not(:empty)).btn-with-icon {
+			.btn-main:has(> .btn-text:not(:empty)) > .btn-with-icon {
 				padding: 0 16px 0 12px;
 			}
-			.btn-icon {
+			.btn-main > .btn-icon {
 				font-size: inherit;
 				vertical-align: middle;
 				margin: 0;
 				padding: 0;
 			}
-			.btn-text {
+			.btn-main > .btn-text {
 				letter-spacing: .7px;
 				margin: 0;
 				padding: 0;

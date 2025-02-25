@@ -141,13 +141,13 @@ export default class TextField extends BaseElement {
 					${this.pattern ? "pattern='" + this.pattern + "'" : ""}
 					${this.cls ? "class='" + this.cls + "'" : ""}
 				/>
-				${this.label ? "<label>" + this.label + "</label>" : ""}
-				${this.iconleft ? "<span class='textfield-icon textfield-icon-left material-icons-round'>" + this.iconleft + "</span>" : ""}
+				${this.label ? `<label for="${this.key}">${this.label}</label>` : ""}
+				${this.iconleft ? `<span class='textfield-icon textfield-icon-left material-icons-round'>${this.iconleft}</span>` : ""}
 				${this.iconright ? 
-					"<span class='textfield-icon textfield-icon-right material-icons-round' role='button' tabindex='0'>" + this.iconright + "</span>" : 
+					`<span class='textfield-icon textfield-icon-right material-icons-round' role='button' tabindex='0'>${this.iconright}</span>` : 
 					""
 				}
-				${this.haserror === "true" ? "<span class='textfield-error-msg'>" + this.errormessage + "</span>" : ""}
+				${this.haserror === "true" ? `<span class='textfield-error-msg'>${this.errormessage}</span>` : ""}
 			</div>
 		`;
 	}
@@ -202,7 +202,7 @@ export default class TextField extends BaseElement {
 				opacity: 0.5;
 				cursor: not-allowed;
 			}
-			.textfield-main input {
+			.textfield-main > input {
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
@@ -219,24 +219,24 @@ export default class TextField extends BaseElement {
 				-moz-appearance: textfield;
 				appearance: textfield;
 			}
-			.textfield-main.labelled input {
+			.textfield-main.labelled > input {
 				top: 22px;
 				transform: translateY(0%);
 			}
-			.textfield-main input::-webkit-outer-spin-button,
-			.textfield-main input::-webkit-inner-spin-button {
+			.textfield-main > input::-webkit-outer-spin-button,
+			.textfield-main > input::-webkit-inner-spin-button {
 				-webkit-appearance: none;
 			}
-			.textfield-main input::placeholder {
+			.textfield-main > input::placeholder {
 				opacity: 0;
 			}
-			.textfield-main input:read-only{
+			.textfield-main > input:read-only{
 				pointer-events: none;
 			}
-			.textfield-main.disable input {
+			.textfield-main.disable > input {
 				pointer-events: none;
 			}
-			.textfield-main label {
+			.textfield-main > label {
 				position: absolute;
 				top: 50%;
 				left: 12px;
@@ -248,22 +248,22 @@ export default class TextField extends BaseElement {
 				pointer-events: none;
 				user-select: none;
 			}
-			.textfield-main input:required ~ label::after {
+			.textfield-main > input:required ~ label::after {
 				content: " *";
 				color: var(--color-error)
 			}
-			.textfield-main:focus-within label {
+			.textfield-main:focus-within > label {
 				color: var(--color-focus);
 				top: 2px;
 				transform: translateY(0%);
 				font-weight: 500;
 				font-size: 12px;
 			}
-			.textfield-main.textfield-error label {
+			.textfield-main.textfield-error > label {
 				color: var(--color-error);
 			}
-			.textfield-main.textfield-icon-left input,
-			.textfield-main.textfield-icon-left label {
+			.textfield-main.textfield-icon-left > input,
+			.textfield-main.textfield-icon-left > label {
 				left: 40px;
 			}
 			.textfield-main input:not(:placeholder-shown) ~ label {
@@ -272,7 +272,7 @@ export default class TextField extends BaseElement {
 				font-size: 12px; 
 				font-weight: 500;
 			}
-			.textfield-main .textfield-icon {
+			.textfield-main > span.textfield-icon {
 				position: absolute;
 				top: 50%;
 				font-size: 21px;
@@ -281,22 +281,22 @@ export default class TextField extends BaseElement {
 				user-select: none;
 				color: var(--color);
 			}
-			.textfield-main:focus-within .textfield-icon {
+			.textfield-main:focus-within > span.textfield-icon {
 				color: var(--color-focus);
 			}
-			.textfield-main.textfield-error .textfield-icon {
+			.textfield-main.textfield-error > span.textfield-icon {
 				color: var(--color-error);
 			}
-			.textfield-main .textfield-icon .material-icons-round {
+			.textfield-main > span.textfield-icon.material-icons-round {
 				font-size: 21px;
 			}
-			.textfield-main .textfield-main.labelled .textfield-icon {
+			.textfield-main > span.textfield-main.labelled > span.textfield-icon {
 				font-size: 24px;
 			}
-			.textfield-main .textfield-icon.textfield-icon-left {
+			.textfield-main > span.textfield-icon.textfield-icon-left {
 				left: 12px;
 			}
-			.textfield-main .textfield-icon.textfield-icon-right {
+			.textfield-main > span.textfield-icon.textfield-icon-right {
 			cursor: pointer;
 				right: 12px;
 			}

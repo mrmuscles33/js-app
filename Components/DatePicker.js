@@ -270,7 +270,7 @@ export default class DatePicker extends TextField {
 	}
 	getDisplayedYears(){
 		let years = [];
-		for(var i = this.realMinDate.getFullYear(); i <= this.realMaxDate.getFullYear(); i++){
+		for(let i = this.realMinDate.getFullYear(); i <= this.realMaxDate.getFullYear(); i++){
 			years.push(i);
 		}
 		// Filter years to display only 21 years
@@ -368,6 +368,7 @@ export default class DatePicker extends TextField {
 	}
 	valid(){
 		let me = this;
+		me.ignoreChange = true;
 		me.value = Dates.format(me.tmpValue, Dates.D_M_Y, me.format);
 		me.close();
 	}

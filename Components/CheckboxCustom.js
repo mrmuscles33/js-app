@@ -80,6 +80,20 @@ export default class CheckboxCustom extends BaseElement {
 			.checkbox-main > label > span.material-icons-round {
 				color: var(--color-primary);
 				margin-right: 5px;
+				position: relative;
+				font-size: 24px;
+			}
+			.checkbox-main > label > span.material-icons-round:after {
+				content: " ";
+				border-radius: 3px;
+				border: 2px solid transparent;
+				width: 22px;
+				height: 22px;
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 			}
 			.checkbox-main > input:checked + label > span.material-icons-round {
 				color: var(--color-checked);
@@ -92,15 +106,11 @@ export default class CheckboxCustom extends BaseElement {
 			.checkbox-main > input:checked + label:hover > span.material-icons-round {
 				color: var(--color-checked-hover);
 			}
-			.checkbox-main> input:checked:focus-visible + label > span.material-icons-round {
-				box-shadow: inset 0px 0px 0 1px var(--color-checked-hover), 0px 0px 0px 1px var(--color-checked-hover);
-				padding-right: 1px;
-				border-radius: 3px;
+			.checkbox-main > input:checked:focus-visible + label > span.material-icons-round:after {
+				border-color: var(--color-checked-hover);
 			}
-			.checkbox-main input:focus-visible + label > span.material-icons-round {
-				box-shadow: inset 0px 0px 0 1px var(--color-hover), 0px 0px 0px 1px var(--color-hover);
-				padding-right: 1px;
-				border-radius: 3px;
+			.checkbox-main input:focus-visible + label > span.material-icons-round:after {
+				border-color: var(--color-hover);
 			}
 		`;
 	}
