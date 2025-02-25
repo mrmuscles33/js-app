@@ -8,7 +8,7 @@ export default class DatePicker extends TextField {
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 	connectedCallback() {
-		this.id = this.id || `date-picker-${DatePicker.counter++}`;
+		this.key = this.key || `date-picker-${DatePicker.counter++}`;
 		this.iconright = this.readonly ? "" : this.iconright || "today";
 		this.format = this.format || Dates.D_M_Y;
 		this.maxlength = this.format.length;
@@ -34,10 +34,10 @@ export default class DatePicker extends TextField {
 
 		// Add event listener
 		// Close button
-		let closeButton = me.shadowRoot.querySelector('[name="close-button"]');
+		let closeButton = me.querySelector('[name="close-button"]');
 		closeButton.onClick = () =>  me.close();
 		// Valid button
-		let validButton = me.shadowRoot.querySelector('[name="valid-button"]');
+		let validButton = me.querySelector('[name="valid-button"]');
 		validButton.onClick = () =>  me.valid();
 		validButton.addEventListener("keydown", (event) => {
 			if(Events.isTab(event) && !Events.isShift(event)){
@@ -46,7 +46,7 @@ export default class DatePicker extends TextField {
 			}
 		});
 		// Year button
-		let yearButton = me.shadowRoot.querySelector('[name="year-button"]');
+		let yearButton = me.querySelector('[name="year-button"]');
 		yearButton.onClick = () =>  me.onClickYearButton(yearButton);
 		yearButton.addEventListener("keydown", (event) => {
 			if(Events.isTab(event) && Events.isShift(event)){
@@ -55,15 +55,15 @@ export default class DatePicker extends TextField {
 			}
 		});
 		// Previous button
-		let previousButton = me.shadowRoot.querySelector('[name="previous-button"]');
+		let previousButton = me.querySelector('[name="previous-button"]');
 		previousButton.onClick = () =>  me.onClickPrevious(previousButton);
 		// Next button
-		let nextButton = me.shadowRoot.querySelector('[name="next-button"]');
+		let nextButton = me.querySelector('[name="next-button"]');
 		nextButton.onClick = () =>  me.onClickNext(nextButton);
 
 		if(me.showYear == "true") {
 			// Years
-			me.shadowRoot.querySelectorAll('.datepicker-year').forEach((year) => {
+			me.querySelectorAll('.datepicker-year').forEach((year) => {
 				year.addEventListener('click', () =>  me.onClickYear(year));
 				year.addEventListener('keydown', (event) =>  me.onKeyDownYear(event, year));
 				year.addEventListener('keypress', (event) => {
@@ -75,7 +75,7 @@ export default class DatePicker extends TextField {
 			});
 		} else {
 			// Days
-			me.shadowRoot.querySelectorAll('.datepicker-day').forEach((day) => {
+			me.querySelectorAll('.datepicker-day').forEach((day) => {
 				day.addEventListener('click', () =>  me.onClickDay(day));
 				day.addEventListener('keydown', (event) =>  me.onKeyDownDay(event, day));
 				day.addEventListener('keypress', (event) => {
@@ -95,13 +95,13 @@ export default class DatePicker extends TextField {
 		me.focusedDate = me.tmpValue;
 		me.focusedYear = Dates.toDate(me.tmpValue, Dates.D_M_Y).getFullYear();
 		me.showYear = "false";
-		me.shadowRoot.querySelector(".datepicker-mask").classList.add("datepicker-visible");
+		me.querySelector(".datepicker-mask").classList.add("datepicker-visible");
 		me.ignoreChange = false;
 		// Wait for animation to finish
 		setTimeout(() => {
 			me.render();
 			setTimeout(() => {
-				me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
+				me.querySelector('.datepicker-day[tabindex="0"]').focus();
 			}, 100);
 		}, 200);
 	}
@@ -113,9 +113,9 @@ export default class DatePicker extends TextField {
 		me.render();
 		setTimeout(() => {
 			if(me.showYear == "true") {
-				me.shadowRoot.querySelector('.datepicker-year[tabindex="0"]').focus();
+				me.querySelector('.datepicker-year[tabindex="0"]').focus();
 			} else {
-				me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
+				me.querySelector('.datepicker-day[tabindex="0"]').focus();
 			}
 		}, 100);
 	}
@@ -135,7 +135,7 @@ export default class DatePicker extends TextField {
 		}
 		me.render();
 		setTimeout(() => {
-			me.shadowRoot.querySelector('[name="previous-button"]').focus();
+			me.querySelector('[name="previous-button"]').focus();
 		}, 100);
 	}
 	onClickNext() {
@@ -154,7 +154,7 @@ export default class DatePicker extends TextField {
 		}
 		me.render();
 		setTimeout(() => {
-			me.shadowRoot.querySelector('[name="next-button"]').focus();
+			me.querySelector('[name="next-button"]').focus();
 		}, 100);
 	}
 	onClickDay(day) {
@@ -165,7 +165,7 @@ export default class DatePicker extends TextField {
 		me.focusedDate = me.tmpValue;
 		me.render();
 		setTimeout(() => {
-			me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
+			me.querySelector('.datepicker-day[tabindex="0"]').focus();
 		}, 100);
 	}
 	onClickYear(year) {
@@ -197,7 +197,7 @@ export default class DatePicker extends TextField {
 			}
 			me.render();
 			setTimeout(() => {
-				me.shadowRoot.querySelector('.datepicker-day[tabindex="0"]').focus();
+				me.querySelector('.datepicker-day[tabindex="0"]').focus();
 			}, 100);
 			event.stopPropagation();
 		}
@@ -222,7 +222,7 @@ export default class DatePicker extends TextField {
 			me.yearsPage = Math.floor((me.focusedYear - me.realMinDate.getFullYear()) / 21)
 			me.render();
 			setTimeout(() => {
-				me.shadowRoot.querySelector('.datepicker-year[tabindex="0"]').focus();
+				me.querySelector('.datepicker-year[tabindex="0"]').focus();
 			}, 100);
 			event.stopPropagation();
 		}
@@ -356,13 +356,13 @@ export default class DatePicker extends TextField {
 		let me = this;
 		me.ignoreChange = true;
 		me.visible = 'false';
-		me.shadowRoot.querySelector(".datepicker-mask").classList.remove("datepicker-visible");
+		me.querySelector(".datepicker-mask").classList.remove("datepicker-visible");
 		me.ignoreChange = false;
 		// Wait for animation to finish
 		setTimeout(() => {
 			me.render();
 			setTimeout(() => {
-				me.shadowRoot.querySelector('.textfield-main input').focus();
+				me.querySelector('.textfield-main input').focus();
 			}, 200);
 		}, 200);
 	}
@@ -371,9 +371,8 @@ export default class DatePicker extends TextField {
 		me.value = Dates.format(me.tmpValue, Dates.D_M_Y, me.format);
 		me.close();
 	}
-	style() {
+	static style() {
 		return `
-			${super.style()}
 			.datepicker-mask {
 				position: fixed;
 				width: 100%;
@@ -397,13 +396,13 @@ export default class DatePicker extends TextField {
                 opacity: 1;
 			}
 			.datepicker-main {
-					width: 450px;
-					transform: scale(0.8);
-					background-color: var(--color-background);
-					border-radius: 8px;
-					box-shadow: 0 6px 25px rgba(150,150,150,0.7);
-					overflow: visible;
-					transition: transform 0.2s;
+				width: 450px;
+				transform: scale(0.8);
+				background-color: var(--color-background);
+				border-radius: 8px;
+				box-shadow: 0 6px 25px rgba(150,150,150,0.7);
+				overflow: visible;
+				transition: transform 0.2s;
 			}
 			.datepicker-visible .datepicker-main {
 					transform: scale(1);
@@ -433,59 +432,59 @@ export default class DatePicker extends TextField {
 			}
 			.datepicker-days,
 			.datepicker-years {
-					display: grid;
-					grid-template-columns: repeat(7, 1fr);
-					grid-template-rows: repeat(7, 50px);
-					margin: 0 0 10px 0;
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				grid-template-rows: repeat(7, 50px);
+				margin: 0 0 10px 0;
 			}
 			.datepicker-years {
-					grid-template-columns: repeat(3, 1fr);
-					min-height: 270px;
-					grid-auto-rows: minmax(min-content, max-content);
+				grid-template-columns: repeat(3, 1fr);
+				min-height: 270px;
+				grid-auto-rows: minmax(min-content, max-content);
 			}
 			.datepicker-day,
 			.datepicker-year {
-					text-align: center;
-					width: 100%;
-					height: 50px;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					box-sizing: border-box;
-					user-select: none;
-					color: var(--color-font);
+				text-align: center;
+				width: 100%;
+				height: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-sizing: border-box;
+				user-select: none;
+				color: var(--color-font);
 			}
 			span.datepicker-day,
 			span.datepicker-year {
-					cursor: pointer;
-					border-radius: 50px;
-					text-decoration: none;
-					font-weight: 500;
+				cursor: pointer;
+				border-radius: 50px;
+				text-decoration: none;
+				font-weight: 500;
 			}
 			span.datepicker-day:hover,
 			span.datepicker-year:hover,
 			span.datepicker-day:focus-visible,
 			span.datepicker-year:focus-visible {
-					background-color: var(--color-hover);
-					color: var(--color-font);
+				background-color: var(--color-hover);
+				color: var(--color-font);
 			}
 			span.datepicker-today,
 			span.datepicker-day:focus-visible,
 			span.datepicker-year:focus-visible {
-					border: 2px solid var(--color-font);
-					outline: none;
+				border: 2px solid var(--color-font);
+				outline: none;
 			}
 			span.datepicker-other-month,
 			span.datepicker-day-disable {
-					color: var(--color-font-other);
+				color: var(--color-font-other);
 			}
 			span.datepicker-day-disable {
-					cursor: not-allowed;
+				cursor: not-allowed;
 			}
 			span.datepicker-selected,
 			span.datepicker-selected:hover {
-					background-color: var(--color-primary);
-					color: var(--color-font-selected);
+				background-color: var(--color-primary);
+				color: var(--color-font-selected);
 			}
 		`;
 	}

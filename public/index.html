@@ -7,10 +7,16 @@
 		<link rel="stylesheet" href="./themes/light.css" />
 		<link rel="stylesheet" href="./google_icons.css" />
 		<script type="module" src="./main.js"></script>
-		<script>
-			let handler = function (event) {
-				alert(event.detail.value);
-			};
+		<script defer>
+			let get = (selector) => document.querySelector(selector);
+			let getAll = (selector) => document.querySelectorAll(selector);
+
+			function onLoad() {
+				let button = get('button-custom[name="primary-button"]');
+				button.onClick = () => {
+					alert('Button clicked');
+				};
+			}
 		</script>
 		<style>
 			main {
@@ -38,13 +44,13 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body onload="onLoad()">
 		<main>
 			<h1>JS Web Components</h1>
 			<section>
 				<h2>Controls</h2>
 				<h3>Button</h3>
-				<button-custom icon="search" text="Primary" primary="true" cls="test" onclick="alert('toto')"></button-custom>
+				<button-custom icon="search" text="Primary" primary="true" cls="test" name="primary-button"></button-custom>
 				<button-custom icon="search" text="Secondary"></button-custom>
 				<tooltip-custom text="tooltip">
 					<button-custom text="Tertiary" bordered="false"></button-custom>

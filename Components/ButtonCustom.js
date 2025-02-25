@@ -11,7 +11,7 @@ export default class ButtonCustom extends BaseElement {
 		this.bordered = this.bordered || "true";
 		this.disabled = this.disabled || "false";
 		this.flex = this.flex || "false";
-		this.id = this.id || `button-${ButtonCustom.counter++}`;
+		this.key = this.key || `button-${ButtonCustom.counter++}`;
 		super.connectedCallback();
 	}
 	render() {
@@ -22,18 +22,18 @@ export default class ButtonCustom extends BaseElement {
 		super.render();
 
 		if (me.disabled == "false") {
-			me.button = me.shadowRoot.querySelector("span.btn-main");
-			me.button.addEventListener("keyup", (event) => {
+			let button = me.querySelector(".btn-main");
+			button.addEventListener("keyup", (event) => {
 				if (Events.isEnter(event) || Events.isSpace(event)) {
 					me.fireHandler("click", event);
 				}
 			});
-			me.button.addEventListener("click", (event) => me.fireHandler("click", event));
+			button.addEventListener("click", (event) => me.fireHandler("click", event));
 		}
 	}
 	template() {
 		return `
-			<span id="${this.id}" class="btn-main ${this.cls} 
+			<span id="${this.key}" class="btn-main ${this.cls} 
 			    ${this.icon ? "btn-with-icon" : ""} 
 			    ${this.primary == "true" ? "primary" : ""} 
 			    ${this.bordered == "true" ? "border" : ""} 
@@ -47,9 +47,8 @@ export default class ButtonCustom extends BaseElement {
 			</span>
 		`;
 	}
-	style() {
+	static style() {
 		return `
-			${super.style()}
 			.btn-main {
 			    padding: 0 16px;
 			    margin: 0 5px 5px 0;
@@ -91,8 +90,11 @@ export default class ButtonCustom extends BaseElement {
 				text-align: center;
 				box-sizing: border-box;
 			}
-			.btn-with-icon {
-				padding: ${this.text == "" ? "0 12px" : "0 16px 0 12px"};
+			.btn-main:has(.btn-text:empty).btn-with-icon {
+				padding: 0 12px;
+			}
+			.btn-main:has(.btn-text:not(:empty)).btn-with-icon {
+				padding: 0 16px 0 12px;
 			}
 			.btn-icon {
 				font-size: inherit;
@@ -106,7 +108,6 @@ export default class ButtonCustom extends BaseElement {
 				padding: 0;
 				vertical-align: middle;
 			}
-			${this.styles || ""},
 		`;
 	}
 }

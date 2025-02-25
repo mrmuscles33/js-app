@@ -4,7 +4,7 @@ export default class NumberField extends TextField {
 	static attrs = [...TextField.attrs, "decimal", "integer", "min", "max"];
 	static counter = 1;
 	connectedCallback() {
-		this.id = this.id || `number-field-${NumberField.counter++}`;
+		this.key = this.key || `number-field-${NumberField.counter++}`;
 		this.type = "number";
 		this.integer = this.integer || "9";
 		this.decimal = this.decimal || "2";

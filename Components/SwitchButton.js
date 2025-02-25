@@ -6,7 +6,7 @@ export default class SwitchButton extends BaseElement {
 	connectedCallback() {
 		this.disabled = this.disabled || "false";
 		this.checked = this.checked || "false";
-		this.id = this.id || `switch-button-${SwitchButton.counter++}`;
+		this.key = this.key || `switch-button-${SwitchButton.counter++}`;
 		super.connectedCallback();
 	}
 	render() {
@@ -18,7 +18,7 @@ export default class SwitchButton extends BaseElement {
 
 		// Listeners
 		// input
-		me.input = me.shadowRoot.querySelector("input");
+		me.input = me.querySelector("input");
 		if(me.disabled == "false") {
 			me.input.addEventListener("change", (event) => {
 				me.twoWayBinding(event.target);
@@ -39,20 +39,19 @@ export default class SwitchButton extends BaseElement {
 	template() {
 		return `
 			<div class="switch-main" ${this.disable == "true" ? "disable" : ""}>
-				<input type="checkbox" id="${this.id}"
+				<input type="checkbox" id="${this.key}"
 				${this.checked == "true" ? "checked" : ""} 
 				${this.name ? "name='" + this.name + "'" : ""} 
 				${this.value ? "value='" + this.value + "'" : ""} 
 				${this.disabled == "true" ? "disabled" : ""} />
-				<label for=${this.id} class="switch-background">
+				<label for=${this.key} class="switch-background">
 					<div class="switch-button"></div>
 				</label>
 			</div
 		`;
 	}
-	style() {
+	static style() {
 		return `
-			${super.style()}
 			.switch-main {
                 display: inline-block;
                 user-select: none;
@@ -108,7 +107,6 @@ export default class SwitchButton extends BaseElement {
 			input:checked ~ .switch-background .switch-button {
 				left: 23px; 
 			}
-			${this.styles || ""}
 		`;
 	}
 }

@@ -4,7 +4,7 @@ export default class PasswordField extends TextField {
 	static attrs = [...TextField.attrs, "show"];
 	static counter = 1;
 	connectedCallback() {
-		this.id = this.id || `password-field-${PasswordField.counter++}`;
+		this.key = this.key || `password-field-${PasswordField.counter++}`;
 		this.show = this.show || "false";
 		super.connectedCallback();
 	}

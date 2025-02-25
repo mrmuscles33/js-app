@@ -13,5 +13,12 @@ const Html = {
 	render: (root, html) => {
 		root.innerHTML = html;
 	},
+	clean:(strings, ...values) => {
+		return strings
+			.map((str, i) => `${str}${values[i] || ''}`)
+			.join('')
+			.replace(/\s*\n\s*/g, ' ')
+			.trim();
+	}
 };
 export default Html;

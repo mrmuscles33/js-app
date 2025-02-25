@@ -2,14 +2,12 @@ import Events from "../Utils/Events.js";
 import Html from "../Utils/Html.js";
 
 export default class BaseElement extends HTMLElement {
-	static attrs = ["id", "name", "cls", "styles"];
+	static attrs = ["key", "name", "cls", "extrastyle"];
 	static idCounter = 1;
 	constructor() {
 		super();
-		this.cls = this.cls || "";
 		this.ignoreChange = true;
 		this.skipFocus = false;
-		this.attachShadow({ mode: "open" });
 		this.constructor.attrs.forEach((attr) => {
 			if (!Object.getOwnPropertyDescriptor(this.constructor.prototype, attr)) {
 				Object.defineProperty(this.constructor.prototype, attr, {
@@ -27,31 +25,26 @@ export default class BaseElement extends HTMLElement {
 		return this.attrs;
 	}
 	connectedCallback() {
-		this.id = this.id || `base-element-${BaseElement.idCounter++}`;
+		this.key = this.key || `base-element-${BaseElement.idCounter++}`;
 		this.name = this.name || "";
+		this.cls = this.cls || "";
+		this.extrastyle = this.extrastyle || "";
 		this.render();
 	}
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (!this.ignoreChange) this.render();
 	}
-	cleanString(strings, ...values) {
-		return strings
-			.map((str, i) => `${str}${values[i] || ''}`)
-			.join('')
-			.replace(/\s*\n\s*/g, ' ')
-			.trim();
-	}
 	render() {
 		let me = this;
 
 		// Remove extra space in html and css
-		let tpl = me.cleanString`${me.template()}`;
-		let style = me.cleanString`${me.style()}`;
+		let tpl = Html.clean`${me.template()}`;
+		let style = Html.clean`${me.extraStyle}`;
 		let activeId = document.activeElement.id;
-		Html.render(me.shadowRoot, (style ? `<style>${style}</style>` : "") + tpl);
+		Html.render(me, (style ? `<style>${style}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering
-		if (activeId == me.id && !me.skipFocus) {
+		if (activeId == me.key && !me.skipFocus) {
 			setTimeout(() => {
 				me.focus();
 			}, 50);
@@ -60,9 +53,9 @@ export default class BaseElement extends HTMLElement {
 	}
 	focus() {
 		// Focus on the element with the id
-		this.shadowRoot.getElementById(this.id).focus();
+		document.getElementById(this.key).focus();
 	}
-	style() {
+	static style() {
 		return `
 			@import url('../public/themes/light.css');
 			@import url('../public/google_icons.css');

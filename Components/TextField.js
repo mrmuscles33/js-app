@@ -33,13 +33,12 @@ export default class TextField extends BaseElement {
 		this.required = this.required || "false";
 		this.readonly = this.readonly || "false";
 		this.type = this.type || "text";
-		this.cls = this.cls || "";
 		this.styles = this.styles || "";
 		this.format = this.format || "";
 		this.filled = this.filled || "true";
 		this.flex = this.flex || "false";
 		this.maxlength = this.maxlength || 128;
-		this.id = this.id || `text-field-${TextField.counter++}`;
+		this.key = this.key || `text-field-${TextField.counter++}`;
 		super.connectedCallback();
 	}
 	render() {
@@ -50,9 +49,9 @@ export default class TextField extends BaseElement {
 
 		// The update methods breaks listeners and bindings
 		super.render();
-		me.div = me.shadowRoot.querySelector("div");
-		me.input = me.shadowRoot.querySelector("input");
-		me.icon = me.shadowRoot.querySelector("span.textfield-icon-right");
+		me.div = me.querySelector("div");
+		me.input = me.querySelector("input");
+		me.icon = me.querySelector("span.textfield-icon-right");
 
 		// Listeners
 		if (!this.disabled || this.disabled == "false") {
@@ -116,6 +115,12 @@ export default class TextField extends BaseElement {
 	}
 	template() {
 		return `
+			<style>
+				.textfield-main {
+					--width: ${this.width}px;
+					--width-input: calc(100% - ${this.iconleft != "" ? 40 : 12}px - ${this.iconright != "" ? 32 : 0}px - 12px);
+				}
+			</style>
 			<div class="textfield-main ${this.cls}
 				${this.iconleft ? "textfield-icon-left" : ""}
 				${this.iconright ? "textfield-icon-right" : ""}
@@ -124,7 +129,7 @@ export default class TextField extends BaseElement {
 				${this.flex === "true" ? "flex" : ""}
 				${this.label ? "labelled" : ""}
 				${this.haserror === "true" ? "textfield-error" : ""}">
-				<input id="${this.id}" ${this.name ? "name='" + this.name + "'" : ""}
+				<input id="${this.key}" ${this.name ? "name='" + this.name + "'" : ""}
 					type="${this.type || "text"}"
 					maxlength=${this.maxlength || 128}
 					placeholder="."
@@ -146,12 +151,11 @@ export default class TextField extends BaseElement {
 			</div>
 		`;
 	}
-	style() {
+	static style() {
 		return `
-			${super.style()}
 			.textfield-main {
-				--width: ${this.width}px;
-				--width-input: calc(100% - ${this.iconleft != "" ? 40 : 12}px - ${this.iconright != "" ? 32 : 0}px - 12px);
+				--width: 290px;
+				--width-input: 290px;
 				vertical-align: top;
 				background-color: transparent;
 				display: inline-block;
@@ -303,7 +307,6 @@ export default class TextField extends BaseElement {
 				font-size: 12px;
 				color: var(--color-error);
 			}
-			${this.styles || ""}
 		`;
 	}
 }
