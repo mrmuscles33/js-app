@@ -6,7 +6,6 @@ export default class TextField extends BaseElement {
 		...BaseElement.attrs,
 		"value",
 		"disabled",
-		"width",
 		"iconleft",
 		"iconright",
 		"label",
@@ -24,7 +23,6 @@ export default class TextField extends BaseElement {
 	connectedCallback() {
 		this.value = this.value || "";
 		this.disabled = this.disabled || "false";
-		this.width = this.width || 290;
 		this.iconleft = this.iconleft || "";
 		this.iconright = this.iconright || "";
 		this.label = this.label || "";
@@ -44,7 +42,6 @@ export default class TextField extends BaseElement {
 	render() {
 		// Dynamics variables
 		let me = this;
-		me.inputWidth = me.width - (me.iconleft != "" ? 40 : 12) - (me.iconright != "" ? 32 : 0) - 12;
 		me.haserror = me.errormessage ? "true" : "false";
 
 		// The update methods breaks listeners and bindings
@@ -115,12 +112,6 @@ export default class TextField extends BaseElement {
 	}
 	template() {
 		return `
-			<style>
-				.textfield-main {
-					--width: ${this.width}px;
-					--width-input: calc(100% - ${this.iconleft != "" ? 40 : 12}px - ${this.iconright != "" ? 32 : 0}px - 12px);
-				}
-			</style>
 			<div class="textfield-main ${this.cls}
 				${this.iconleft ? "textfield-icon-left" : ""}
 				${this.iconright ? "textfield-icon-right" : ""}
@@ -128,7 +119,8 @@ export default class TextField extends BaseElement {
 				${this.filled === "true" ? "filled" : ""}
 				${this.flex === "true" ? "flex" : ""}
 				${this.label ? "labelled" : ""}
-				${this.haserror === "true" ? "textfield-error" : ""}">
+				${this.haserror === "true" ? "textfield-error" : ""}"
+			>
 				<input id="${this.key}" ${this.name ? "name='" + this.name + "'" : ""}
 					type="${this.type || "text"}"
 					maxlength=${this.maxlength || 128}
@@ -154,19 +146,24 @@ export default class TextField extends BaseElement {
 	static style() {
 		return `
 			.textfield-main {
-				--width: 290px;
-				--width-input: 290px;
 				vertical-align: top;
 				background-color: transparent;
 				display: inline-block;
 				height: 36px;
-				width: var(--width);
+				width: 290px;
 				border-radius: 8px;
 				position: relative;
 				border: 1px solid var(--color);
 				box-sizing: border-box;
 				cursor: text;
 				margin: 0 5px 5px 0;
+				padding: 6px 12px;
+			}
+			.textfield-main:has(> .textfield-icon-left) {
+				padding-left: 40px;
+			}
+			.textfield-main:has(> .textfield-icon-right) {
+				padding-right: 40px;
 			}
 			.textfield-main.flex {
 				flex-grow: 1;
@@ -174,6 +171,7 @@ export default class TextField extends BaseElement {
 			}
 			.textfield-main.labelled {
 				height: 48px;
+				padding-top: 20px;
 			}
 			.textfield-main.filled {
 				background-color: var(--color-backgroud);
@@ -203,11 +201,7 @@ export default class TextField extends BaseElement {
 				cursor: not-allowed;
 			}
 			.textfield-main > input {
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				left: 12px;
-				width: var(--width-input);
+				width: 100%;
 				height: 20px;
 				font-size: 16px;
 				padding: 0;
@@ -302,7 +296,9 @@ export default class TextField extends BaseElement {
 			}
 			.textfield-main .textfield-error-msg {
 				position: absolute;
+				width: 100%;
 				top: 100%;
+				left: 0;
 				transform: translateY(5px);
 				font-size: 12px;
 				color: var(--color-error);

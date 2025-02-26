@@ -39,9 +39,9 @@ export default class BaseElement extends HTMLElement {
 
 		// Remove extra space in html and css
 		let tpl = Html.clean`${me.template()}`;
-		let style = Html.clean`${me.extraStyle}`;
+		let style = Html.clean`${me.extrastyle}`;
 		let activeId = document.activeElement.id;
-		Html.render(me, (style ? `<style>${style}</style>` : "") + tpl);
+		Html.render(me, (style ? `<style>[key=${this.key}]{${style}}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering
 		if (activeId == me.key && !me.skipFocus) {
