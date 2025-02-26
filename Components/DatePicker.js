@@ -11,6 +11,7 @@ export default class DatePicker extends TextField {
 		this.key = this.key || `date-picker-${DatePicker.counter++}`;
 		this.iconright = this.readonly ? "" : this.iconright || "today";
 		this.format = this.format || Dates.D_M_Y;
+		this.pattern = this.pattern || Dates.getPattern(this.format);
 		this.maxlength = this.format.length;
 		this.visible = this.visible || "false";
 		this.startWeek = this.startWeek || Dates.MONDAY;
@@ -85,6 +86,15 @@ export default class DatePicker extends TextField {
 					event.stopPropagation();
 				});
 			});
+		}
+	}
+	onChange() {
+		super.onChange();
+		if(this.errormessage == "" && this.value != ""){
+			this.errormessage = !Dates.isValid(this.value, this.format) ? "La date n'est pas valide" : "";
+		}
+		if(this.errormessage == "" && this.value != ""){
+			this.errormessage = Dates.toDate(this.value, this.format) < this.realMinDate || Dates.toDate(this.value, this.format) > this.realMaxDate ? "La date doit etre comprise entre " + this.minDate + " et " + this.maxDate : "";
 		}
 	}
 	onClick() {
@@ -370,6 +380,7 @@ export default class DatePicker extends TextField {
 		let me = this;
 		me.ignoreChange = true;
 		me.value = Dates.format(me.tmpValue, Dates.D_M_Y, me.format);
+		me.onChange();
 		me.close();
 	}
 	static style() {

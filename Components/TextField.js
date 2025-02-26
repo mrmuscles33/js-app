@@ -93,7 +93,7 @@ export default class TextField extends BaseElement {
 		this.value = elt.value;
 		this.ignoreChange = false;
 	}
-	onChange(event) {
+	onChange() {
 		let me = this;
 		if (me.disabled === "true") return;
 		me.errormessage = me.required === "true" && !me.value ? `La donnée ${me.label} est obligatoire` : "";
