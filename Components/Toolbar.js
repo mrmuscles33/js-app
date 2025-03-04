@@ -1,10 +1,10 @@
 import BaseElement from "./BaseElement.js";
 
-export default class ToolbarCustom extends BaseElement {
+export default class Toolbar extends BaseElement {
 	static attrs = [...BaseElement.attrs, "justify", "align", "direction", "gap"];
 	static counter = 1;
 	connectedCallback() {
-		this.key = this.key || `toolbar-custom-${ToolbarCustom.counter++}`;
+		this.key = this.key || `amr-toolbar-${Toolbar.counter++}`;
 		this.justify = this.justify || "flex-start";
 		this.align = this.align || "center";
 		this.direction = this.direction || "row";

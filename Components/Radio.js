@@ -2,7 +2,7 @@ import BaseElement from "./BaseElement.js";
 import Html from "../Utils/Html.js";
 import Events from "../Utils/Events.js";
 
-export default class RadioCustom extends BaseElement {
+export default class Radio extends BaseElement {
 	static attrs = [...BaseElement.attrs, "label", "checked", "value", "disabled"];
 	static counter = 1;
 	connectedCallback() {
@@ -10,7 +10,7 @@ export default class RadioCustom extends BaseElement {
 		this.checked = this.checked || "false";
 		this.value = this.value || "";
 		this.disabled = this.disabled || "false";
-		this.key = this.key || `radio-${RadioCustom.counter++}`;
+		this.key = this.key || `radio-${Radio.counter++}`;
 		super.connectedCallback();
 	}
 	render() {
@@ -35,7 +35,7 @@ export default class RadioCustom extends BaseElement {
 					me.checked = "false";
 
 					// Find all radios not disabled
-					let radios = Html.search(`radio-custom[name=${me.name}][disabled=false]`);
+					let radios = Html.search(`amr-radio[name=${me.name}][disabled=false]`);
 					let index = radios.findIndex((radio) => radio.key == me.key);
 					if (Events.isArrowUp(event) || Events.isArrowLeft(event)) {
 						// Previous radio
@@ -63,7 +63,7 @@ export default class RadioCustom extends BaseElement {
 	onChange() {
 		let me = this;
 		// Find all others radios and uncheck them
-		let radios = Html.search(`radio-custom[name=${this.name}]`);
+		let radios = Html.search(`amr-radio[name=${this.name}]`);
 		radios.forEach((radio) => {
 			if (radio.key != me.key) {
 				radio.checked = "false";

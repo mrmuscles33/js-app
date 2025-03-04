@@ -1,11 +1,11 @@
 import BaseElement from "./BaseElement.js";
 
-export default class CheckboxCustom extends BaseElement {
+export default class Checkbox extends BaseElement {
 	static attrs = [...BaseElement.attrs, "label", "checked", "value", "disabled"];
 	static counter = 1;
 	constructor() {
 		super();
-		this.key = this.key || `checkbox-${CheckboxCustom.counter++}`;
+		this.key = this.key || `checkbox-${Checkbox.counter++}`;
 	}
 	connectedCallback() {
 		this.label = this.label || "";

@@ -1,8 +1,8 @@
 import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
 
-export default class DropList extends TextField {
-	static attrs = [...TextField.attrs, "selection", "limit", "options", "opened"];
+export default class Select extends TextField {
+	static attrs = [...TextField.attrs, "selection", "limit", "options", "opened", "filter"];
 	connectedCallback() {
 		this.iconright = this.iconright || "arrow_drop_down";
 		this.selection = this.selection || "[]"; // ["1", "2"]
@@ -10,13 +10,14 @@ export default class DropList extends TextField {
 		this.options = this.options || "[]"; // [{value: "1", label: "Option 1"}, {value: "2", label: "Option 2"}]
 		this.readonly = "true";
 		this.opened = this.opened || "false";
+        this.filter = this.filter || "";
 		super.connectedCallback();
 	}
 	getValue() {
 		if (this.limit > 1) {
 			return this.arrSelection.length > 0 ? this.arrSelection.length + " élément(s) sélectionné(s)" : "";
 		} else {
-			return this.arrSelection.length > 0 ? this.arrOptions.find((v) => v.value == this.arrSelection[0].value).label : "";
+			return this.arrSelection.length > 0 ? this.arrOptions.find((v) => v.value == this.arrSelection[0]).label : "";
 		}
 	}
 	render() {
@@ -27,6 +28,7 @@ export default class DropList extends TextField {
 		me.arrOptions = JSON.parse(me.options);
 		me.ignoreChange = true;
 		me.value = me.getValue();
+        me.errormessage = me.arrSelection.length > me.limit ? "Vous ne pouvez pas sélectionner plus de " + me.limit + " élément(s)" : "";
 		me.ignoreChange = false;
 
 		super.render();
@@ -74,14 +76,23 @@ export default class DropList extends TextField {
                 });
             }
 
-            let search = me.querySelector(".droplist-menu text-field");
+            let search = me.querySelector(".droplist-menu amr-text");
             if(search) {
-                search.addEventListener("keydown", (event) => {
+                search.onKeydown = (event) => {
                     if(Events.isTab(event) && Events.isShift(event)) {
                         event.preventDefault();
 				        event.stopPropagation();
                     }
-                });
+                };
+                search.onInput = () => {
+                    clearTimeout(me.typingTimer);
+                    me.typingTimer = setTimeout(() => {
+                        me.filter = search.value;
+                        me.querySelector(".droplist-menu amr-text").focus();
+                        let input = me.querySelector(".droplist-menu amr-text input");
+                        input.selectionStart = input.selectionEnd = input.value.length;
+                    }, 500);
+                }
             }
 		}
 	}
@@ -90,13 +101,13 @@ export default class DropList extends TextField {
         let opt = me.arrOptions.find((v) => v.value == option.getAttribute("value"));
         me.ignoreChange = true;
         if (me.limit == 1) {
-            me.arrSelection = [opt];
+            me.arrSelection = [opt.value];
             me.close();
         } else {
             if (me.arrSelection.find((v) => v == opt.value)) {
                 me.arrSelection = me.arrSelection.filter((v) => v != opt.value);
             } else if (me.arrSelection.length < me.limit) {
-                me.arrSelection = [...me.arrSelection, option.getAttribute("value")];
+                me.arrSelection = [...me.arrSelection, opt.value];
             }
             setTimeout(() => {
                 me.querySelector(".droplist-menu .droplist-option[value='" + opt.value + "']").focus();
@@ -112,7 +123,7 @@ export default class DropList extends TextField {
         let me = this;
         me.opened = "true";
         setTimeout(() => {
-            me.querySelector(".droplist-menu text-field").focus();
+            me.querySelector(".droplist-menu amr-text").focus();
         }, 100);
     }
     close() {
@@ -129,14 +140,14 @@ export default class DropList extends TextField {
                 ${this.opened == "true" ? `
                 <div class="droplist-mask"></div>
                 <div class="droplist-menu ${this.position}">
-                    <text-field filled="false" iconleft="search" flex="true"></text-field>
+                    <amr-text filled="false" iconleft="search" flex="true" value="${this.filter}"></amr-text>
                     <ul class="droplist-options">
-                        ${this.arrOptions.map((option) => `
+                        ${this.arrOptions.filter((option) => option.label.toLowerCase().includes(this.filter.toLowerCase())).map((option) => `
                         <li role="option" class="droplist-option 
                             ${this.arrSelection.find((v) => v == option.value) ? "selected" : ""}
-                            ${this.limit == this.arrSelection.length && !this.arrSelection.find((v) => v == option.value) ? "disabled" : ""}"
+                            ${this.limit > 1 && this.limit == this.arrSelection.length && !this.arrSelection.find((v) => v == option.value) ? "disabled" : ""}"
                             value="${option.value}" 
-                            ${this.limit != this.arrSelection.length || this.arrSelection.find((v) => v == option.value) ? "tabindex='0'" : ""}
+                            ${this.limit == 1 || this.limit != this.arrSelection.length || this.arrSelection.find((v) => v == option.value) ? "tabindex='0'" : ""}
                         >
                             ${option.label}
                             ${this.arrSelection.find((v) => v == option.value) ? "<span class='material-icons-round'>check</span>" : ""}
@@ -184,7 +195,7 @@ export default class DropList extends TextField {
                 bottom: 100%;
                 transform: translateY(-5px);
             }
-            .droplist-main > .droplist-menu > text-field {
+            .droplist-main > .droplist-menu > amr-text {
                 display: flex;
             }
             .droplist-main > .droplist-menu .textfield-main {

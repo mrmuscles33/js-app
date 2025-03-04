@@ -4,30 +4,30 @@ import NumberField from "../Components/NumberField.js";
 import PasswordField from "../Components/PasswordField.js";
 import PhoneField from "../Components/PhoneField.js";
 import EmailField from "../Components/EmailField.js";
-import ButtonCustom from "../Components/ButtonCustom.js";
-import CheckboxCustom from "../Components/CheckboxCustom.js";
-import RadioCustom from "../Components/RadioCustom.js";
-import TooltipCustom from "../Components/TooltipCustom.js";
-import SwitchButton from "../Components/SwitchButton.js";
+import Button from "../Components/Button.js";
+import Checkbox from "../Components/Checkbox.js";
+import Radio from "../Components/Radio.js";
+import Tooltip from "../Components/Tooltip.js";
+import Switch from "../Components/Switch.js";
 import DatePicker from "../Components/DatePicker.js";
-import ToolbarCustom from "../Components/ToolbarCustom.js";
-import DropList from "../Components/DropList.js";
+import Toolbar from "../Components/Toolbar.js";
+import Select from "../Components/Select.js";
 import Html from "../Utils/Html.js";
 
 // HTML Elements
-customElements.define("text-field", TextField);
-customElements.define("number-field", NumberField);
-customElements.define("password-field", PasswordField);
-customElements.define("phone-field", PhoneField);
-customElements.define("email-field", EmailField);
-customElements.define("button-custom", ButtonCustom);
-customElements.define("checkbox-custom", CheckboxCustom);
-customElements.define("radio-custom", RadioCustom);
-customElements.define("tooltip-custom", TooltipCustom);
-customElements.define("switch-button", SwitchButton);
-customElements.define("date-picker", DatePicker);
-customElements.define("toolbar-custom", ToolbarCustom);
-customElements.define("drop-list", DropList);
+customElements.define("amr-text", TextField);
+customElements.define("amr-number", NumberField);
+customElements.define("amr-password", PasswordField);
+customElements.define("amr-phone", PhoneField);
+customElements.define("amr-email", EmailField);
+customElements.define("amr-button", Button);
+customElements.define("amr-checkbox", Checkbox);
+customElements.define("amr-radio", Radio);
+customElements.define("amr-tooltip", Tooltip);
+customElements.define("amr-switch", Switch);
+customElements.define("amr-date", DatePicker);
+customElements.define("amr-toolbar", Toolbar);
+customElements.define("amr-select", Select);
 
 // CSS
 let style = document.createElement("style");
@@ -38,13 +38,13 @@ style.innerHTML = Html.clean`
 	${PasswordField.style()} 
 	${PhoneField.style()} 
 	${EmailField.style()} 
-	${ButtonCustom.style()} 
-	${CheckboxCustom.style()} 
-	${RadioCustom.style()} 
-	${TooltipCustom.style()} 
-	${SwitchButton.style()} 
+	${Button.style()} 
+	${Checkbox.style()} 
+	${Radio.style()} 
+	${Tooltip.style()} 
+	${Switch.style()} 
 	${DatePicker.style()} 
-	${ToolbarCustom.style()}
-	${DropList.style()}
+	${Toolbar.style()}
+	${Select.style()}
 `;
 document.head.appendChild(style);

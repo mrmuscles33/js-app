@@ -1,10 +1,10 @@
 import BaseElement from "./BaseElement.js";
 
-export default class TooltipCustom extends BaseElement {
+export default class Tooltip extends BaseElement {
 	static attrs = [...BaseElement.attrs, "position", "text", "test"];
 	static counter = 1;
 	connectedCallback() {
-		this.key = this.key || `tooltip-${TooltipCustom.counter++}`;
+		this.key = this.key || `tooltip-${Tooltip.counter++}`;
 		this.position = this.position || "top";
 		this.text = this.text || "";
 		this.slotContent = Array.from(this.childNodes).filter(node => node.nodeType === Node.ELEMENT_NODE);

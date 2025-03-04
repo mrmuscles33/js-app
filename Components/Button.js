@@ -1,7 +1,7 @@
 import BaseElement from "./BaseElement.js";
 import Events from "../Utils/Events.js";
 
-export default class ButtonCustom extends BaseElement {
+export default class Button extends BaseElement {
 	static attrs = [...BaseElement.attrs, "text", "icon", "primary", "bordered", "disabled", "flex"];
 	static counter = 1;
 	connectedCallback() {
@@ -11,7 +11,7 @@ export default class ButtonCustom extends BaseElement {
 		this.bordered = this.bordered || "true";
 		this.disabled = this.disabled || "false";
 		this.flex = this.flex || "false";
-		this.key = this.key || `button-${ButtonCustom.counter++}`;
+		this.key = this.key || `button-${Button.counter++}`;
 		super.connectedCallback();
 	}
 	render() {

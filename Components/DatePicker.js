@@ -8,7 +8,7 @@ export default class DatePicker extends TextField {
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 	connectedCallback() {
-		this.key = this.key || `date-picker-${DatePicker.counter++}`;
+		this.key = this.key || `amr-date-${DatePicker.counter++}`;
 		this.iconright = this.readonly ? "" : this.iconright || "today";
 		this.format = this.format || Dates.D_M_Y;
 		this.pattern = this.pattern || Dates.getPattern(this.format);
@@ -332,22 +332,22 @@ export default class DatePicker extends TextField {
 						<h2>${this.getDisplayedDate()}</h2>
 					</div>
 					<div class="datepicker-calendar">
-						<toolbar-custom justify="space-between">
-							<tooltip-custom position="bottom" text="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}">
-								<button-custom text="${this.getDisplayedMonth()}" bordered="false" name="year-button"></button-custom>
-							</tooltip-custom>
+						<amr-toolbar justify="space-between">
+							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}">
+								<amr-button text="${this.getDisplayedMonth()}" bordered="false" name="year-button"></amr-button>
+							</amr-tooltip>
 							<span style="flex:1"></span>
-							<tooltip-custom position="bottom" text="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}">
-								<button-custom icon="keyboard_arrow_left" bordered="false" name="previous-button" 
+							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}">
+								<amr-button icon="keyboard_arrow_left" bordered="false" name="previous-button" 
 									disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.minDate))}">
-								</button-custom>
-							</tooltip-custom>
-							<tooltip-custom position="bottom" text="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}">
-								<button-custom icon="keyboard_arrow_right" bordered="false" name="next-button" 
+								</amr-button>
+							</amr-tooltip>
+							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}">
+								<amr-button icon="keyboard_arrow_right" bordered="false" name="next-button" 
 									disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.realMaxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.maxDate))}">
-								</button-custom>
-							</tooltip-custom>
-						</toolbar-custom>
+								</amr-button>
+							</amr-tooltip>
+						</amr-toolbar>
 						${this.showYear == "true" ? `
 						<div class="datepicker-years">
 							${this.getDisplayedYears().map((year) => ` 
@@ -387,10 +387,10 @@ export default class DatePicker extends TextField {
 							`).join('')}
 						</div>
 						`}
-						<toolbar-custom gap="10px">
-							<button-custom name="close-button" text="Fermer" flex="true" bordered="false" style="flex:1"></button-custom>
-							<button-custom name="valid-button" text="Valider" flex="true" primary="true" bordered="false" style="flex:1"></button-custom>
-						</toolbar-custom>
+						<amr-toolbar gap="10px">
+							<amr-button name="close-button" text="Fermer" flex="true" bordered="false" style="flex:1"></amr-button>
+							<amr-button name="valid-button" text="Valider" flex="true" primary="true" bordered="false" style="flex:1"></amr-button>
+						</amr-toolbar>
 					</div>
 				</div>
 			</div>` : ""}

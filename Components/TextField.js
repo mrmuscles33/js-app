@@ -36,7 +36,7 @@ export default class TextField extends BaseElement {
 		this.filled = this.filled || "true";
 		this.flex = this.flex || "false";
 		this.maxlength = this.maxlength || 128;
-		this.key = this.key || `text-field-${TextField.counter++}`;
+		this.key = this.key || `amr-text-${TextField.counter++}`;
 		super.connectedCallback();
 	}
 	render() {

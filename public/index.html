@@ -12,7 +12,7 @@
 			let getAll = (selector) => document.querySelectorAll(selector);
 
 			function onLoad() {
-				let button = get('button-custom[name="primary-button"]');
+				let button = get('amr-button[name="primary-button"]');
 				button.onClick = () => {
 					alert('Button clicked');
 				};
@@ -50,57 +50,58 @@
 			<section>
 				<h2>Controls</h2>
 				<h3>Button</h3>
-				<button-custom icon="search" text="Primary" primary="true" cls="test" name="primary-button"></button-custom>
-				<button-custom icon="search" text="Secondary"></button-custom>
-				<tooltip-custom text="tooltip">
-					<button-custom text="Tertiary" bordered="false"></button-custom>
-				</tooltip-custom>
-				<button-custom text="Disabled" disabled="true"></button-custom>
+				<amr-button icon="search" text="Primary" primary="true" cls="test" name="primary-button"></amr-button>
+				<amr-button icon="search" text="Secondary"></amr-button>
+				<amr-tooltip text="tooltip">
+					<amr-button text="Tertiary" bordered="false"></amr-button>
+				</amr-tooltip>
+				<amr-button text="Disabled" disabled="true"></amr-button>
 
 				<h3>Checkboxes</h3>
-				<checkbox-custom label="Check me" checked="true"></checkbox-custom>
+				<amr-checkbox label="Check me" checked="true"></amr-checkbox>
 
 				<h3>Radio</h3>
-				<radio-custom label="Radio 1" name="radio" checked="true"></radio-custom>
-				<radio-custom label="Radio 2" name="radio"></radio-custom>
-				<radio-custom label="Radio 3" name="radio"></radio-custom>
-				<radio-custom label="Radio 4" name="radio" disabled="true"></radio-custom>
+				<amr-radio label="Radio 1" name="radio" checked="true"></amr-radio>
+				<amr-radio label="Radio 2" name="radio"></amr-radio>
+				<amr-radio label="Radio 3" name="radio"></amr-radio>
+				<amr-radio label="Radio 4" name="radio" disabled="true"></amr-radio>
 
 				<h3>Switches</h3>
-				<switch-button checked="true"></switch-button>
+				<amr-switch checked="true"></amr-switch>
 			</section>
 			<br />
 			<section>
 				<h2>Inputs</h2>
 				<h3>Textfield</h3>
 
-				<text-field label="Label" errormessage="tt"></text-field>
-				<text-field filled="false"></text-field>
-				<text-field label="Icons" iconleft="search" iconright="highlight_off" extrastyle=".textfield-main{width:150px}"></text-field>
-				<text-field label="Disable" iconleft="search" disabled="true"></text-field>
-				<text-field label="Error" iconright="home" errormessage="Le champ est vide"></text-field>
+				<amr-text label="Label" errormessage="tt"></amr-text>
+				<amr-text filled="false"></amr-text>
+				<amr-text label="Icons" iconleft="search" iconright="highlight_off" extrastyle=".textfield-main{width:150px}"></amr-text>
+				<amr-text label="Disable" iconleft="search" disabled="true"></amr-text>
+				<amr-text label="Error" iconright="home" errormessage="Le champ est vide"></amr-text>
 
 				<h3>Passwordfield</h3>
-				<password-field label="Password" iconLeft="fingerprint"></password-field>
+				<amr-password label="Password" iconLeft="fingerprint"></amr-password>
 
 				<h3>Numberfield</h3>
-				<number-field label="Number" integer="2" decimal="1" min="-1"></number-field>
+				<amr-number label="Number" integer="2" decimal="1" min="-1"></amr-number>
 
 				<h3>Phonefield</h3>
-				<phone-field label="Phone"></phone-field>
+				<amr-phone label="Phone"></amr-phone>
 
 				<h3>Emailfields</h3>
-				<email-field label="Email"></email-field>
+				<amr-email label="Email"></amr-email>
 
 				<h3>Date & Time Pickers</h3>
-				<date-picker label="Date" value="25/12/2024" maxDate="31/12/2024"></date-picker>
+				<amr-date label="Date" value="25/12/2024" maxDate="31/12/2024"></amr-date>
 
 				<h3>Drop List</h3>
-				<drop-list 
+				<amr-select 
 					label="Drop List" 
 					options='[{"value":1,"label":"Option 1"},{"value":2,"label":"Option 2"},{"value":3,"label":"Option 3"},{"value":4,"label":"Option 4"}]'
-					limit="3">
-				</drop-list>
+					selection="[1,2]"
+					limit="2">
+				</amr-select>
 			</section>
 		</main>
 	</body>
