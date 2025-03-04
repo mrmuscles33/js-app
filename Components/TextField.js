@@ -46,33 +46,33 @@ export default class TextField extends BaseElement {
 
 		// The update methods breaks listeners and bindings
 		super.render();
-		me.div = me.querySelector("div");
-		me.input = me.querySelector("input");
-		me.icon = me.querySelector("span.textfield-icon-right");
+		let div = me.querySelector("div");
+		let input = me.querySelector("input");
+		let icon = me.querySelector("span.textfield-icon-right");
 
 		// Listeners
 		if (!this.disabled || this.disabled == "false") {
 			// div
-			me.div.addEventListener("click", (event) => {
+			div.addEventListener("click", (event) => {
 				// Focus input when cliking on global div
 				if (me.readonly === "false") {
-					me.input.focus();
+					input.focus();
 				}
 				event.stopPropagation();
 			});
-			me.div.addEventListener("keypress", (event) => {
+			div.addEventListener("keypress", (event) => {
 				// Do nothing and disable event
 				return;
 			});
 			// icon
-			if (me.icon) {
-				me.icon.addEventListener("click", (event) => {
+			if (icon) {
+				icon.addEventListener("click", (event) => {
 					me.fireHandler("click", event);
 					event.stopPropagation();
 				});
-				me.icon.addEventListener("keydown", (event) => {
+				icon.addEventListener("keydown", (event) => {
 					// On Enter trigger click
-					if (Events.isEnter(event)) {
+					if (Events.isEnter(event) || Events.isSpace(event)) {
 						me.fireHandler("click", event);
 					}
 					event.stopPropagation();
@@ -80,7 +80,7 @@ export default class TextField extends BaseElement {
 			}
 			// input
 			["change", "input", "focus", "focusout", "blur", "keydown", "keyup"].forEach((evt) => {
-				me.input.addEventListener(evt, (event) => {
+				input.addEventListener(evt, (event) => {
 					me.twoWayBinding(event.target);
 					me.fireHandler(evt, event);
 				});
@@ -174,13 +174,13 @@ export default class TextField extends BaseElement {
 				padding-top: 20px;
 			}
 			.textfield-main.filled {
-				background-color: var(--color-backgroud);
+				background-color: var(--color-background);
 				border-radius: 8px 8px 0 0;
 				border: none;
 				border-bottom: 1px solid var(--color);
 			}
 			.textfield-main.filled:hover {
-				background-color: var(--color-backgroud-hover);
+				background-color: var(--color-background-hover);
 			}
 			.textfield-main:not(.filled):hover {
 				border-width: 2px;

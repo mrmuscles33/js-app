@@ -33,58 +33,74 @@ export default class DatePicker extends TextField {
 		
 		super.render();
 
-		// Add event listener
 		// Close button
 		let closeButton = me.querySelector('[name="close-button"]');
-		closeButton.onClick = () =>  me.close();
+		if(closeButton) {
+			closeButton.onClick = () =>  me.close();
+		}
+		
 		// Valid button
 		let validButton = me.querySelector('[name="valid-button"]');
-		validButton.onClick = () =>  me.valid();
-		validButton.addEventListener("keydown", (event) => {
-			if(Events.isTab(event) && !Events.isShift(event)){
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		});
+		if(validButton){
+			validButton.onClick = () =>  me.valid();
+			validButton.addEventListener("keydown", (event) => {
+				if(Events.isTab(event) && !Events.isShift(event)){
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			});
+		}
+		
 		// Year button
 		let yearButton = me.querySelector('[name="year-button"]');
-		yearButton.onClick = () =>  me.onClickYearButton(yearButton);
-		yearButton.addEventListener("keydown", (event) => {
-			if(Events.isTab(event) && Events.isShift(event)){
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		});
+		if(yearButton) {
+			yearButton.onClick = () =>  me.onClickYearButton(yearButton);
+			yearButton.addEventListener("keydown", (event) => {
+				if(Events.isTab(event) && Events.isShift(event)){
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			});
+		}
+		
 		// Previous button
 		let previousButton = me.querySelector('[name="previous-button"]');
-		previousButton.onClick = () =>  me.onClickPrevious(previousButton);
+		if(previousButton) {
+			previousButton.onClick = () =>  me.onClickPrevious(previousButton);
+		}
+		
 		// Next button
 		let nextButton = me.querySelector('[name="next-button"]');
-		nextButton.onClick = () =>  me.onClickNext(nextButton);
+		if(nextButton) {
+			nextButton.onClick = () =>  me.onClickNext(nextButton);
+		}
+
+		// Mask
+		let mask = me.querySelector('.datepicker-mask');
+		if(mask) {
+			mask.addEventListener('click', (event) => {
+				if(event.target == mask) {
+					me.close();
+				}
+			});
+			mask.addEventListener('keydown', (event) => {
+				if(Events.isEsc(event)) {
+					me.close();
+				}
+			});
+		}
 
 		if(me.showYear == "true") {
 			// Years
 			me.querySelectorAll('.datepicker-year').forEach((year) => {
 				year.addEventListener('click', () =>  me.onClickYear(year));
 				year.addEventListener('keydown', (event) =>  me.onKeyDownYear(event, year));
-				year.addEventListener('keypress', (event) => {
-					if(Events.isEnter(event)) {
-						year.click();
-					}
-					event.stopPropagation();
-				});
 			});
 		} else {
 			// Days
 			me.querySelectorAll('.datepicker-day').forEach((day) => {
 				day.addEventListener('click', () =>  me.onClickDay(day));
 				day.addEventListener('keydown', (event) =>  me.onKeyDownDay(event, day));
-				day.addEventListener('keypress', (event) => {
-					if(event.key == "Enter") {
-						day.click();
-					}
-					event.stopPropagation();
-				});
 			});
 		}
 	}
@@ -100,20 +116,23 @@ export default class DatePicker extends TextField {
 	onClick() {
 		let me = this;
 		me.ignoreChange = true;
-		me.visible = me.visible == "true" ? "false" : "true";
+		me.visible = "true";
 		me.tmpValue = me.value;
 		me.focusedDate = me.tmpValue;
 		me.focusedYear = Dates.toDate(me.tmpValue, Dates.D_M_Y).getFullYear();
 		me.showYear = "false";
-		me.querySelector(".datepicker-mask").classList.add("datepicker-visible");
 		me.ignoreChange = false;
-		// Wait for animation to finish
+		me.render();
 		setTimeout(() => {
-			me.render();
-			setTimeout(() => {
-				me.querySelector('.datepicker-day[tabindex="0"]').focus();
-			}, 100);
-		}, 200);
+			me.querySelector('.datepicker-day[tabindex="0"]').focus();
+		}, 100);
+	}
+	onKeydown(event) {
+		if(Events.isSpace(event)){
+			this.onClick();
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
 	onClickYearButton() {
 		let me = this;
@@ -209,6 +228,11 @@ export default class DatePicker extends TextField {
 			setTimeout(() => {
 				me.querySelector('.datepicker-day[tabindex="0"]').focus();
 			}, 100);
+			event.preventDefault();
+			event.stopPropagation();
+		} else if(Events.isEnter(event) || Events.isSpace(event)) {
+			day.click();
+			event.preventDefault();
 			event.stopPropagation();
 		}
 	}
@@ -234,6 +258,11 @@ export default class DatePicker extends TextField {
 			setTimeout(() => {
 				me.querySelector('.datepicker-year[tabindex="0"]').focus();
 			}, 100);
+			event.preventDefault();
+			event.stopPropagation();
+		} else if(Events.isEnter(event) || Events.isSpace(event)) {
+			year.click();
+			event.preventDefault();
 			event.stopPropagation();
 		}
 	}
@@ -295,6 +324,7 @@ export default class DatePicker extends TextField {
 	template() {
 		return `
 			${super.template()}
+			${this.visible == "true" ? `
 			<div class="datepicker-mask ${this.visible == "true" ? "datepicker-visible" : ""}">
 				<div class="datepicker-main">
 					<div class="datepicker-info">
@@ -321,35 +351,39 @@ export default class DatePicker extends TextField {
 						${this.showYear == "true" ? `
 						<div class="datepicker-years">
 							${this.getDisplayedYears().map((year) => ` 
-								<span role="button" class="datepicker-year 
-									${year == Dates.today().getFullYear() ? "datepicker-today" : ""}
-									${year == Dates.toDate(this.tmpValue, Dates.D_M_Y).getFullYear() ? "datepicker-selected" : ""}"
-									tabindex="${
-										(this.getDisplayedYears().some(y => y == this.focusedYear) && this.focusedYear == year) ||
-										(!this.getDisplayedYears().some(y => y == this.focusedYear) && this.getDisplayedYears()[0] == year)
-										? "0" : "-1"
-									}"
-									value=${year}>${year}</span>
+							<span role="button" class="datepicker-year 
+								${year == Dates.today().getFullYear() ? "today" : ""}
+								${year == Dates.toDate(this.tmpValue, Dates.D_M_Y).getFullYear() ? "selected" : ""}"
+								tabindex="${
+									(this.getDisplayedYears().some(y => y == this.focusedYear) && this.focusedYear == year) ||
+									(!this.getDisplayedYears().some(y => y == this.focusedYear) && this.getDisplayedYears()[0] == year)
+									? "0" : "-1"
+								}"
+								value=${year}>
+								${year}
+							</span>
 							`).join('')}
 						</div>
 						` : `
 						<div class="datepicker-days">
 							${this.getSortedDays().map((day) => `
-								<span class="datepicker-day">${day.substring(0,3)}</span>
+							<span class="datepicker-day">${day.substring(0,3)}</span>
 							`).join('')}
 							${this.getDisplayedDays().map((day) => `
-								<span role="button" 
-									class="datepicker-day 
-										${Dates.toText(day, Dates.D_M_Y) == Dates.toText(Dates.today(), Dates.D_M_Y) ? "datepicker-today" : ""}
-										${Dates.toText(day, Dates.D_M_Y) == this.tmpValue ? "datepicker-selected" : ""}
-										${day.getMonth() != Dates.toDate(this.currentMonth, Dates.M_Y).getMonth() ? "datepicker-other-month" : ""}
-										${(day < this.realMinDate) || (day > this.realMaxDate) ? "datepicker-day-disable" : ""}"
-									tabindex="${
-										(this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.focusedDate == Dates.toText(day, Dates.D_M_Y)) ||
-										(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.realMinDate <= d  && d <= this.realMaxDate) == day)
-										? "0" : "-1"
-									}"
-									value=${Dates.toText(day, Dates.D_M_Y)}>${day.getDate()}</span>
+							<span role="button" 
+								class="datepicker-day 
+									${Dates.toText(day, Dates.D_M_Y) == Dates.toText(Dates.today(), Dates.D_M_Y) ? "today" : ""}
+									${Dates.toText(day, Dates.D_M_Y) == this.tmpValue ? "selected" : ""}
+									${day.getMonth() != Dates.toDate(this.currentMonth, Dates.M_Y).getMonth() ? "other-month" : ""}
+									${(day < this.realMinDate) || (day > this.realMaxDate) ? "disable" : ""}"
+								tabindex="${
+									(this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.focusedDate == Dates.toText(day, Dates.D_M_Y)) ||
+									(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.realMinDate <= d  && d <= this.realMaxDate) == day)
+									? "0" : "-1"
+								}"
+								value=${Dates.toText(day, Dates.D_M_Y)}>
+								${day.getDate()}
+							</span>
 							`).join('')}
 						</div>
 						`}
@@ -359,21 +393,15 @@ export default class DatePicker extends TextField {
 						</toolbar-custom>
 					</div>
 				</div>
-			</div>
+			</div>` : ""}
 		`;
 	}
 	close(){
 		let me = this;
-		me.ignoreChange = true;
 		me.visible = 'false';
-		me.querySelector(".datepicker-mask").classList.remove("datepicker-visible");
-		me.ignoreChange = false;
-		// Wait for animation to finish
+		me.render();
 		setTimeout(() => {
-			me.render();
-			setTimeout(() => {
-				me.querySelector('.textfield-main input').focus();
-			}, 200);
+			me.querySelector('.textfield-main input').focus();
 		}, 200);
 	}
 	valid(){
@@ -402,10 +430,10 @@ export default class DatePicker extends TextField {
 				align-items: center;
 				z-index: 2;
 			}
-			.datepicker-visible {
-                visibility: visible;
-                pointer-events: auto;
-                opacity: 1;
+			.datepicker-mask.datepicker-visible {
+				visibility: visible;
+				pointer-events: auto;
+				opacity: 1;
 			}
 			.datepicker-main {
 				width: 450px;
@@ -416,46 +444,46 @@ export default class DatePicker extends TextField {
 				overflow: visible;
 				transition: transform 0.2s;
 			}
-			.datepicker-visible .datepicker-main {
-					transform: scale(1);
+			.datepicker-mask.datepicker-visible > .datepicker-main {
+				transform: scale(1);
 			}
-			.datepicker-info {
+			.datepicker-main > .datepicker-info {
                 background-color: var(--color-primary);
                 color: var(--color-font-selected);
                 padding: 10px 15px;
 				border-radius: 8px 8px 0 0;
 			}
-			h1 {
+			.datepicker-main > .datepicker-info > h1 {
 				padding: 0;
 				margin: 10px 0;
 				font-size: 18px;
 				font-weight: 100;
 				letter-spacing: 2.5px;
 			}
-			h2 {
+			.datepicker-main > .datepicker-info > h2 {
 				font-size: 30px;
 				margin: 10px 0;
 				font-weight: 500;
 			}
-			.datepicker-calendar {
+			.datepicker-main > .datepicker-calendar {
 				width: 100%;
 				padding: 10px;
 				box-sizing: border-box;
 			}
-			.datepicker-days,
-			.datepicker-years {
+			.datepicker-main > .datepicker-calendar > .datepicker-days,
+			.datepicker-main > .datepicker-calendar > .datepicker-years {
 				display: grid;
 				grid-template-columns: repeat(7, 1fr);
 				grid-template-rows: repeat(7, 50px);
 				margin: 0 0 10px 0;
 			}
-			.datepicker-years {
+			.datepicker-main > .datepicker-calendar > .datepicker-years {
 				grid-template-columns: repeat(3, 1fr);
 				min-height: 270px;
 				grid-auto-rows: minmax(min-content, max-content);
 			}
-			.datepicker-day,
-			.datepicker-year {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day,
+			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year {
 				text-align: center;
 				width: 100%;
 				height: 50px;
@@ -466,35 +494,35 @@ export default class DatePicker extends TextField {
 				user-select: none;
 				color: var(--color-font);
 			}
-			span.datepicker-day,
-			span.datepicker-year {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day,
+			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year {
 				cursor: pointer;
 				border-radius: 50px;
 				text-decoration: none;
 				font-weight: 500;
 			}
-			span.datepicker-day:hover,
-			span.datepicker-year:hover,
-			span.datepicker-day:focus-visible,
-			span.datepicker-year:focus-visible {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:hover,
+			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year:hover,
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:focus-visible,
+			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year:focus-visible {
 				background-color: var(--color-hover);
 				color: var(--color-font);
 			}
-			span.datepicker-today,
-			span.datepicker-day:focus-visible,
-			span.datepicker-year:focus-visible {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.today,
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:focus-visible,
+			.datepicker-main > .datepicker-calendar > .datepicker-years > span.datepicker-year:focus-visible {
 				border: 2px solid var(--color-font);
 				outline: none;
 			}
-			span.datepicker-other-month,
-			span.datepicker-day-disable {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.other-month,
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.disable {
 				color: var(--color-font-other);
 			}
-			span.datepicker-day-disable {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.disable {
 				cursor: not-allowed;
 			}
-			span.datepicker-selected,
-			span.datepicker-selected:hover {
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.selected,
+			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.selected:hover {
 				background-color: var(--color-primary);
 				color: var(--color-font-selected);
 			}

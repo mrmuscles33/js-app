@@ -82,9 +82,9 @@ html {
 /* TextField.js */
 .textfield-main {
     /* Background color */
-    --color-backgroud: #EEEEEE; 
+    --color-background: #EEEEEE; 
     /* Background hover color */
-    --color-backgroud-hover: #DDDDDD;
+    --color-background-hover: #DDDDDD;
     /* Label color */
     --color: #666666;
     /* Label, Border focus color */
@@ -117,8 +117,8 @@ html {
 
 /* Droplist.js */
 .droplist-main {
-    --color-backgroud: #EEEEEE; 
-    --color-backgroud-hover: #DDDDDD;
+    --color-background: #EEEEEE; 
+    --color-background-hover: #DDDDDD;
     --color: #666666;
     --color-focus: #0d31a6;
     --color-error: #cc4141;
@@ -128,4 +128,13 @@ html {
 .tooltip-main {
 	--color-background: #6C6C6C;
 	--color-font: #FFFFFF;
+}
+
+/* Droplist.js */
+.droplist-menu {
+    --color-background: #FFFFFF;
+    --color-selected: #EEEEEE; 
+    --color-background-hover: #DDDDDD;
+    --color: #666666;
+    --color-focus: #0d31a6;
 }

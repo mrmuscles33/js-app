@@ -23,9 +23,11 @@ export default class ButtonCustom extends BaseElement {
 
 		if (me.disabled == "false") {
 			let button = me.querySelector(".btn-main");
-			button.addEventListener("keyup", (event) => {
+			button.addEventListener("keydown", (event) => {
 				if (Events.isEnter(event) || Events.isSpace(event)) {
 					me.fireHandler("click", event);
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			});
 			button.addEventListener("click", (event) => me.fireHandler("click", event));

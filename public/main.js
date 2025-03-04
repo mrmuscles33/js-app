@@ -11,6 +11,7 @@ import TooltipCustom from "../Components/TooltipCustom.js";
 import SwitchButton from "../Components/SwitchButton.js";
 import DatePicker from "../Components/DatePicker.js";
 import ToolbarCustom from "../Components/ToolbarCustom.js";
+import DropList from "../Components/DropList.js";
 import Html from "../Utils/Html.js";
 
 // HTML Elements
@@ -26,6 +27,7 @@ customElements.define("tooltip-custom", TooltipCustom);
 customElements.define("switch-button", SwitchButton);
 customElements.define("date-picker", DatePicker);
 customElements.define("toolbar-custom", ToolbarCustom);
+customElements.define("drop-list", DropList);
 
 // CSS
 let style = document.createElement("style");
@@ -43,5 +45,6 @@ style.innerHTML = Html.clean`
 	${SwitchButton.style()} 
 	${DatePicker.style()} 
 	${ToolbarCustom.style()}
+	${DropList.style()}
 `;
 document.head.appendChild(style);

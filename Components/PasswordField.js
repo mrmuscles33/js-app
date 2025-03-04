@@ -20,4 +20,5 @@ export default class PasswordField extends TextField {
 	onClick(event) {
 		this.show = this.show == "true" ? "false" : "true";
 	}
+	static style() { return "";}
 }

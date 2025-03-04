@@ -38,7 +38,7 @@ export default class SwitchButton extends BaseElement {
 	}
 	template() {
 		return `
-			<div class="switch-main" ${this.disable == "true" ? "disable" : ""}>
+			<div role="switch" class="switch-main" ${this.disable == "true" ? "disable" : ""}>
 				<input type="checkbox" id="${this.key}"
 				${this.checked == "true" ? "checked" : ""} 
 				${this.name ? "name='" + this.name + "'" : ""} 

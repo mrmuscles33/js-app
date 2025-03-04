@@ -11,4 +11,5 @@ export default class EmailField extends TextField {
 		this.iconleft = this.iconleft || "alternate_email";
 		super.connectedCallback();
 	}
+	static style() { return "";}
 }

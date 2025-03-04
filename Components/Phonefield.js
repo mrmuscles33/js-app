@@ -9,4 +9,5 @@ export default class PhoneField extends TextField {
 		this.iconleft = this.iconleft || "call";
 		super.connectedCallback();
 	}
+	static style() { return "";}
 }

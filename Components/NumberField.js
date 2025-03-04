@@ -45,4 +45,5 @@ export default class NumberField extends TextField {
 			}
 		}
 	}
+	static style() { return "";}
 }
