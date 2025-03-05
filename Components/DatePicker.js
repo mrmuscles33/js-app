@@ -3,7 +3,7 @@ import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
 
 export default class DatePicker extends TextField {
-	static attrs = [...TextField.attrs, "startWeek", "minDate", "maxDate"];
+	static attrs = [...TextField.attrs, "startWeek", "min", "max"];
 	static counter = 1;
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -15,8 +15,9 @@ export default class DatePicker extends TextField {
 		this.maxlength = this.format.length;
 		this.visible = this.visible || "false";
 		this.startWeek = this.startWeek || Dates.MONDAY;
-		this.minDate = this.minDate || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
-		this.maxDate = this.maxDate || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
+		this.min = this.min || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
+		this.max = this.max || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
+		this.size = this.size || "small";
 		super.connectedCallback();
 	}
 	render() {
@@ -24,8 +25,8 @@ export default class DatePicker extends TextField {
 		let me = this;
 		me.tmpValue = me.tmpValue || (Dates.isValid(me.value, me.format) ? Dates.format(me.value, me.format, Dates.D_M_Y) : Dates.toText(Dates.today(), Dates.D_M_Y));
 		me.endWeek = me.startWeek == 0 ? 6 : me.startWeek - 1;
-		me.realMinDate = Dates.toDate(me.minDate, me.format);
-		me.realMaxDate = Dates.toDate(me.maxDate, me.format);
+		me.minDate = Dates.toDate(me.min, me.format);
+		me.maxDate = Dates.toDate(me.max, me.format);
 		me.currentMonth = Dates.format(me.focusedDate || me.tmpValue, Dates.D_M_Y, Dates.M_Y);
 		me.yearsPage = me.yearsPage || 0;
 		me.showYear = me.showYear || "false";
@@ -98,7 +99,7 @@ export default class DatePicker extends TextField {
 			});
 		} else {
 			// Days
-			me.querySelectorAll('.datepicker-day').forEach((day) => {
+			me.querySelectorAll('.datepicker-day:not(.header)').forEach((day) => {
 				day.addEventListener('click', () =>  me.onClickDay(day));
 				day.addEventListener('keydown', (event) =>  me.onKeyDownDay(event, day));
 			});
@@ -110,7 +111,7 @@ export default class DatePicker extends TextField {
 			this.errormessage = !Dates.isValid(this.value, this.format) ? "La date n'est pas valide" : "";
 		}
 		if(this.errormessage == "" && this.value != ""){
-			this.errormessage = Dates.toDate(this.value, this.format) < this.realMinDate || Dates.toDate(this.value, this.format) > this.realMaxDate ? "La date doit etre comprise entre " + this.minDate + " et " + this.maxDate : "";
+			this.errormessage = Dates.toDate(this.value, this.format) < this.minDate || Dates.toDate(this.value, this.format) > this.maxDate ? "La date doit etre comprise entre " + this.min + " et " + this.max : "";
 		}
 	}
 	onClick() {
@@ -138,7 +139,7 @@ export default class DatePicker extends TextField {
 		let me = this;
 		me.showYear = me.showYear == "true" ? "false" : "true";
 		// Find the page of the current year
-		me.yearsPage = Math.floor((Dates.toDate(me.focusedDate, Dates.D_M_Y).getFullYear() - me.realMinDate.getFullYear()) / 21);
+		me.yearsPage = Math.floor((Dates.toDate(me.focusedDate, Dates.D_M_Y).getFullYear() - me.minDate.getFullYear()) / 21);
 		me.render();
 		setTimeout(() => {
 			if(me.showYear == "true") {
@@ -155,7 +156,7 @@ export default class DatePicker extends TextField {
 				me.yearsPage--;
 			}
 		} else {
-			if(!me.getDisplayedDays().some(d => d == this.realMinDate)) {
+			if(!me.getDisplayedDays().some(d => d == this.minDate)) {
 				let date = Dates.toDate(me.currentMonth, Dates.M_Y);
 				date.setMonth(date.getMonth() - 1);
 				me.currentMonth = Dates.toText(date, Dates.M_Y);
@@ -174,7 +175,7 @@ export default class DatePicker extends TextField {
 				me.yearsPage++;
 			}
 		} else {
-			if(!me.getDisplayedDays().some(d => d == this.realMaxDate)) {
+			if(!me.getDisplayedDays().some(d => d == this.maxDate)) {
 				let date = Dates.toDate(me.currentMonth, Dates.M_Y);
 				date.setMonth(date.getMonth() + 1);
 				me.currentMonth = Dates.toText(date, Dates.M_Y);
@@ -189,7 +190,7 @@ export default class DatePicker extends TextField {
 	onClickDay(day) {
 		let me = this;
 		let clickedDate = Dates.toDate(day.getAttribute('value'));
-		if(clickedDate < me.realMinDate || clickedDate > me.realMaxDate) return false;
+		if(clickedDate < me.minDate || clickedDate > me.maxDate) return false;
 		me.tmpValue = Dates.toText(clickedDate, Dates.D_M_Y);
 		me.focusedDate = me.tmpValue;
 		me.render();
@@ -221,7 +222,7 @@ export default class DatePicker extends TextField {
 			} else if(Events.isArrowUp(event)) {
 				nextDate = Dates.addDays(clickedDate, -7);
 			} 
-			if(me.realMinDate <= nextDate  && nextDate <= me.realMaxDate) {
+			if(me.minDate <= nextDate  && nextDate <= me.maxDate) {
 				me.focusedDate = Dates.toText(nextDate, Dates.D_M_Y);
 			}
 			me.render();
@@ -250,10 +251,10 @@ export default class DatePicker extends TextField {
 			} else if(Events.isArrowUp(event)) {
 				nextYear = clickedYear - 3;
 			}
-			if(me.realMinDate.getFullYear() <= nextYear  && nextYear <= me.realMaxDate.getFullYear()) {
+			if(me.minDate.getFullYear() <= nextYear  && nextYear <= me.maxDate.getFullYear()) {
 				me.focusedYear = nextYear;
 			}
-			me.yearsPage = Math.floor((me.focusedYear - me.realMinDate.getFullYear()) / 21)
+			me.yearsPage = Math.floor((me.focusedYear - me.minDate.getFullYear()) / 21)
 			me.render();
 			setTimeout(() => {
 				me.querySelector('.datepicker-year[tabindex="0"]').focus();
@@ -309,7 +310,7 @@ export default class DatePicker extends TextField {
 	}
 	getDisplayedYears(){
 		let years = [];
-		for(let i = this.realMinDate.getFullYear(); i <= this.realMaxDate.getFullYear(); i++){
+		for(let i = this.minDate.getFullYear(); i <= this.maxDate.getFullYear(); i++){
 			years.push(i);
 		}
 		// Filter years to display only 21 years
@@ -325,7 +326,7 @@ export default class DatePicker extends TextField {
 		return `
 			${super.template()}
 			${this.visible == "true" ? `
-			<div class="datepicker-mask ${this.visible == "true" ? "datepicker-visible" : ""}">
+			<div class="datepicker-mask">
 				<div class="datepicker-main">
 					<div class="datepicker-info">
 						<h1>${this.label}</h1>
@@ -339,12 +340,12 @@ export default class DatePicker extends TextField {
 							<span style="flex:1"></span>
 							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}">
 								<amr-button icon="keyboard_arrow_left" bordered="false" name="previous-button" 
-									disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.minDate))}">
+									disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}">
 								</amr-button>
 							</amr-tooltip>
 							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}">
 								<amr-button icon="keyboard_arrow_right" bordered="false" name="next-button" 
-									disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.realMaxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.maxDate))}">
+									disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}">
 								</amr-button>
 							</amr-tooltip>
 						</amr-toolbar>
@@ -367,7 +368,7 @@ export default class DatePicker extends TextField {
 						` : `
 						<div class="datepicker-days">
 							${this.getSortedDays().map((day) => `
-							<span class="datepicker-day">${day.substring(0,3)}</span>
+							<span class="datepicker-day header">${day.substring(0,3)}</span>
 							`).join('')}
 							${this.getDisplayedDays().map((day) => `
 							<span role="button" 
@@ -375,10 +376,10 @@ export default class DatePicker extends TextField {
 									${Dates.toText(day, Dates.D_M_Y) == Dates.toText(Dates.today(), Dates.D_M_Y) ? "today" : ""}
 									${Dates.toText(day, Dates.D_M_Y) == this.tmpValue ? "selected" : ""}
 									${day.getMonth() != Dates.toDate(this.currentMonth, Dates.M_Y).getMonth() ? "other-month" : ""}
-									${(day < this.realMinDate) || (day > this.realMaxDate) ? "disable" : ""}"
+									${(day < this.minDate) || (day > this.maxDate) ? "disable" : ""}"
 								tabindex="${
 									(this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.focusedDate == Dates.toText(day, Dates.D_M_Y)) ||
-									(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.realMinDate <= d  && d <= this.realMaxDate) == day)
+									(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.minDate <= d  && d <= this.maxDate) == day)
 									? "0" : "-1"
 								}"
 								value=${Dates.toText(day, Dates.D_M_Y)}>
@@ -401,7 +402,9 @@ export default class DatePicker extends TextField {
 		me.visible = 'false';
 		me.render();
 		setTimeout(() => {
-			me.querySelector('.textfield-main input').focus();
+			let input = me.querySelector(".textfield-main input");
+			input.focus();
+            input.selectionStart = input.selectionEnd = input.value.length;
 		}, 200);
 	}
 	valid(){
@@ -421,31 +424,18 @@ export default class DatePicker extends TextField {
 				top: 0;
 				left: 0;
 				backdrop-filter: blur(2px);
-				visibility: hidden;
-				pointer-events: none;
-				opacity: 0;
-				transition: 0.2s;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				z-index: 2;
 			}
-			.datepicker-mask.datepicker-visible {
-				visibility: visible;
-				pointer-events: auto;
-				opacity: 1;
-			}
 			.datepicker-main {
 				width: 450px;
-				transform: scale(0.8);
 				background-color: var(--color-background);
 				border-radius: 8px;
 				box-shadow: 0 6px 25px rgba(150,150,150,0.7);
 				overflow: visible;
 				transition: transform 0.2s;
-			}
-			.datepicker-mask.datepicker-visible > .datepicker-main {
-				transform: scale(1);
 			}
 			.datepicker-main > .datepicker-info {
                 background-color: var(--color-primary);
@@ -467,7 +457,7 @@ export default class DatePicker extends TextField {
 			}
 			.datepicker-main > .datepicker-calendar {
 				width: 100%;
-				padding: 10px;
+				padding: 10px 10px 0 10px;
 				box-sizing: border-box;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days,
@@ -493,6 +483,7 @@ export default class DatePicker extends TextField {
 				box-sizing: border-box;
 				user-select: none;
 				color: var(--color-font);
+				font-size: 16px;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day,
 			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year {

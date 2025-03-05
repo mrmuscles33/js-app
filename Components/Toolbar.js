@@ -1,3 +1,4 @@
+import Html from "../Utils/Html.js";
 import BaseElement from "./BaseElement.js";
 
 export default class Toolbar extends BaseElement {
@@ -10,6 +11,14 @@ export default class Toolbar extends BaseElement {
 		this.direction = this.direction || "row";
 		this.gap = this.gap || "0";
 		this.slotContent = Array.from(this.childNodes).filter(node => node.nodeType === Node.ELEMENT_NODE);
+		this.extrastyle = Html.clean`
+			.toolbar {
+				justify-content: ${this.justify};
+				align-items: ${this.align};
+				flex-direction: ${this.direction};
+				gap: ${this.gap};
+			}
+		` + (this.extrastyle || "");
 		super.connectedCallback();
 	}
 	render() {
@@ -22,18 +31,7 @@ export default class Toolbar extends BaseElement {
 		});
 	}
 	template() {
-		return `
-			<style>
-				.toolbar {
-					justify-content: ${this.justify};
-					align-items: ${this.align};
-					flex-direction: ${this.direction};
-					gap: ${this.gap};
-				}
-			</style>
-			<div class="toolbar slot" role="toolbar" id="${this.key}">
-			</div>
-		`;
+		return `<div class="toolbar slot" role="toolbar" id="${this.key}"></div>`;
 	}
 	static style() {
 		return `

@@ -76,7 +76,7 @@
 
 				<amr-text label="Label" errormessage="tt"></amr-text>
 				<amr-text filled="false"></amr-text>
-				<amr-text label="Icons" iconleft="search" iconright="highlight_off" extrastyle=".textfield-main{width:150px}"></amr-text>
+				<amr-text label="Icons" iconleft="search" iconright="highlight_off"></amr-text>
 				<amr-text label="Disable" iconleft="search" disabled="true"></amr-text>
 				<amr-text label="Error" iconright="home" errormessage="Le champ est vide"></amr-text>
 
@@ -93,14 +93,17 @@
 				<amr-email label="Email"></amr-email>
 
 				<h3>Date & Time Pickers</h3>
-				<amr-date label="Date" value="25/12/2024" maxDate="31/12/2024"></amr-date>
+				<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
+				<amr-time label="Time" value="12:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
 
 				<h3>Drop List</h3>
-				<amr-select 
-					label="Drop List" 
-					options='[{"value":1,"label":"Option 1"},{"value":2,"label":"Option 2"},{"value":3,"label":"Option 3"},{"value":4,"label":"Option 4"}]'
-					selection="[1,2]"
-					limit="2">
+				<amr-select label="Drop List" limit="2">
+					<amr-option value="1" selected>Optiooooooooooooooooooooooooooon 1</amr-option>
+					<amr-option value="2">Option 2</amr-option>
+					<amr-option value="3" selected>Option 3</amr-option>
+					<amr-option value="4">Option 4</amr-option>
+					<amr-option value="5">Option 5</amr-option>
+					<amr-option value="6">Option 6</amr-option>
 				</amr-select>
 			</section>
 		</main>

@@ -37,6 +37,12 @@ const Times = {
         let format = Times.getFormat(pStrTime);
         return Times.isValid(pStrTime) && format.includes('SS') ? parseInt(pStrTime.substring(format.indexOf('SS'), 'SS'.length + format.indexOf('SS'))) : 0;
     },
+    before: (strTimeA, strTimeB) => {
+        return Times.toTime(strTimeA) < Times.toTime(strTimeB);
+    },
+    after: (strTimeA, strTimeB) => {
+        return Times.toTime(strTimeA) > Times.toTime(strTimeB);
+    },
     format : (pStrTime, pFormat) => {
         return Times.toText(Times.toTime(pStrTime), pFormat.toUpperCase());
     },

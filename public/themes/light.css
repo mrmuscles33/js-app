@@ -9,6 +9,8 @@
 /* TimePicker.js */
 /* Droplist.js */
 /* Tooltip.js */
+/* Droplist.js */
+/* TimePicker.js */
 
 html {
     --scroolbar-color: #777;
@@ -132,6 +134,15 @@ html {
 
 /* Droplist.js */
 .droplist-menu {
+    --color-background: #FFFFFF;
+    --color-selected: #EEEEEE; 
+    --color-background-hover: #DDDDDD;
+    --color: #666666;
+    --color-focus: #0d31a6;
+}
+
+/* TimePicker.js */
+.timepicker-menu {
     --color-background: #FFFFFF;
     --color-selected: #EEEEEE; 
     --color-background-hover: #DDDDDD;

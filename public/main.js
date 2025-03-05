@@ -1,3 +1,4 @@
+import Html from "../Utils/Html.js";
 import BaseElement from "../Components/BaseElement.js";
 import TextField from "../Components/TextField.js";
 import NumberField from "../Components/NumberField.js";
@@ -12,7 +13,7 @@ import Switch from "../Components/Switch.js";
 import DatePicker from "../Components/DatePicker.js";
 import Toolbar from "../Components/Toolbar.js";
 import Select from "../Components/Select.js";
-import Html from "../Utils/Html.js";
+import TimePicker from "../Components/TimePicker.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -28,6 +29,7 @@ customElements.define("amr-switch", Switch);
 customElements.define("amr-date", DatePicker);
 customElements.define("amr-toolbar", Toolbar);
 customElements.define("amr-select", Select);
+customElements.define("amr-time", TimePicker);
 
 // CSS
 let style = document.createElement("style");
@@ -46,5 +48,6 @@ style.innerHTML = Html.clean`
 	${DatePicker.style()} 
 	${Toolbar.style()}
 	${Select.style()}
+	${TimePicker.style()}
 `;
 document.head.appendChild(style);

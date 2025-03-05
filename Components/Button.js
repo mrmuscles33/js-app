@@ -68,6 +68,7 @@ export default class Button extends BaseElement {
 			    white-space: nowrap;
 			    overflow: hidden;
 			    text-overflow: ellipsis;
+				font-size: 16px;
 			}
 			.btn-main.disabled {
 				cursor: not-allowed;
