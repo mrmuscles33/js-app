@@ -431,15 +431,14 @@ export default class DatePicker extends TextField {
 			}
 			.datepicker-main {
 				width: 450px;
-				background-color: var(--color-background);
+				background-color: var(--secondary-shade1);
 				border-radius: 8px;
-				box-shadow: 0 6px 25px rgba(150,150,150,0.7);
+				box-shadow: 0 6px 25px rgba(126, 126, 126, 0.1);
 				overflow: visible;
 				transition: transform 0.2s;
 			}
 			.datepicker-main > .datepicker-info {
-                background-color: var(--color-primary);
-                color: var(--color-font-selected);
+                background-color: var(--secondary-shade0);
                 padding: 10px 15px;
 				border-radius: 8px 8px 0 0;
 			}
@@ -449,15 +448,17 @@ export default class DatePicker extends TextField {
 				font-size: 18px;
 				font-weight: 100;
 				letter-spacing: 2.5px;
+				color: var(--dark-shade0);
 			}
 			.datepicker-main > .datepicker-info > h2 {
 				font-size: 30px;
 				margin: 10px 0;
 				font-weight: 500;
+				color: var(--dark-shade0);
 			}
 			.datepicker-main > .datepicker-calendar {
 				width: 100%;
-				padding: 10px 10px 0 10px;
+				padding: 10px 10px 5px 10px;
 				box-sizing: border-box;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days,
@@ -482,7 +483,7 @@ export default class DatePicker extends TextField {
 				justify-content: center;
 				box-sizing: border-box;
 				user-select: none;
-				color: var(--color-font);
+				color: var(--dark-shade0);
 				font-size: 16px;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day,
@@ -491,31 +492,31 @@ export default class DatePicker extends TextField {
 				border-radius: 50px;
 				text-decoration: none;
 				font-weight: 500;
+				border: 2px solid transparent;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:hover,
 			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year:hover,
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:focus-visible,
 			.datepicker-main > .datepicker-calendar > .datepicker-years > .datepicker-year:focus-visible {
-				background-color: var(--color-hover);
-				color: var(--color-font);
+				background-color: var(--secondary-shade2);
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.today,
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day:focus-visible,
 			.datepicker-main > .datepicker-calendar > .datepicker-years > span.datepicker-year:focus-visible {
-				border: 2px solid var(--color-font);
+				border-color: var(--secondary-shade3);
 				outline: none;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.other-month,
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.disable {
-				color: var(--color-font-other);
+				color: var(--secondary-shade4);
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.disable {
 				cursor: not-allowed;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.selected,
 			.datepicker-main > .datepicker-calendar > .datepicker-days > .datepicker-day.selected:hover {
-				background-color: var(--color-primary);
-				color: var(--color-font-selected);
+				color: var(--primary-shade0);
+				border-color: var(--primary-shade0);
 			}
 		`;
 	}

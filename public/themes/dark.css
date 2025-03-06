@@ -1,0 +1,33 @@
+body.dark {
+    --scroolbar-color: #555;
+    --mask-color: rgba(50, 50, 50, 0.5);
+    --error: #eb2d69;
+
+    --primary-shade0: #12baa6;
+    --primary-shade1: #47c2af;
+    --primary-shade2: #65cab9;
+    --primary-shade3: #7ed2c3;
+    --primary-shade4: #96dacd;
+    --primary-shade5: #ace1d6;
+
+    --secondary-shade0: #140e25;
+    --secondary-shade1: #29253a;
+    --secondary-shade2: #403c4f;
+    --secondary-shade3: #595466;
+    --secondary-shade4: #726e7e;
+    --secondary-shade5: #8d8a96;
+
+    --light-shade0: #111111;
+    --light-shade1: #222222;
+    --light-shade2: #333333;
+    --light-shade3: #444444;
+    --light-shade4: #555555;
+    --light-shade5: #666666;
+
+    --dark-shade0: #FFFFFF;
+    --dark-shade1: #EEEEEE;
+    --dark-shade2: #DDDDDD;
+    --dark-shade3: #CCCCCC;
+    --dark-shade4: #BBBBBB;
+    --dark-shade5: #AAAAAA;
+}

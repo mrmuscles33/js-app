@@ -154,7 +154,7 @@ export default class TextField extends BaseElement {
 				width: 300px;
 				border-radius: 8px;
 				position: relative;
-				border: 1px solid var(--color);
+				border: 1px solid var(--secondary-shade5);
 				box-sizing: border-box;
 				cursor: text;
 				margin: 0 5px 5px 0;
@@ -184,26 +184,26 @@ export default class TextField extends BaseElement {
 				padding-top: 20px;
 			}
 			.textfield-main.filled {
-				background-color: var(--color-background);
+				background-color: var(--secondary-shade2);
 				border-radius: 8px 8px 0 0;
 				border: none;
-				border-bottom: 1px solid var(--color);
+				border-bottom: 1px solid var(--secondary-shade5);
 			}
 			.textfield-main.filled:hover {
-				background-color: var(--color-background-hover);
+				background-color: var(--secondary-shade3);
 			}
 			.textfield-main:not(.filled):hover {
 				border-width: 2px;
 			}
 			.textfield-main.filled:focus-within {
-				border-bottom: 2px solid var(--color-focus);
+				border-bottom: 2px solid var(--primary-shade0);
 			}
 			.textfield-main:not(.filled):focus-within {
-				border: 2px solid var(--color-focus);
+				border: 2px solid var(--primary-shade0);
 			}
 			.textfield-main.textfield-error.filled,
 			.textfield-main.textfield-error:not(.filled) {
-				border-color: var(--color-error);
+				border-color: var(--error);
 				margin-bottom: 22px;
 			}
 			.textfield-main.disable {
@@ -222,6 +222,7 @@ export default class TextField extends BaseElement {
 				background: none;
 				-moz-appearance: textfield;
 				appearance: textfield;
+				color: var(--dark-shade2);
 			}
 			.textfield-main.labelled > input {
 				top: 22px;
@@ -247,24 +248,24 @@ export default class TextField extends BaseElement {
 				transform: translateY(-50%);
 				font-size: 16px;
 				line-height: 20px;
-				color: var(--color);
+				color: var(--dark-shade0);
 				transition: .2s ease-out;
 				pointer-events: none;
 				user-select: none;
 			}
 			.textfield-main > input:required ~ label::after {
 				content: " *";
-				color: var(--color-error)
+				color: var(--error)
 			}
 			.textfield-main:focus-within > label {
-				color: var(--color-focus);
+				color: var(--primary-shade0);
 				top: 2px;
 				transform: translateY(0%);
 				font-weight: 500;
 				font-size: 12px;
 			}
 			.textfield-main.textfield-error > label {
-				color: var(--color-error);
+				color: var(--error);
 			}
 			.textfield-main.textfield-icon-left > input,
 			.textfield-main.textfield-icon-left > label {
@@ -283,13 +284,13 @@ export default class TextField extends BaseElement {
 				transform: translateY(-50%);
 				text-decoration: none;
 				user-select: none;
-				color: var(--color);
+				color: var(--dark-shade0);
 			}
 			.textfield-main:focus-within > span.textfield-icon {
-				color: var(--color-focus);
+				color: var(--primary-shade0);
 			}
 			.textfield-main.textfield-error > span.textfield-icon {
-				color: var(--color-error);
+				color: var(--error);
 			}
 			.textfield-main > span.textfield-icon.material-icons-round {
 				font-size: 21px;
@@ -311,7 +312,7 @@ export default class TextField extends BaseElement {
 				left: 0;
 				transform: translateY(5px);
 				font-size: 12px;
-				color: var(--color-error);
+				color: var(--error);
 			}
 		`;
 	}

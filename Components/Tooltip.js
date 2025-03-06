@@ -37,8 +37,8 @@ export default class Tooltip extends BaseElement {
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%,-50%);
-				background-color: var(--color-background);
-				color: var(--color-font);
+				background-color: var(--secondary-shade2);
+				color: var(--dark-shade0);
 				font-size: 14px;
 				padding: 8px 12px;
 				border-radius: 5px;

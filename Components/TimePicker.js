@@ -32,72 +32,13 @@ export default class Select extends TextField {
 
         let mask = me.querySelector(".timepicker-mask");
         if(mask) {
-            mask.addEventListener("click", (event) => {
-                me.close();
-            });
+            mask.addEventListener("click", () => me.close());
         }
 
         let items = me.querySelectorAll(".timepicker-item:not(.disabled)");
         items.forEach(item => {
-            item.addEventListener("click", () => {
-                let hour = Times.getHours(me.value);
-                let minute = Times.getMinutes(me.value);
-                let seconde = Times.getSeconds(me.value);
-                let tmpValue = item.getAttribute("value").padStart(2,'0');
-                if(item.classList.contains("hour")) {
-                    tmpValue = tmpValue + ":" + minute.toString().padStart(2,'0') + ":" + seconde.toString().padStart(2,'0');
-                }
-                if(item.classList.contains("minute")) {
-                    tmpValue = hour.toString().padStart(2,'0') + ":" + tmpValue + ":" + seconde.toString().padStart(2,'0');
-                }
-                if(item.classList.contains("seconde")) {
-                    tmpValue = hour.toString().padStart(2,'0') + ":" + minute.toString().padStart(2,'0') + ":" + tmpValue;
-                }
-                me.value = Times.format(tmpValue, me.format);
-            });
-            item.addEventListener("keydown", (event) => {
-                if(Events.isEnter(event) || Events.isSpace(event)) {
-                    let selector = '.' + Array.from(item.classList).join('.') + '.selected';
-                    item.click();
-                    setTimeout(() => {
-                        me.querySelector(selector).focus();
-                    }, 100);
-                    event.preventDefault();
-                    event.stopPropagation();
-                    me.onChange();
-                } else if(Events.isArrow(event)) {
-                    let next = item.nextElementSibling;
-                    let previous = item.previousElementSibling;
-                    if((Events.isArrowUp(event) || Events.isArrowLeft(event)) && previous && !previous.classList.contains("disabled")) {
-                        previous.focus();
-                    }
-                    if((Events.isArrowDown(event) || Events.isArrowRight(event)) && next && !next.classList.contains("disabled")) {
-                        next.focus();
-                    }
-                    event.preventDefault();
-                    event.stopPropagation();
-                } else if(Events.isTab(event)) {
-                    if( (Events.isShift(event) && item.classList.contains("hour")) || 
-                        (!Events.isShift(event) && item.classList.contains("minute") && me.seconde == "false") || 
-                        (!Events.isShift(event) && item.classList.contains("seconde"))
-                    ) {
-                        // Block tab navigation before hour, after minute (if not seconde) and after seconde
-                        event.preventDefault();
-                        event.stopPropagation();
-                    } else if(!Events.isShift(event)) {
-                        // Focus next minute/seconde with tabindex 0 or -1
-                        if(!me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='0']`)) {
-                            let next = me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='-1']`);
-                            if(next) {
-                                next.setAttribute("tabindex", "0");
-                                next.focus();
-                            }
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                    }
-                }
-            });
+            item.addEventListener("click", () => me.onClickItem(item));
+            item.addEventListener("keydown", (event) => me.onKeydownItem(event, item));
         });
 
         // Scroll to selected item
@@ -114,6 +55,67 @@ export default class Select extends TextField {
             selectedSeconde.scrollIntoView({block: "center", inline: "center"});
         }
     }
+    onClickItem(item) {
+        let me = this;
+        let hour = Times.getHours(me.value);
+        let minute = Times.getMinutes(me.value);
+        let seconde = Times.getSeconds(me.value);
+        let tmpValue = item.getAttribute("value").padStart(2,'0');
+        if(item.classList.contains("hour")) {
+            tmpValue = tmpValue + ":" + minute.toString().padStart(2,'0') + ":" + seconde.toString().padStart(2,'0');
+        }
+        if(item.classList.contains("minute")) {
+            tmpValue = hour.toString().padStart(2,'0') + ":" + tmpValue + ":" + seconde.toString().padStart(2,'0');
+        }
+        if(item.classList.contains("seconde")) {
+            tmpValue = hour.toString().padStart(2,'0') + ":" + minute.toString().padStart(2,'0') + ":" + tmpValue;
+        }
+        let selector = '.' + Array.from(item.classList).join('.') + '.selected';
+        setTimeout(() => {
+            me.querySelector(selector).focus();
+        }, 100);
+        me.value = Times.format(tmpValue, me.format);
+    }
+    onKeydownItem(event, item) {
+        let me = this;
+        if(Events.isEnter(event) || Events.isSpace(event)) {
+            event.preventDefault();
+            event.stopPropagation();
+            item.click();
+            me.onChange();
+        } else if(Events.isArrow(event)) {
+            let next = item.nextElementSibling;
+            let previous = item.previousElementSibling;
+            if((Events.isArrowUp(event) || Events.isArrowLeft(event)) && previous && !previous.classList.contains("disabled")) {
+                previous.focus();
+            }
+            if((Events.isArrowDown(event) || Events.isArrowRight(event)) && next && !next.classList.contains("disabled")) {
+                next.focus();
+            }
+            event.preventDefault();
+            event.stopPropagation();
+        } else if(Events.isTab(event)) {
+            if( (Events.isShift(event) && item.classList.contains("hour")) || 
+                (!Events.isShift(event) && item.classList.contains("minute") && me.seconde == "false") || 
+                (!Events.isShift(event) && item.classList.contains("seconde"))
+            ) {
+                // Block tab navigation before hour, after minute (if not seconde) and after seconde
+                event.preventDefault();
+                event.stopPropagation();
+            } else if(!Events.isShift(event)) {
+                // Focus next minute/seconde with tabindex 0 or -1
+                if(!me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='0']`)) {
+                    let next = me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='-1']`);
+                    if(next) {
+                        next.setAttribute("tabindex", "0");
+                        next.focus();
+                    }
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        }
+    }
     onChange() {
         super.onChange();
         if(!this.errormessage) {
@@ -125,6 +127,13 @@ export default class Select extends TextField {
     }
     onClick() {
 		this.open();
+	}
+    onKeydown(event) {
+		if(Events.isSpace(event)){
+			this.onClick();
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
     open() {
         let me = this;
@@ -230,8 +239,8 @@ export default class Select extends TextField {
                 position: absolute;
                 left: 0;
                 width: calc(100% - 5px);
-                background-color: var(--color-background);
-                border: 1px solid var(--color);
+                background-color: var(--secondary-shade2);
+                border: 1px solid var(--secondary-shade5);
                 margin: 0;
                 padding: 5px 5px 5px 0;
                 border-radius: 10px;
@@ -257,6 +266,7 @@ export default class Select extends TextField {
             .timepicker-main > .timepicker-menu > .timepicker-section > .header {
                 font-weight: 500;
 				font-size: 12px;
+                color: var(--dark-shade0);
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list {
                 display: flex;
@@ -265,13 +275,10 @@ export default class Select extends TextField {
                 overflow-y: auto;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list::-webkit-scrollbar {
-                border: none;
                 width: 5px;
-                background-color: transparent;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list::-webkit-scrollbar-thumb {
-                background-color: var(--color);
-                border-radius: 50px;
+                background-color: var(--secondary-shade5);
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item {
                 padding: 5px;
@@ -279,13 +286,11 @@ export default class Select extends TextField {
                 border-radius: 5px;
                 cursor: pointer;
                 border: 1px solid transparent;
+                color: var(--dark-shade0);
+                outline: none;
             }
-            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:hover {
-                background-color: var(--color-background-hover);
-            }
-            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected {
-                background-color: var(--color-selected);
-                position: relative;
+            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):focus-visible {
+                border-color: var(--secondary-shade5);
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.disabled {
                 cursor: not-allowed;
@@ -294,11 +299,16 @@ export default class Select extends TextField {
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):hover,
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):focus-visible {
-                background-color: var(--color-background-hover);
+                background-color: var(--secondary-shade3);
                 outline: none;
             }
-            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):focus-visible {
-                border-color: var(--color);
+            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected {
+                position: relative;
+                color: var(--primary-shade0);
+            }
+            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected,
+            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected:focus-visible {
+                border-color: var(--primary-shade0);
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected > .material-icons-round {
                 position: absolute;
@@ -306,7 +316,7 @@ export default class Select extends TextField {
                 top: 50%;
                 transform: translateY(-50%);
                 font-size: 12px;
-                color: var(--color);
+                color: var(--primary-shade0);
             }
         `;
     }

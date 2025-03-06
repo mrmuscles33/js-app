@@ -1,151 +1,34 @@
-/* SUMMARY */
+body.light {
+    --scroolbar-color: #555;
+    --mask-color: rgba(50, 50, 50, 0.5);
+    --error: #870b25;
 
-/* ButtonCustom.js */
-/* CheckboxCustom.js */
-/* RadioCustom.js */
-/* Switch.js */
-/* TextField.js */
-/* DatePicker.js */
-/* TimePicker.js */
-/* Droplist.js */
-/* Tooltip.js */
-/* Droplist.js */
-/* TimePicker.js */
+    --primary-shade0: #008071;
+    --primary-shade1: #258073;
+    --primary-shade2: #378174;
+    --primary-shade3: #448176;
+    --primary-shade4: #508178;
+    --primary-shade5: #5b8179;
 
-html {
-    --scroolbar-color: #777;
-    --mask-color: rgba(150, 150, 150, 0.5);
-}
+    --secondary-shade0: #EEEEEE;
+    --secondary-shade1: #DDDDDD;
+    --secondary-shade2: #CCCCCC;
+    --secondary-shade3: #BBBBBB;
+    --secondary-shade4: #AAAAAA;
+    --secondary-shade5: #999999;
 
-/* ButtonCustom.js */
-.btn-main {
-    /* Border color */
-    --color-primary: #1D2B83;
-    /* Background hover color */
-    --color-hover: #cfd4f1;
-    /* Font color */
-    --color-font: #1D2B83;
-}
-.btn-main.primary {
-    /* Background & border color */
-    --color-primary: #1D2B83;
-    /* Background & border hover color */
-    --color-hover: #5a6ad1;
-    /* Font color */
-    --color-font: #FFFFFF;
-}
+    --light-shade0: #FFFFFF;
+    --light-shade1: #EEEEEE;
+    --light-shade2: #DDDDDD;
+    --light-shade3: #CCCCCC;
+    --light-shade4: #BBBBBB;
+    --light-shade5: #AAAAAA;
 
+    --dark-shade0: #111111;
+    --dark-shade1: #222222;
+    --dark-shade2: #333333;
+    --dark-shade3: #444444;
+    --dark-shade4: #555555;
+    --dark-shade5: #666666;
 
-/* CheckboxCustom.js */
-.checkbox-main {
-    /* Icon color */
-    --color-primary: #666; 
-    /* Icon color hover */
-    --color-hover: #111; 
-    /* Icon checked color */
-    --color-checked: #1D2B83; 
-    /* Icon checked hover color */
-    --color-checked-hover: #5a6ad1;
-    /* Font color */
-    --color-font: #333;
-}
-
-
-/* RadioCustom.js */
-.radio-main {
-    /* Icon color */
-    --color-primary: #666; 
-    /* Icon color hover */
-    --color-hover: #111; 
-    /* Icon checked color */
-    --color-checked: #1D2B83; 
-    /* Icon checked hover color */
-    --color-checked-hover: #5a6ad1;
-    /* Font color */
-    --color-font: #333;
-}
-
-
-/* Switch.js */
-.switch-main {
-    /* Background color */
-    --color-primary: #666;
-    /* Background hover color */ 
-    --color-hover: #111; 
-    /* Background checked color */ 
-    --color-checked: #1D2B83; 
-    /* Background checked hover color */ 
-    --color-checked-hover: #5a6ad1; 
-    /* Foreground color */ 
-    --color-button: #FFFFFF;
-}
-
-
-/* TextField.js */
-.textfield-main {
-    /* Background color */
-    --color-background: #EEEEEE; 
-    /* Background hover color */
-    --color-background-hover: #DDDDDD;
-    /* Label color */
-    --color: #666666;
-    /* Label, Border focus color */
-    --color-focus: #1D2B83;
-    /* Label, Border error color */
-    --color-error: #cc4141;
-}
-
-/* DatePicker.js */
-.datepicker-mask {
-    --color-primary:#5a6ad1; 
-    --color-background: #FFFFFF; 
-    --color-font: #333333; 
-    --color-font-selected: #FFFFFF;
-    --color-hover: #EEEEEE;
-    --color-font-other: #AAAAAA;
-}
-
-/* TimePicker.js */
-.timepicker-mask {
-    --color-primary:#5a6ad1; 
-    --color-background: #FFFFFF;
-    --color-left-background: #a0aae4; 
-    --color-clock-background: #DDDDDD; 
-    --color-font: #333333; 
-    --color-font-selected: #FFFFFF;
-    --color-hover: #EEEEEE;
-    --color-font-other: #AAAAAA;
-}
-
-/* Droplist.js */
-.droplist-main {
-    --color-background: #EEEEEE; 
-    --color-background-hover: #DDDDDD;
-    --color: #666666;
-    --color-focus: #0d31a6;
-    --color-error: #cc4141;
-}
-
-/* Tooltip.js */
-.tooltip-main {
-	--color-background: #6C6C6C;
-	--color-font: #FFFFFF;
-}
-
-/* Droplist.js */
-.droplist-menu {
-    --color-background: #FFFFFF;
-    --color-selected: #EEEEEE; 
-    --color-background-hover: #DDDDDD;
-    --color: #666666;
-    --color-focus: #0d31a6;
-}
-
-/* TimePicker.js */
-.timepicker-menu {
-    --color-background: #FFFFFF;
-    --color-selected: #EEEEEE; 
-    --color-background-hover: #DDDDDD;
-    --color: #666666;
-    --color-focus: #0d31a6;
 }

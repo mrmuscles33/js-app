@@ -70,7 +70,7 @@ export default class Switch extends BaseElement {
 				width: 50px;
 				height: 30px;
 				border-radius: 50px;
-				background-color: var(--color-primary);
+				background-color: var(--secondary-shade3);
 				position: relative;
 				display: inline-block;
 				cursor: pointer;
@@ -93,13 +93,13 @@ export default class Switch extends BaseElement {
 			}
 			.switch-main:hover > label.switch-background,
 			.switch-main > input:focus-visible + .switch-background {
-				background-color: var(--color-hover);
+				background-color: var(--secondary-shade5);
 			}
 			.switch-main > input:focus-visible + label.switch-background:after {
-				border-color: var(--color-hover);
+				border-color: var(--secondary-shade5);
 			}
 			.switch-main > input:checked:focus-visible + label.switch-background:after {
-				border-color: var(--color-checked-hover);
+				border-color: var(--primary-shade0);
 			}
 			.switch-main > label > .switch-button {
 				position: absolute;
@@ -108,7 +108,7 @@ export default class Switch extends BaseElement {
 				top: 3px;
 				left: 3px;
 				border-radius: 50px;
-				background-color: var(--color-button);
+				background-color: var(--secondary-shade1);
 				cursor: pointer;
 				transition: left .3s;
 			}
@@ -116,11 +116,11 @@ export default class Switch extends BaseElement {
 				cursor: not-allowed;
 			}
 			.switch-main > input:checked + .switch-background {
-				background-color: var(--color-checked);
+				background-color: var(--primary-shade3);
 			}
 			.switch-main > input:checked:focus-visible + .switch-background,
 			.switch-main:hover > input:checked + .switch-background {
-				background-color: var(--color-checked-hover);
+				background-color: var(--primary-shade0);
 			}
 			.switch-main > input:checked + .switch-background .switch-button {
 				left: 23px; 

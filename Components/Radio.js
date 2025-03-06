@@ -100,7 +100,7 @@ export default class Radio extends BaseElement {
 			    margin: 0px;
 			    position: absolute;
 			}
-			.radio-main > label{
+			.radio-main > label {
 				margin:         10px 5px 10px 0;
 				padding:        0;
 				cursor:         pointer;
@@ -108,7 +108,7 @@ export default class Radio extends BaseElement {
 				display:        inline-flex;
 				vertical-align: middle;
 				white-space:    nowrap;
-				color:          var(--color-font);
+				color:          var(--dark-shade0);
 			}
 			.radio-main > input:disabled + label {
 				cursor: not-allowed;
@@ -118,7 +118,7 @@ export default class Radio extends BaseElement {
 				vertical-align: middle;
 			}
 			.radio-main > label > span.material-icons-round {
-				color: var(--color-primary);
+				color: var(--primary-shade3);
 				margin-right: 5px;
 				position: relative;
 				font-size: 24px;
@@ -136,21 +136,21 @@ export default class Radio extends BaseElement {
 				transform: translate(-50%, -50%);
 			}
 			.radio-main > input:checked + label > span.material-icons-round {
-				color: var(--color-checked);
+				color: var(--primary-shade3);
 			}
 			.radio-main > input:focus-visible + label > span.material-icons-round,
 			.radio-main > label:hover > span.material-icons-round {
-				color: var(--color-hover);
+				color: var(--primary-shade0);
 			}
 			.radio-main > input:checked:focus-visible + label > span.material-icons-round,
 			.radio-main > input:checked + label:hover > span.material-icons-round {
-				color: var(--color-checked-hover);
+				color: var(--primary-shade0);
 			}
 			.radio-main > input:checked:focus-visible + label > span.material-icons-round:after {
-				border-color: var(--color-checked-hover);
+				border-color: var(--primary-shade0);
 			}
 			.radio-main > input:focus-visible + label > span.material-icons-round:after {
-				border-color: var(--color-hover);
+				border-color: var(--primary-shade0);
 			}
 		`;
 	}

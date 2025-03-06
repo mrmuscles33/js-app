@@ -68,7 +68,7 @@ export default class Checkbox extends BaseElement {
 				display:        inline-flex;
 				vertical-align: middle;
 				white-space:    nowrap;
-				color:          var(--color-font);
+				color:          var(--dark-shade0);
 			}
 			.checkbox-main > input:disabled + label {
 				cursor: not-allowed;
@@ -78,7 +78,7 @@ export default class Checkbox extends BaseElement {
 				vertical-align: middle;
 			}
 			.checkbox-main > label > span.material-icons-round {
-				color: var(--color-primary);
+				color: var(--primary-shade3);
 				margin-right: 5px;
 				position: relative;
 				font-size: 24px;
@@ -96,21 +96,21 @@ export default class Checkbox extends BaseElement {
 				transform: translate(-50%, -50%);
 			}
 			.checkbox-main > input:checked + label > span.material-icons-round {
-				color: var(--color-checked);
+				color: var(--primary-shade3);
 			}
 			.checkbox-main > input:focus-visible + label > span.material-icons-round,
 			.checkbox-main > label:hover > span.material-icons-round {
-				color: var(--color-hover);
+				color: var(--primary-shade0);
 			}
 			.checkbox-main > input:checked:focus-visible + label > span.material-icons-round,
 			.checkbox-main > input:checked + label:hover > span.material-icons-round {
-				color: var(--color-checked-hover);
+				color: var(--primary-shade0);
 			}
 			.checkbox-main > input:checked:focus-visible + label > span.material-icons-round:after {
-				border-color: var(--color-checked-hover);
+				border-color: var(--primary-shade0);
 			}
 			.checkbox-main input:focus-visible + label > span.material-icons-round:after {
-				border-color: var(--color-hover);
+				border-color: var(--primary-shade0);
 			}
 		`;
 	}

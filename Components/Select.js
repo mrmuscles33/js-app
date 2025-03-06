@@ -186,8 +186,8 @@ export default class Select extends TextField {
                 position: absolute;
                 left: 0;
                 width: calc(100% - 5px);
-                background-color: var(--color-background);
-                border: 1px solid var(--color);
+                background-color: var(--secondary-shade2);
+                border: 1px solid var(--secondary-shade5);
                 margin: 0;
                 padding: 5px 5px 0 5px;
                 border-radius: 10px;
@@ -220,13 +220,10 @@ export default class Select extends TextField {
                 list-style-type: none;
             }
             .droplist-main > .droplist-menu > .droplist-options::-webkit-scrollbar {
-                border: none;
                 width: 5px;
-                background-color: transparent;
             }
             .droplist-main > .droplist-menu > .droplist-options::-webkit-scrollbar-thumb {
-                background-color: var(--color);
-                border-radius: 50px;
+                background-color: var(--secondary-shade5);
             }
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option {
                 padding: 10px;
@@ -236,9 +233,9 @@ export default class Select extends TextField {
                 margin-bottom: 5px;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                color: var(--dark-shade0);
             }
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected {
-                background-color: var(--color-selected);
                 position: relative;
                 padding-right: 40px;
             }
@@ -249,7 +246,7 @@ export default class Select extends TextField {
             }
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option:not(.disabled):hover,
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option:not(.disabled):focus-visible {
-                background-color: var(--color-background-hover);
+                background-color: var(--secondary-shade3);
                 outline: none;
             }
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected > .material-icons-round {
@@ -258,7 +255,7 @@ export default class Select extends TextField {
                 top: 50%;
                 transform: translateY(-50%);
                 font-size: 24px;
-                color: var(--color);
+                color: var(--primary-shade0);
             }
         `;
 	}
