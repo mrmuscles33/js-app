@@ -69,10 +69,26 @@ export default class Button extends BaseElement {
 				vertical-align: middle;
 				align-items: center;
     			justify-content: center;
+				position: relative;
+			}
+			.btn-main:after {
+				content: " ";
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: calc(100% + 6px);
+				height: calc(100% + 6px);
+				border-radius: 8px;
+				border: 2px solid transparent;
+				transform: translate(-50%, -50%);
 			}
 			.btn-main:not(.disabled):hover,
 			.btn-main:focus-visible {
 				background-color: var(--secondary-shade2);
+			}
+			.btn-main:focus-visible:after {
+				border-color: var(--primary-shade0);
 			}
 			.btn-main.disabled {
 				cursor: not-allowed;

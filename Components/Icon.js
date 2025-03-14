@@ -40,10 +40,7 @@ export default class Icon extends BaseElement {
     static style() {
         return `
             .icon-main {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
+                display: block;
             }
             .icon-main.small {
                 font-size: 12px;
