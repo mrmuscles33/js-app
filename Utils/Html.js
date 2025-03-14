@@ -19,6 +19,10 @@ const Html = {
 			.join('')
 			.replace(/\s*\n\s*/g, ' ')
 			.trim();
-	}
+	},
+	onThemeChange: (callback) => {
+		const observer = new MutationObserver(callback);
+		observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+	},
 };
 export default Html;

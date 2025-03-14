@@ -1,7 +1,6 @@
-body.light {
+body[data-theme="light"] {
     --scroolbar-color: #555;
     --mask-color: rgba(50, 50, 50, 0.5);
-    --error: #870b25;
 
     --primary-shade0: #008071;
     --primary-shade1: #258073;
@@ -31,4 +30,12 @@ body.light {
     --dark-shade4: #555555;
     --dark-shade5: #666666;
 
+    --status-success: #008071;
+    --status-success-light: #5b8179;
+    --status-warning: #f39c12;
+    --status-warning-light: #cab99e;
+    --status-error: #870b25;
+    --status-error-light: #c58e9a;
+    --status-info: #444444;
+    --status-info-light: #AAAAAA;
 }

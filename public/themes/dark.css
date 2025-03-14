@@ -1,7 +1,6 @@
-body.dark {
+body[data-theme="dark"] {
     --scroolbar-color: #555;
     --mask-color: rgba(50, 50, 50, 0.5);
-    --error: #eb2d69;
 
     --primary-shade0: #12baa6;
     --primary-shade1: #47c2af;
@@ -30,4 +29,13 @@ body.dark {
     --dark-shade3: #CCCCCC;
     --dark-shade4: #BBBBBB;
     --dark-shade5: #AAAAAA;
+
+    --status-success: #12baa6;
+    --status-success-light: #ace1d6;
+    --status-warning: #f39c12;
+    --status-warning-light: #cab99e;
+    --status-error: #eb2d69;
+    --status-error-light: #e1a6b9;
+    --status-info: #AAAAAA;
+    --status-info-light: #333333;
 }

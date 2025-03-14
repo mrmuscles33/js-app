@@ -158,7 +158,7 @@ export default class Select extends TextField {
                             ${this.limit == 1 || this.limit != this.selection.length || this.selection.find((v) => v.value == option.value) ? "tabindex='0'" : ""}
                         >
                             ${option.label}
-                            ${this.selection.find((v) => v.value == option.value) ? "<span class='material-icons-round'>check</span>" : ""}
+                            ${this.selection.find((v) => v.value == option.value) ? "<span class='check material-icons-round'>check</span>" : ""}
                         </li>
                         `).join("")}
                     </ul>
@@ -250,7 +250,7 @@ export default class Select extends TextField {
                 background-color: var(--secondary-shade3);
                 outline: none;
             }
-            .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected > .material-icons-round {
+            .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected > span.check.material-icons-round {
                 position: absolute;
                 right: 10px;
                 top: 50%;

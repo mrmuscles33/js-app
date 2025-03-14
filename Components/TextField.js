@@ -203,7 +203,7 @@ export default class TextField extends BaseElement {
 			}
 			.textfield-main.textfield-error.filled,
 			.textfield-main.textfield-error:not(.filled) {
-				border-color: var(--error);
+				border-color: var(--status-error);
 				margin-bottom: 22px;
 				transform: translateY(9px);
 			}
@@ -256,7 +256,7 @@ export default class TextField extends BaseElement {
 			}
 			.textfield-main > input:required ~ label::after {
 				content: " *";
-				color: var(--error)
+				color: var(--status-error)
 			}
 			.textfield-main:focus-within > label {
 				color: var(--primary-shade0);
@@ -266,7 +266,7 @@ export default class TextField extends BaseElement {
 				font-size: 12px;
 			}
 			.textfield-main.textfield-error > label {
-				color: var(--error);
+				color: var(--status-error);
 			}
 			.textfield-main.textfield-icon-left > input,
 			.textfield-main.textfield-icon-left > label {
@@ -291,7 +291,7 @@ export default class TextField extends BaseElement {
 				color: var(--primary-shade0);
 			}
 			.textfield-main.textfield-error > span.textfield-icon {
-				color: var(--error);
+				color: var(--status-error);
 			}
 			.textfield-main > span.textfield-icon.material-icons-round {
 				font-size: 21px;
@@ -313,7 +313,7 @@ export default class TextField extends BaseElement {
 				left: 0;
 				transform: translateY(5px);
 				font-size: 12px;
-				color: var(--error);
+				color: var(--status-error);
 			}
 		`;
 	}

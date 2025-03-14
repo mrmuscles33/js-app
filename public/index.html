@@ -20,7 +20,8 @@
 
 				let toogle = get('amr-switch');
 				toogle.onChange = (event) => {
-					get('body').classList = event.target.checked ? 'dark' : 'light';
+					let theme = document.body.getAttribute('data-theme');
+					document.body.setAttribute('data-theme', theme === 'dark' ? 'light' : 'dark');
 				};
 			}
 		</script>
@@ -56,7 +57,7 @@
 			
 		</style>
 	</head>
-	<body onload="onLoad()" class="dark">
+	<body onload="onLoad()" data-theme="dark">
 		<main>
 			<h1>JS Web Components</h1>
 			<section>
@@ -123,11 +124,11 @@
 			<section>
 				<h2>Decorations</h2>
 				<h3>Avatar</h3>
-				<amr-avatar src="https://www.w3schools.com/howto/img_avatar.png" size="large" firstname="John" lastname="Doe"></amr-avatar>
-				<amr-avatar size="large" firstname="John" lastname="Doe"></amr-avatar>
-				<amr-avatar src="https://www.w3schools.com/howto/img_avatar.png" size="medium" firstname="John" lastname="Doe"></amr-avatar>
-				<amr-avatar size="medium" firstname="John" lastname="Doe"></amr-avatar>
-				<amr-avatar src="https://www.w3schools.com/howto/img_avatar.png" size="small" firstname="John" lastname="Doe"></amr-avatar>
+				<amr-avatar status="online" src="https://www.w3schools.com/howto/img_avatar.png" size="large" firstname="John" lastname="Doe"></amr-avatar>
+				<amr-avatar status="offline" size="large" firstname="John" lastname="Doe"></amr-avatar>
+				<amr-avatar status="busy" src="https://www.w3schools.com/howto/img_avatar.png" size="medium" firstname="John" lastname="Doe"></amr-avatar>
+				<amr-avatar status="away" size="medium" firstname="John" lastname="Doe"></amr-avatar>
+				<amr-avatar status="online" src="image_qui_n_existe_pas.png" size="small" firstname="John" lastname="Doe"></amr-avatar>
 				<amr-avatar size="small" firstname="John" lastname="Doe"></amr-avatar>
 			</section>
 		</main>
