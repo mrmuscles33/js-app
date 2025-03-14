@@ -172,6 +172,7 @@ export default class Select extends TextField {
             .droplist-main {
                 position: relative;
                 display: inline-block;
+                vertical-align: middle;
             }
             .droplist-main > .droplist-mask {
                 position: fixed;

@@ -67,6 +67,7 @@ export default class Button extends BaseElement {
 			    outline: none;
 			    white-space: nowrap;
 				font-size: 14px;
+				vertical-align: middle;
 			}
 			.btn-main:not(.disabled):hover,
 			.btn-main:focus-visible {

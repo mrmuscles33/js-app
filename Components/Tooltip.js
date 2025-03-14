@@ -31,6 +31,7 @@ export default class Tooltip extends BaseElement {
 			.tooltip-main {
 			    position: relative;
 			    display: inline-flex;
+				vertical-align: middle;
 			}
 			.tooltip-text {
 				position: absolute;

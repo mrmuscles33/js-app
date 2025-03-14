@@ -52,6 +52,9 @@ export default class Checkbox extends BaseElement {
 	}
 	static style() {
 		return `
+			.checkbox-main {
+				vertical-align: middle;
+			}
 			.checkbox-main > input {
 			    opacity: 0;
 			    width: 0px;

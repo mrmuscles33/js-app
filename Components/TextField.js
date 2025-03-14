@@ -147,7 +147,7 @@ export default class TextField extends BaseElement {
 	static style() {
 		return `
 			.textfield-main {
-				vertical-align: top;
+				vertical-align: middle;
 				background-color: transparent;
 				display: inline-block;
 				height: 36px;
@@ -205,6 +205,7 @@ export default class TextField extends BaseElement {
 			.textfield-main.textfield-error:not(.filled) {
 				border-color: var(--error);
 				margin-bottom: 22px;
+				transform: translateY(9px);
 			}
 			.textfield-main.disable {
 				opacity: 0.5;

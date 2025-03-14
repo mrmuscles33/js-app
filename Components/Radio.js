@@ -92,6 +92,9 @@ export default class Radio extends BaseElement {
 	}
 	static style() {
 		return `
+			.radio-main {
+				vertical-align: middle;
+			}
 			.radio-main > input {
 			    opacity: 0;
 			    width: 0px;
