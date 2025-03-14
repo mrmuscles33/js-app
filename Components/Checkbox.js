@@ -44,7 +44,7 @@ export default class Checkbox extends BaseElement {
 					${this.disabled == "true" ? "disabled" : ""}
 				/>
 				<label for="${this.key}" >
-					<span class="material-icons-round" role="presentation">${this.checked == "true" ? "check_box" : "check_box_outline_blank"}</span>
+					<amr-icon value="${this.checked == "true" ? "check_box" : "check_box_outline_blank"}"></amr-icon>
 					<span>${this.label}</span>
 				</label>
 			</span>
@@ -80,13 +80,12 @@ export default class Checkbox extends BaseElement {
 			.checkbox-main > label > span {
 				vertical-align: middle;
 			}
-			.checkbox-main > label > span.material-icons-round {
+			.checkbox-main > label > amr-icon {
 				color: var(--primary-shade3);
 				margin-right: 5px;
 				position: relative;
-				font-size: 24px;
 			}
-			.checkbox-main > label > span.material-icons-round:after {
+			.checkbox-main > label > amr-icon:after {
 				content: " ";
 				border-radius: 3px;
 				border: 2px solid transparent;
@@ -98,21 +97,21 @@ export default class Checkbox extends BaseElement {
 				left: 50%;
 				transform: translate(-50%, -50%);
 			}
-			.checkbox-main > input:checked + label > span.material-icons-round {
+			.checkbox-main > input:checked + label > amr-icon {
 				color: var(--primary-shade3);
 			}
-			.checkbox-main > input:focus-visible + label > span.material-icons-round,
-			.checkbox-main > label:hover > span.material-icons-round {
+			.checkbox-main > input:focus-visible + label > amr-icon,
+			.checkbox-main > label:hover > amr-icon {
 				color: var(--primary-shade0);
 			}
-			.checkbox-main > input:checked:focus-visible + label > span.material-icons-round,
-			.checkbox-main > input:checked + label:hover > span.material-icons-round {
+			.checkbox-main > input:checked:focus-visible + label > amr-icon,
+			.checkbox-main > input:checked + label:hover > amr-icon {
 				color: var(--primary-shade0);
 			}
-			.checkbox-main > input:checked:focus-visible + label > span.material-icons-round:after {
+			.checkbox-main > input:checked:focus-visible + label > amr-icon:after {
 				border-color: var(--primary-shade0);
 			}
-			.checkbox-main input:focus-visible + label > span.material-icons-round:after {
+			.checkbox-main input:focus-visible + label > amr-icon:after {
 				border-color: var(--primary-shade0);
 			}
 		`;

@@ -138,7 +138,7 @@ export default class Select extends TextField {
         let me = this;
         me.opened = "false";
         setTimeout(() => {
-            me.querySelector(".droplist-main .textfield-main .textfield-icon-right").focus();
+            me.querySelector(".droplist-main .textfield-main amr-icon.right").focus();
         }, 100);
     }
 	template() {
@@ -158,7 +158,7 @@ export default class Select extends TextField {
                             ${this.limit == 1 || this.limit != this.selection.length || this.selection.find((v) => v.value == option.value) ? "tabindex='0'" : ""}
                         >
                             ${option.label}
-                            ${this.selection.find((v) => v.value == option.value) ? "<span class='check material-icons-round'>check</span>" : ""}
+                            ${this.selection.find((v) => v.value == option.value) ? "<amr-icon class='check' value='check'></amr-icon>" : ""}
                         </li>
                         `).join("")}
                     </ul>
@@ -250,12 +250,11 @@ export default class Select extends TextField {
                 background-color: var(--secondary-shade3);
                 outline: none;
             }
-            .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected > span.check.material-icons-round {
+            .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected > amr-icon.check {
                 position: absolute;
                 right: 10px;
                 top: 50%;
                 transform: translateY(-50%);
-                font-size: 24px;
                 color: var(--primary-shade0);
             }
         `;

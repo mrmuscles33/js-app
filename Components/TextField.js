@@ -43,13 +43,12 @@ export default class TextField extends BaseElement {
 	render() {
 		// Dynamics variables
 		let me = this;
-		me.haserror = me.errormessage ? "true" : "false";
 
 		// The update methods breaks listeners and bindings
 		super.render();
 		let div = me.querySelector("div");
 		let input = me.querySelector("input");
-		let icon = me.querySelector("span.textfield-icon-right");
+		let icon = me.querySelector("amr-icon.right");
 
 		// Listeners
 		if (!this.disabled || this.disabled == "false") {
@@ -67,17 +66,17 @@ export default class TextField extends BaseElement {
 			});
 			// icon
 			if (icon) {
-				icon.addEventListener("click", (event) => {
+				icon.onClick = (event) => {
 					me.fireHandler("click", event);
 					event.stopPropagation();
-				});
-				icon.addEventListener("keydown", (event) => {
+				};
+				icon.onKeydown = (event) => {
 					// On Enter trigger click
 					if (Events.isEnter(event) || Events.isSpace(event)) {
 						me.fireHandler("click", event);
 					}
 					event.stopPropagation();
-				});
+				};
 			}
 			// input
 			["change", "input", "focus", "focusout", "blur", "keydown", "keyup"].forEach((evt) => {
@@ -114,13 +113,8 @@ export default class TextField extends BaseElement {
 	template() {
 		return `
 			<div class="textfield-main ${this.size} ${this.cls}
-				${this.iconleft ? "textfield-icon-left" : ""}
-				${this.iconright ? "textfield-icon-right" : ""}
-				${this.disabled === "true" ? "disable" : ""}
 				${this.filled === "true" ? "filled" : ""}
-				${this.flex === "true" ? "flex" : ""}
-				${this.label ? "labelled" : ""}
-				${this.haserror === "true" ? "textfield-error" : ""}"
+				${this.flex === "true" ? "flex" : ""}"
 			>
 				<input id="${this.key}" ${this.name ? "name='" + this.name + "'" : ""}
 					type="${this.type || "text"}"
@@ -135,12 +129,9 @@ export default class TextField extends BaseElement {
 					${this.cls ? "class='" + this.cls + "'" : ""}
 				/>
 				${this.label ? `<label for="${this.key}">${this.label}</label>` : ""}
-				${this.iconleft ? `<span class='textfield-icon textfield-icon-left material-icons-round'>${this.iconleft}</span>` : ""}
-				${this.iconright ? 
-					`<span class='textfield-icon textfield-icon-right material-icons-round' role='button' tabindex='0'>${this.iconright}</span>` : 
-					""
-				}
-				${this.haserror === "true" ? `<span class='textfield-error-msg'>${this.errormessage}</span>` : ""}
+				${this.iconleft ? `<amr-icon class="left" value="${this.iconleft}"></amr-icon>` : ""}
+				${this.iconright ? `<amr-icon class="right" action="true" value="${this.iconright}"></amr-icon>` : ""}
+				${this.errormessage ? `<span class='error'>${this.errormessage}</span>` : ""}
 			</div>
 		`;
 	}
@@ -169,17 +160,17 @@ export default class TextField extends BaseElement {
 			.textfield-main.large {
 				width: 450px;
 			}
-			.textfield-main:has(> .textfield-icon-left) {
+			.textfield-main:has(> amr-icon.left) {
 				padding-left: 40px;
 			}
-			.textfield-main:has(> .textfield-icon-right) {
+			.textfield-main:has(> amr-icon.right) {
 				padding-right: 40px;
 			}
 			.textfield-main.flex {
 				flex-grow: 1;
 				width: auto;
 			}
-			.textfield-main.labelled {
+			.textfield-main:has(label) {
 				height: 48px;
 				padding-top: 20px;
 			}
@@ -201,13 +192,13 @@ export default class TextField extends BaseElement {
 			.textfield-main:not(.filled):focus-within {
 				border: 2px solid var(--primary-shade0);
 			}
-			.textfield-main.textfield-error.filled,
-			.textfield-main.textfield-error:not(.filled) {
+			.textfield-main.filled:has(span.error),
+			.textfield-main:not(.filled):has(span.error) {
 				border-color: var(--status-error);
 				margin-bottom: 22px;
 				transform: translateY(9px);
 			}
-			.textfield-main.disable {
+			.textfield-main:has(input:disabled) {
 				opacity: 0.5;
 				cursor: not-allowed;
 			}
@@ -225,7 +216,7 @@ export default class TextField extends BaseElement {
 				appearance: textfield;
 				color: var(--dark-shade2);
 			}
-			.textfield-main.labelled > input {
+			.textfield-main:has(label) > input {
 				top: 22px;
 				transform: translateY(0%);
 			}
@@ -265,11 +256,11 @@ export default class TextField extends BaseElement {
 				font-weight: 500;
 				font-size: 12px;
 			}
-			.textfield-main.textfield-error > label {
+			.textfield-main:has(span.error) > label {
 				color: var(--status-error);
 			}
-			.textfield-main.textfield-icon-left > input,
-			.textfield-main.textfield-icon-left > label {
+			.textfield-main:has(amr-icon.left) > input,
+			.textfield-main:has(amr-icon.left) > label {
 				left: 40px;
 			}
 			.textfield-main input:not(:placeholder-shown) ~ label {
@@ -278,7 +269,7 @@ export default class TextField extends BaseElement {
 				font-size: 12px; 
 				font-weight: 500;
 			}
-			.textfield-main > span.textfield-icon {
+			.textfield-main > amr-icon {
 				position: absolute;
 				top: 50%;
 				font-size: 21px;
@@ -287,26 +278,23 @@ export default class TextField extends BaseElement {
 				user-select: none;
 				color: var(--dark-shade0);
 			}
-			.textfield-main:focus-within > span.textfield-icon {
+			.textfield-main:focus-within > amr-icon {
 				color: var(--primary-shade0);
 			}
-			.textfield-main.textfield-error > span.textfield-icon {
+			.textfield-main:has(span.error) > amr-icon {
 				color: var(--status-error);
 			}
-			.textfield-main > span.textfield-icon.material-icons-round {
+			.textfield-main > amr-icon {
 				font-size: 21px;
 			}
-			.textfield-main > span.textfield-main.labelled > span.textfield-icon {
-				font-size: 24px;
-			}
-			.textfield-main > span.textfield-icon.textfield-icon-left {
+			.textfield-main > amr-icon.left {
 				left: 12px;
 			}
-			.textfield-main > span.textfield-icon.textfield-icon-right {
+			.textfield-main > amr-icon.right {
 			cursor: pointer;
 				right: 12px;
 			}
-			.textfield-main .textfield-error-msg {
+			.textfield-main .error {
 				position: absolute;
 				width: 100%;
 				top: 100%;

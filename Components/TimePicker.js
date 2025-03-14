@@ -178,7 +178,7 @@ export default class Select extends TextField {
                                 value="${hour}"
                                 ${disableHour(hour) ? "" : `${Times.getHours(this.value) == hour ? "tabindex='0'" : "tabindex='-1'"}`}>
                                 ${hour.toString().padStart(2,'0')}
-                                ${Times.getHours(this.value) == hour ? "<span class='material-icons-round'>check</span>" : ""}
+                                ${Times.getHours(this.value) == hour ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
                             </span>`
                             ).join('')}
                         </div>
@@ -193,7 +193,7 @@ export default class Select extends TextField {
                                 value="${minute}"
                                 ${disableMinute(minute) ? "" : `${Times.getMinutes(this.value) == minute ? "tabindex='0'" : "tabindex='-1'"}`}>
                                 ${minute.toString().padStart(2,'0')}
-                                ${Times.getMinutes(this.value) == minute ? "<span class='material-icons-round'>check</span>" : ""}
+                                ${Times.getMinutes(this.value) == minute ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
                             </span>`
                             ).join('')}
                         </div>
@@ -209,7 +209,7 @@ export default class Select extends TextField {
                                 value="${seconde}"
                                 ${disableSeconde(seconde) ? "" : `${Times.getSeconds(this.value) == seconde ? "tabindex='0'" : "tabindex='-1'"}`}>
                                 ${seconde.toString().padStart(2,'0')}
-                                ${Times.getSeconds(this.value) == seconde ? "<span class='material-icons-round'>check</span>" : ""}
+                                ${Times.getSeconds(this.value) == seconde ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
                             </span>`
                             ).join('')}
                         </div>
@@ -310,12 +310,11 @@ export default class Select extends TextField {
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected:focus-visible {
                 border-color: var(--primary-shade0);
             }
-            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected > .material-icons-round {
+            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item.selected > amr-icon {
                 position: absolute;
                 right: 5px;
                 top: 50%;
                 transform: translateY(-50%);
-                font-size: 12px;
                 color: var(--primary-shade0);
             }
         `;

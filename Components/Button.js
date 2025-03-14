@@ -44,7 +44,7 @@ export default class Button extends BaseElement {
 			    role="button" 
 			    tabindex=${this.disabled == "true" ? "-1" : "0"}
 			>
-				${this.icon && this.icon != "" ? `<span class="btn-icon material-icons-round" role="presentation">${this.icon}</span>` : ""}
+				${this.icon && this.icon != "" ? `<amr-icon value="${this.icon}"></amr-icon>` : ""}
 				<span class="btn-text">${this.text}</span>
 			</span>
 		`;
@@ -59,8 +59,7 @@ export default class Button extends BaseElement {
 				background-color: transparent;
 			    border: 1px solid transparent;
 			    border-radius: 5px;
-			    display: inline-block;
-			    line-height: 32px;
+			    display: inline-flex;
 			    cursor: pointer;
 			    font-weight: 500;
 			    user-select: none;
@@ -68,6 +67,8 @@ export default class Button extends BaseElement {
 			    white-space: nowrap;
 				font-size: 14px;
 				vertical-align: middle;
+				align-items: center;
+    			justify-content: center;
 			}
 			.btn-main:not(.disabled):hover,
 			.btn-main:focus-visible {

@@ -15,6 +15,7 @@ import Toolbar from "../Components/Toolbar.js";
 import Select from "../Components/Select.js";
 import TimePicker from "../Components/TimePicker.js";
 import Avatar from "../Components/Avatar.js";
+import Icon from "../Components/Icon.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -32,7 +33,7 @@ customElements.define("amr-toolbar", Toolbar);
 customElements.define("amr-select", Select);
 customElements.define("amr-time", TimePicker);
 customElements.define("amr-avatar", Avatar);
-
+customElements.define("amr-icon", Icon);
 // CSS
 let style = document.createElement("style");
 style.innerHTML = Html.clean`
@@ -52,5 +53,6 @@ style.innerHTML = Html.clean`
 	${Select.style()}
 	${TimePicker.style()}
 	${Avatar.style()}
+	${Icon.style()}
 `;
 document.head.appendChild(style);

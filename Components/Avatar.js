@@ -83,7 +83,6 @@ export default class Avatar extends BaseElement {
                 position: relative;
                 margin: 0 5px 5px 0;
                 outline: none;
-                z-index: 2;
             }
             .avatar-main:before {
                 aspect-ratio: 1;
@@ -95,7 +94,6 @@ export default class Avatar extends BaseElement {
                 right: -4px;
                 background-color: transparent;
                 border: 0px solid var(--parent-background-color);
-                z-index: 1;
             }
             .avatar-main.online:before {
                 background-color: var(--status-success);
@@ -132,7 +130,6 @@ export default class Avatar extends BaseElement {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                z-index: 3;
             }
             .avatar-main.small:after {
                 width: 28px;

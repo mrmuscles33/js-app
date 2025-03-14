@@ -82,9 +82,7 @@ export default class Radio extends BaseElement {
 					tabindex=${this.checked == "true" ? "0" : "-1"}
 				>
 				<label for=${this.key}>
-					<span class="material-icons-round" role="presentation">
-						${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}
-					</span>
+					<amr-icon value="${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}"></amr-icon>
 					<span>${this.label}</span>
 				</label>
 			</span>
@@ -120,13 +118,12 @@ export default class Radio extends BaseElement {
 			.radio-main > label > span {
 				vertical-align: middle;
 			}
-			.radio-main > label > span.material-icons-round {
+			.radio-main > label > amr-icon {
 				color: var(--primary-shade3);
 				margin-right: 5px;
 				position: relative;
-				font-size: 24px;
 			}
-			.radio-main > label > span.material-icons-round:after {
+			.radio-main > label > amr-icon:after {
 				content: " ";
 				border-radius: 50%;
 				border: 2px solid transparent;
@@ -138,21 +135,21 @@ export default class Radio extends BaseElement {
 				left: 50%;
 				transform: translate(-50%, -50%);
 			}
-			.radio-main > input:checked + label > span.material-icons-round {
+			.radio-main > input:checked + label > amr-icon {
 				color: var(--primary-shade3);
 			}
-			.radio-main > input:focus-visible + label > span.material-icons-round,
-			.radio-main > label:hover > span.material-icons-round {
+			.radio-main > input:focus-visible + label > amr-icon,
+			.radio-main > label:hover > amr-icon {
 				color: var(--primary-shade0);
 			}
-			.radio-main > input:checked:focus-visible + label > span.material-icons-round,
-			.radio-main > input:checked + label:hover > span.material-icons-round {
+			.radio-main > input:checked:focus-visible + label > amr-icon,
+			.radio-main > input:checked + label:hover > amr-icon {
 				color: var(--primary-shade0);
 			}
-			.radio-main > input:checked:focus-visible + label > span.material-icons-round:after {
+			.radio-main > input:checked:focus-visible + label > amr-icon:after {
 				border-color: var(--primary-shade0);
 			}
-			.radio-main > input:focus-visible + label > span.material-icons-round:after {
+			.radio-main > input:focus-visible + label > amr-icon:after {
 				border-color: var(--primary-shade0);
 			}
 		`;
