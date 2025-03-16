@@ -32,10 +32,14 @@ body[data-theme="dark"] {
 
     --status-success: #12baa6;
     --status-success-light: #ace1d6;
+    --status-success-dark: #005f54;
     --status-warning: #f39c12;
     --status-warning-light: #cab99e;
+    --status-warning-dark: #865300;
     --status-error: #eb2d69;
     --status-error-light: #e1a6b9;
-    --status-info: #AAAAAA;
-    --status-info-light: #333333;
+    --status-error-dark: rgb(85, 27, 48);
+    --status-info: #555555;
+    --status-info-light: #AAAAAA;
+    --status-info-dark: #111111;
 }

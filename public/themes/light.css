@@ -31,11 +31,15 @@ body[data-theme="light"] {
     --dark-shade5: #666666;
 
     --status-success: #008071;
-    --status-success-light: #5b8179;
+    --status-success-light: #7ba39b;
+    --status-success-dark: #00493e;
     --status-warning: #f39c12;
     --status-warning-light: #cab99e;
+    --status-warning-dark: #664b00;
     --status-error: #870b25;
     --status-error-light: #c58e9a;
+    --status-error-dark: #310612;
     --status-info: #444444;
     --status-info-light: #AAAAAA;
+    --status-info-dark: #111111;
 }

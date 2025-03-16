@@ -41,6 +41,7 @@ export default class Icon extends BaseElement {
         return `
             .icon-main {
                 display: block;
+                vertical-align: middle;
             }
             .icon-main.small {
                 font-size: 12px;

@@ -132,11 +132,20 @@
 				<amr-avatar size="small" firstname="John" lastname="Doe"></amr-avatar>
 
 				<h3>Icons</h3>
-				<div style="display: flex; align-items: baseline; color: var(--dark-shade0);">
+				<div style="display: flex; align-items: center; color: var(--dark-shade0);">
 					<amr-icon value="search" size="large"></amr-icon>
 					<amr-icon value="search" size="medium"></amr-icon>
 					<amr-icon value="search" size="small"></amr-icon>
 				</div>
+
+				<h3>Badges</h3>
+				<amr-badge size="large" text="Badge large"></amr-badge>
+				<amr-badge size="medium" text="John Doe" bgcolor="var(--status-success-light)" color="var(--status-success-dark)">
+					<amr-avatar size="small" firstname="John" lastname="Doe" tooltip="false" slot="decoration"></amr-avatar>
+				</amr-badge>
+				<amr-badge size="small" text="Chasseuse Impitoyable" bgcolor="var(--status-error-light)" color="var(--status-error-dark)">
+					<amr-icon value="swords" size="small" slot="decoration"></amr-icon>
+				</amr-badge>
 			</section>
 		</main>
 	</body>

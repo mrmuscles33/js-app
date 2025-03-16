@@ -2,7 +2,7 @@ import BaseElement from "./BaseElement.js";
 import Html from "../Utils/Html.js";
 
 export default class Avatar extends BaseElement {
-    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "size", "status"];
+    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "size", "status", "tooltip"];
     static counter = 1;
     static status = {
         ONLINE: "online",
@@ -19,6 +19,7 @@ export default class Avatar extends BaseElement {
         this.size = this.size || "medium";
         this.status = this.status || Avatar.status.INVISIBLE;
         this.key = this.key || `avatar-${Avatar.counter++}`;
+        this.tooltip = this.tooltip || "true";
         super.connectedCallback();
 
         Html.onThemeChange(() => {
@@ -39,11 +40,11 @@ export default class Avatar extends BaseElement {
     }
     template() {
         return `
-            <amr-tooltip text="${this.firstname} ${this.lastname}${this.getStatusLabel()}">
+            ${this.tooltip == "true" ? `<amr-tooltip text="${this.firstname} ${this.lastname}${this.getStatusLabel()}">`: "" }
                 <div id="${this.key}" 
                     class="avatar-main ${this.cls} ${this.size} ${this.status}" 
                     role="img" 
-                    tabindex="0"
+                    ${this.tooltip == "true" ? "tabindex='0'": "" }
                     style="--parent-background-color: ${this.getParentBackgroundColor()};"
                 >
                     ${this.src ? 
@@ -54,7 +55,7 @@ export default class Avatar extends BaseElement {
                     >` : 
                     `<span class="initiales">${this.firstname[0].toUpperCase()}${this.lastname[0].toUpperCase()}</span>`}
                 </div>
-            </amr-tooltip>
+            ${this.tooltip == "true" ? `</amr-tooltip>`: "" }
         `;
     }
     getStatusLabel() {
@@ -81,7 +82,6 @@ export default class Avatar extends BaseElement {
             .avatar-main {
                 overflow: visible;
                 position: relative;
-                margin: 0 5px 5px 0;
                 outline: none;
             }
             .avatar-main:before {
