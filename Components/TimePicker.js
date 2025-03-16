@@ -144,6 +144,7 @@ export default class Select extends TextField {
     }
     close() {
         let me = this;
+        me.onChange();
         me.opened = "false";
         setTimeout(() => {
             let input = me.querySelector(".timepicker-main .textfield-main input");
