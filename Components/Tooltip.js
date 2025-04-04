@@ -30,8 +30,10 @@ export default class Tooltip extends BaseElement {
 		return `
 			.tooltip-main {
 			    position: relative;
-			    display: inline-flex;
-				vertical-align: middle;
+				width: 100%;
+			}
+			.tooltip-main > * {
+				width: 100%;
 			}
 			.tooltip-text {
 				position: absolute;
@@ -49,6 +51,7 @@ export default class Tooltip extends BaseElement {
 				opacity: 0;
 				transition: opacity 0.2s ease-in;
 				z-index: 2;
+				display: block;
 			}
 			.tooltip-main:has(:focus-within, :hover) .tooltip-text {
 				visibility: visible;

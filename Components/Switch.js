@@ -53,8 +53,6 @@ export default class Switch extends BaseElement {
 	static style() {
 		return `
 			.switch-main {
-                display: inline-block;
-				vertical-align: middle;
                 user-select: none;
 			}
 			.switch-main.disable {

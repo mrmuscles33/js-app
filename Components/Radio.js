@@ -90,9 +90,6 @@ export default class Radio extends BaseElement {
 	}
 	static style() {
 		return `
-			.radio-main {
-				vertical-align: middle;
-			}
 			.radio-main > input {
 			    opacity: 0;
 			    width: 0px;
@@ -102,7 +99,7 @@ export default class Radio extends BaseElement {
 			    position: absolute;
 			}
 			.radio-main > label {
-				margin:         10px 5px 10px 0;
+				margin:         0;
 				padding:        0;
 				cursor:         pointer;
 				user-select:    none;

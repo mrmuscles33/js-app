@@ -52,9 +52,6 @@ export default class Checkbox extends BaseElement {
 	}
 	static style() {
 		return `
-			.checkbox-main {
-				vertical-align: middle;
-			}
 			.checkbox-main > input {
 			    opacity: 0;
 			    width: 0px;
@@ -64,7 +61,7 @@ export default class Checkbox extends BaseElement {
 			    position: absolute;
 			}
 			.checkbox-main > label {
-				margin:         10px 5px 10px 0;
+				margin:         0;
 				padding:        0;
 				cursor:         pointer;
 				user-select:    none;

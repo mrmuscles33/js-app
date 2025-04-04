@@ -58,59 +58,66 @@
 		</style>
 	</head>
 	<body onload="onLoad()" data-theme="dark">
-		<main>
+		<main class="flex-col">
 			<h1>JS Web Components</h1>
-			<section>
+			<section class="flex-col">
 				<h2>Controls</h2>
-				<h3>Button</h3>
-				<amr-button icon="search" text="Primary" primary="true" cls="test" name="primary-button"></amr-button>
-				<amr-button icon="search" text="Secondary"></amr-button>
-				<amr-tooltip text="tooltip">
-					<amr-button text="Tertiary" bordered="false"></amr-button>
-				</amr-tooltip>
-				<amr-button text="Disabled" disabled="true"></amr-button>
+				<h3 class="py-2">Button</h3>
+				<span class="grid grid-cols-4 gap-x-4 gap-y-2">
+					<amr-button icon="search" text="Primary" primary="true" cls="test" name="primary-button"></amr-button>
+					<amr-button icon="search" text="Secondary"></amr-button>
+					<amr-tooltip text="tooltip">
+						<amr-button text="Tertiary" bordered="false"></amr-button>
+					</amr-tooltip>
+					<amr-button text="Disabled" disabled="true"></amr-button>
+				</span>
 
-				<h3>Checkboxes</h3>
+				<h3 class="py-2">Checkboxes</h3>
 				<amr-checkbox label="Check me" checked="true"></amr-checkbox>
 
-				<h3>Radio</h3>
-				<amr-radio label="Radio 1" name="radio" checked="true"></amr-radio>
-				<amr-radio label="Radio 2" name="radio"></amr-radio>
-				<amr-radio label="Radio 3" name="radio"></amr-radio>
-				<amr-radio label="Radio 4" name="radio" disabled="true"></amr-radio>
+				<h3 class="py-2">Radio</h3>
+				<span class="gap-x-2">
+					<amr-radio label="Radio 1" name="radio" checked="true"></amr-radio>
+					<amr-radio label="Radio 2" name="radio"></amr-radio>
+					<amr-radio label="Radio 3" name="radio"></amr-radio>
+					<amr-radio label="Radio 4" name="radio" disabled="true"></amr-radio>
+				</span>
 
-				<h3>Switches</h3>
+				<h3 class="py-2">Switches</h3>
 				<amr-switch checked="true"></amr-switch>
 			</section>
 			<br />
-			<section>
+			<section class="flex-col">
 				<h2>Inputs</h2>
-				<h3>Textfield</h3>
+				<h3 class="py-2">Textfield</h3>
+				<span class="gap-x-2">
+					<amr-text class="flex-1" label="Label"></amr-text>
+					<amr-text class="flex-1" filled="false" errormessage="tt"></amr-text>
+					<amr-text class="flex-2" label="Icons" iconleft="search" iconright="highlight_off"></amr-text>
+					<amr-text class="flex-1" label="Disable" iconleft="search" disabled="true"></amr-text>
+					<amr-text class="flex-1" label="Error" iconright="home" errormessage="Le champ est vide"></amr-text>
+				</span>
 
-				<amr-text label="Label"></amr-text>
-				<amr-text filled="false" errormessage="tt"></amr-text>
-				<amr-text label="Icons" iconleft="search" iconright="highlight_off"></amr-text>
-				<amr-text label="Disable" iconleft="search" disabled="true"></amr-text>
-				<amr-text label="Error" iconright="home" errormessage="Le champ est vide"></amr-text>
+				<h3 class="py-2">Passwordfield</h3>
+				<amr-password class="w-xs" label="Password" iconLeft="fingerprint"></amr-password>
 
-				<h3>Passwordfield</h3>
-				<amr-password label="Password" iconLeft="fingerprint"></amr-password>
+				<h3 class="py-2">Numberfield</h3>
+				<amr-number class="w-xxs" label="Number" integer="2" decimal="1" min="-1"></amr-number>
 
-				<h3>Numberfield</h3>
-				<amr-number label="Number" integer="2" decimal="1" min="-1"></amr-number>
+				<h3 class="py-2">Phonefield</h3>
+				<amr-phone class="w-xs" label="Phone"></amr-phone>
 
-				<h3>Phonefield</h3>
-				<amr-phone label="Phone"></amr-phone>
+				<h3 class="py-2">Emailfields</h3>
+				<amr-email class="w-s" label="Email"></amr-email>
 
-				<h3>Emailfields</h3>
-				<amr-email label="Email"></amr-email>
+				<h3 class="py-2">Date & Time Pickers</h3>
+				<span class="gap-x-2">
+					<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
+					<amr-time label="Time"></amr-time>
+					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
+				</span>
 
-				<h3>Date & Time Pickers</h3>
-				<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
-				<amr-time label="Time"></amr-time>
-				<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
-
-				<h3>Drop List</h3>
+				<h3 class="py-2">Drop List</h3>
 				<amr-select label="Drop List" limit="2">
 					<amr-option value="1" selected>Optiooooooooooooooooooooooooooon 1</amr-option>
 					<amr-option value="2">Option 2</amr-option>
@@ -121,7 +128,7 @@
 				</amr-select>
 			</section>
 			<br />
-			<section>
+			<section class="flex-col">
 				<h2>Decorations</h2>
 				<h3>Avatar</h3>
 				<amr-avatar status="online" src="https://www.w3schools.com/howto/img_avatar.png" size="large" firstname="John" lastname="Doe"></amr-avatar>

@@ -30,13 +30,11 @@ export default class Badge extends BaseElement {
     static style() {
         return `
             .badge-main {
-			    margin: 0 5px 5px 0;
+			    margin: 0;
 			    border-radius: 50px;
-			    display: inline-flex;
 			    font-weight: 500;
 			    outline: none;
 			    white-space: nowrap;
-				vertical-align: middle;
 				align-items: center;
     			justify-content: center;
 				position: relative;

@@ -18,7 +18,6 @@ export default class TextField extends BaseElement {
 		"filled",
 		"flex",
 		"maxlength",
-		"size"
 	];
 	static counter = 1;
 	connectedCallback() {
@@ -37,7 +36,6 @@ export default class TextField extends BaseElement {
 		this.flex = this.flex || "false";
 		this.maxlength = this.maxlength || 128;
 		this.key = this.key || `amr-text-${TextField.counter++}`;
-		this.size = this.size || "medium";
 		super.connectedCallback();
 	}
 	render() {
@@ -112,7 +110,7 @@ export default class TextField extends BaseElement {
 	}
 	template() {
 		return `
-			<div class="textfield-main ${this.size} ${this.cls}
+			<div class="textfield-main ${this.cls}
 				${this.filled === "true" ? "filled" : ""}
 				${this.flex === "true" ? "flex" : ""}"
 			>
@@ -138,27 +136,16 @@ export default class TextField extends BaseElement {
 	static style() {
 		return `
 			.textfield-main {
-				vertical-align: middle;
 				background-color: transparent;
-				display: inline-block;
 				height: 36px;
-				width: 300px;
+				width: 100%;
 				border-radius: 8px;
 				position: relative;
 				border: 1px solid var(--secondary-shade5);
 				box-sizing: border-box;
 				cursor: text;
-				margin: 0 5px 5px 0;
+				margin: 0;
 				padding: 6px 12px;
-			}
-			.textfield-main.small {
-				width: 150px;
-			}
-			.textfield-main.medium {
-				width: 300px;
-			}
-			.textfield-main.large {
-				width: 450px;
 			}
 			.textfield-main:has(> amr-icon.left) {
 				padding-left: 40px;

@@ -53,20 +53,19 @@ export default class Button extends BaseElement {
 		return `
 			.btn-main {
 			    padding: 0 12px;
-			    margin: 0 5px 5px 0;
+			    margin: 0;
 			    height: 36px;
+				width: 100%;
 			    color: var(--primary-shade3);
 				background-color: transparent;
 			    border: 1px solid transparent;
 			    border-radius: 5px;
-			    display: inline-flex;
 			    cursor: pointer;
 			    font-weight: 500;
 			    user-select: none;
 			    outline: none;
 			    white-space: nowrap;
 				font-size: 14px;
-				vertical-align: middle;
 				align-items: center;
     			justify-content: center;
 				position: relative;

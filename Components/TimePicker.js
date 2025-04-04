@@ -223,10 +223,6 @@ export default class Select extends TextField {
     }
     static style() {
         return `
-            .timepicker-main {
-                position: relative;
-                display: inline-block;
-            }
             .timepicker-main > .timepicker-mask {
                 position: fixed;
                 top: 0;
