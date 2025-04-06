@@ -182,8 +182,6 @@ export default class TextField extends BaseElement {
 			.textfield-main.filled:has(span.error),
 			.textfield-main:not(.filled):has(span.error) {
 				border-color: var(--status-error);
-				margin-bottom: 22px;
-				transform: translateY(9px);
 			}
 			.textfield-main:has(input:disabled) {
 				opacity: 0.5;

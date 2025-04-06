@@ -147,11 +147,11 @@ export default class Select extends TextField {
                 ${super.template()}
                 ${this.opened == "true" ? `
                 <div class="droplist-mask"></div>
-                <div class="droplist-menu ${this.position}">
+                <div class="droplist-menu flex-col ${this.position}">
                     <amr-text filled="false" iconleft="search" flex="true" value="${this.filter}"></amr-text>
                     <ul class="droplist-options">
                         ${this.options.filter((option) => option.label.toLowerCase().includes(this.filter.toLowerCase())).map((option) => `
-                        <li role="option" class="droplist-option 
+                        <li role="option" class="droplist-option
                             ${this.selection.find((v) => v.value == option.value) ? "selected" : ""}
                             ${this.limit > 1 && this.limit == this.selection.length && !this.selection.find((v) => v.value == option.value) ? "disabled" : ""}"
                             value="${option.value}" 
@@ -189,7 +189,7 @@ export default class Select extends TextField {
                 width: calc(100% - 5px);
                 background-color: var(--secondary-shade2);
                 border: 1px solid var(--secondary-shade5);
-                margin: 0;
+                margin-top: 10px;
                 padding: 5px 5px 0 5px;
                 border-radius: 10px;
                 z-index: 2;
@@ -216,9 +216,10 @@ export default class Select extends TextField {
                 max-height: 200px;
                 overflow-y: auto;
                 overflow-x: hidden;
-                margin: 0;
+                margin-top: 10px;
                 padding: 0;
                 list-style-type: none;
+                display: block;
             }
             .droplist-main > .droplist-menu > .droplist-options::-webkit-scrollbar {
                 width: 5px;
@@ -235,6 +236,7 @@ export default class Select extends TextField {
                 text-overflow: ellipsis;
                 overflow: hidden;
                 color: var(--dark-shade0);
+                display: block;
             }
             .droplist-main > .droplist-menu > .droplist-options > .droplist-option.selected {
                 position: relative;

@@ -17,7 +17,6 @@ export default class DatePicker extends TextField {
 		this.startWeek = this.startWeek || Dates.MONDAY;
 		this.min = this.min || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
 		this.max = this.max || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
-		this.size = this.size || "small";
 		super.connectedCallback();
 	}
 	render() {
@@ -430,6 +429,7 @@ export default class DatePicker extends TextField {
 				z-index: 2;
 			}
 			.datepicker-main {
+				display: block;
 				width: 450px;
 				background-color: var(--secondary-shade1);
 				border-radius: 8px;
@@ -438,6 +438,7 @@ export default class DatePicker extends TextField {
 				transition: transform 0.2s;
 			}
 			.datepicker-main > .datepicker-info {
+				display: block;
                 background-color: var(--secondary-shade0);
                 padding: 10px 15px;
 				border-radius: 8px 8px 0 0;
@@ -457,8 +458,9 @@ export default class DatePicker extends TextField {
 				color: var(--dark-shade0);
 			}
 			.datepicker-main > .datepicker-calendar {
+				display: block;
 				width: 100%;
-				padding: 10px 10px 5px 10px;
+				padding: 10px;
 				box-sizing: border-box;
 			}
 			.datepicker-main > .datepicker-calendar > .datepicker-days,

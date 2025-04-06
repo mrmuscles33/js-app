@@ -70,12 +70,16 @@ export default class Avatar extends BaseElement {
         return " • " + label;
     }
     getParentBackgroundColor() {
-        const parent = this.parentElement;
-        if (parent && this.status != Avatar.status.INVISIBLE) {
+        let parent = this.parentElement;
+        while (parent && this.status !== Avatar.status.INVISIBLE) {
             const style = window.getComputedStyle(parent);
-            return style.backgroundColor;
+            const backgroundColor = style.backgroundColor;
+            if (backgroundColor && backgroundColor !== "rgba(0, 0, 0, 0)" && backgroundColor !== "transparent") {
+                return backgroundColor;
+            }
+            parent = parent.parentElement;
         }
-        return 'transparent';
+        return "transparent";
     }
     static style() {
         return `
@@ -88,10 +92,10 @@ export default class Avatar extends BaseElement {
                 aspect-ratio: 1;
                 content: " ";
                 border-radius: 50%;
-                display: block;
                 position: absolute;
-                bottom: 0;
-                right: -4px;
+                top: 100%;
+                left: 100%;
+                transform: translate(-80%, -80%);
                 background-color: transparent;
                 border: 0px solid var(--parent-background-color);
             }
@@ -108,12 +112,11 @@ export default class Avatar extends BaseElement {
                 background-color: var(--status-warning);
             }
             .avatar-main.small:before {
-                bottom: -2px;
-                width: 8px;
+                width: 6px;
                 border-width: 2px;
             }
             .avatar-main.medium:before {
-                width: 12px;
+                width: 10px;
                 border-width: 3px;
             }
             .avatar-main.large:before {

@@ -168,7 +168,7 @@ export default class Select extends TextField {
                 ${super.template()}
                 ${this.opened == "true" ? `
                 <div class="timepicker-mask"></div>
-                <div class="timepicker-menu ${this.position}">
+                <div class="timepicker-menu ${this.position} flex-row">
                     <div class="timepicker-section">
                         <span class="header">Heure</span>
                         <div class="timepicker-list hour">
@@ -223,6 +223,9 @@ export default class Select extends TextField {
     }
     static style() {
         return `
+            .timepicker-main {
+                position: relative;
+            }
             .timepicker-main > .timepicker-mask {
                 position: fixed;
                 top: 0;
@@ -232,13 +235,16 @@ export default class Select extends TextField {
                 background-color: transparent;
                 z-index: 1;
             }
+            .timepicker-main > amr-textfield > {
+                display: block;
+            }
             .timepicker-main > .timepicker-menu {
                 position: absolute;
                 left: 0;
-                width: calc(100% - 5px);
+                width: 100%;
                 background-color: var(--secondary-shade2);
                 border: 1px solid var(--secondary-shade5);
-                margin: 0;
+                margin-top: 10px;
                 padding: 5px 5px 5px 0;
                 border-radius: 10px;
                 z-index: 2;
@@ -259,11 +265,15 @@ export default class Select extends TextField {
             .timepicker-main > .timepicker-menu > .timepicker-section {
                 flex: 1;
                 text-align: center;
+                display: block;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .header {
                 font-weight: 500;
 				font-size: 12px;
                 color: var(--dark-shade0);
+                display: block;
+                text-align: center;
+                margin: 5px 0 10px 0;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list {
                 display: flex;
@@ -285,6 +295,8 @@ export default class Select extends TextField {
                 border: 1px solid transparent;
                 color: var(--dark-shade0);
                 outline: none;
+                text-align: center;
+                display: block;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):focus-visible {
                 border-color: var(--secondary-shade5);
