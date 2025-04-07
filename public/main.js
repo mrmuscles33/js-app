@@ -38,8 +38,8 @@ customElements.define("amr-icon", Icon);
 customElements.define("amr-badge", Badge);
 
 // CSS
-let style = document.createElement("style");
-style.innerHTML = Html.clean`
+let componentsStyles = document.createElement("style");
+componentsStyles.innerHTML = Html.clean`
 	${BaseElement.style()} 
 	${TextField.style()} 
 	${NumberField.style()} 
@@ -59,4 +59,88 @@ style.innerHTML = Html.clean`
 	${Icon.style()}
 	${Badge.style()}
 `;
-document.head.appendChild(style);
+
+// Basic style
+let basicStyle = document.createElement("style");
+basicStyle.innerHTML = Html.clean`
+	:root {
+		${[...Array(11)].map((e, i) => `--size-${i}: ${i * 0.5}rem;`).join("")}
+		${["xxs","xs","s","m","l","xl","xxl"].map((e, i) => `--size-${e}: ${(i+1) * 10}rem;`).join("")}
+	}
+`;
+
+// Display
+["block","inline-block","inline","flex","inline-flex","grid","none"].forEach((v) => basicStyle.innerHTML += `.${v}{display:${v};}`);
+
+// Visibility
+["hidden","visible"].forEach(v => basicStyle.innerHTML += `.${v}{visibility: ${v};}`);
+
+// Position
+["absolute","fixed","relative","sticky"].forEach(v => basicStyle.innerHTML += `.${v}{position:${v};}`);
+
+// Flex and grid
+["row","column","row-reverse","column-reverse"].forEach(v => basicStyle.innerHTML += `.flex-${v.replace("column", "col")}{flex-direction:${v};}`);
+
+const flexProperties = {
+	"h-align" :"justify-content","h-align-items":"justify-items","h-align-item":"justify-self",
+	"v-align":"align-items","v-align-items":"align-items","v-align-item":"align-self"
+};
+for(let k in flexProperties) {
+	["flex-start","flex-end","center","stretch","space-between","space-around"].forEach(v2 => { basicStyle.innerHTML += `.${k}-${v2.replace("space-", "").replace("flex-", "")}{${flexProperties[k]}:${v2};}`});
+}
+
+[...Array(11)].forEach((e, i) => {
+	basicStyle.innerHTML += `.flex-${i}{flex:${i};}`;
+	basicStyle.innerHTML += `.gap-${i}{gap:var(--size-${i});}`;
+	basicStyle.innerHTML += `.gap-x-${i}{gap:0 var(--size-${i});}`;
+	basicStyle.innerHTML += `.gap-y-${i}{gap:var(--size-${i}) 0;}`;
+	basicStyle.innerHTML += `.grid-cols-${i}{grid-template-columns:repeat(${i}, 1fr);}`;
+	basicStyle.innerHTML += `.grid-rows-${i}{grid-template-rows:repeat(${i}, 1fr);}`;
+	basicStyle.innerHTML += `.grid-col-${i}{grid-column: span ${i};}`;
+	basicStyle.innerHTML += `.grid-row-${i}{grid-row: span ${i};}`;
+});
+
+// Margin and padding
+["", "top","bottom","left","right","x","y"].forEach(v => {
+	let v2 = v == "" ? "" : `${v.charAt(0)}`;
+	let v3 = v == "" ? "" : `-${v}`;
+	if(v == "x") {
+		basicStyle.innerHTML += `.m${v2}-auto{margin-left:auto; margin-right:auto;}`;
+		basicStyle.innerHTML += `.p${v2}-auto{padding-left:auto; padding-right:auto;}`;
+	} else if(v == "y") {
+		basicStyle.innerHTML += `.m${v2}-auto{margin-top:auto; margin-bottom:auto;}`;
+		basicStyle.innerHTML += `.p${v2}-auto{padding-top:auto; padding-bottom:auto;}`;
+	} else {
+		basicStyle.innerHTML += `.m${v2}-auto{margin${v3}:auto;}`;
+		basicStyle.innerHTML += `.p${v2}-auto{padding${v3}:auto;}`;
+	}
+	[...Array(11)].forEach((e, i) => {
+		if(v == "x") {
+			basicStyle.innerHTML += `.m${v2}-${i}{margin-left:var(--size-${i}); margin-right:var(--size-${i});}`;
+			basicStyle.innerHTML += `.p${v2}-${i}{padding-left:var(--size-${i}); padding-right:var(--size-${i});}`;
+		} else if(v == "y") {
+			basicStyle.innerHTML += `.m${v2}-${i}{margin-top:var(--size-${i}); margin-bottom:var(--size-${i});}`;
+			basicStyle.innerHTML += `.p${v2}-${i}{padding-top:var(--size-${i}); padding-bottom:var(--size-${i});}`;
+		} else {
+			basicStyle.innerHTML += `.m${v2}-${i}{margin${v3}:var(--size-${i});}`;
+			basicStyle.innerHTML += `.p${v2}-${i}{padding${v3}:var(--size-${i});}`;
+		}
+	});
+});
+
+// Width and height
+["width","height"].forEach(v => {
+	let v2 = v.charAt(0);
+	["xxs","xs","s","m","l","xl","xxl"].forEach(v3 => {basicStyle.innerHTML += `.${v2}-${v3}{${v}:var(--size-${v3});}`});
+	[...Array(5)].forEach((e, i) => {
+		let v3 = i * 25;
+		basicStyle.innerHTML += `.${v2}-${v3}{${v}:${v3}%;}`;
+		basicStyle.innerHTML += `.m${v2}-${v3}{max-${v}:${v3}%;}`;
+	});
+	basicStyle.innerHTML += `.${v2}-auto{${v}:auto;}`;
+	basicStyle.innerHTML += `.${v2}-screen{${v}:100v${v2};}`;
+});
+
+// Add styles to the document head
+document.head.appendChild(basicStyle);
+document.head.appendChild(componentsStyles);

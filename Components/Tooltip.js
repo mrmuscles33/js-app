@@ -51,7 +51,7 @@ export default class Tooltip extends BaseElement {
 				opacity: 0;
 				transition: opacity 0.2s ease-in;
 				z-index: 2;
-				display: block;
+				width: auto;
 			}
 			.tooltip-main:has(:focus-within, :hover) .tooltip-text {
 				visibility: visible;
