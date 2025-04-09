@@ -12,11 +12,12 @@ import Tooltip from "../Components/Tooltip.js";
 import Switch from "../Components/Switch.js";
 import DatePicker from "../Components/DatePicker.js";
 import Toolbar from "../Components/Toolbar.js";
-import Select from "../Components/Select.js";
 import TimePicker from "../Components/TimePicker.js";
 import Avatar from "../Components/Avatar.js";
 import Icon from "../Components/Icon.js";
 import Badge from "../Components/Badge.js";
+import List from "../Components/List.js";
+import Select from "../Components/Select.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -31,11 +32,12 @@ customElements.define("amr-tooltip", Tooltip);
 customElements.define("amr-switch", Switch);
 customElements.define("amr-date", DatePicker);
 customElements.define("amr-toolbar", Toolbar);
-customElements.define("amr-select", Select);
 customElements.define("amr-time", TimePicker);
 customElements.define("amr-avatar", Avatar);
 customElements.define("amr-icon", Icon);
 customElements.define("amr-badge", Badge);
+customElements.define("amr-list", List);
+customElements.define("amr-select", Select);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -53,11 +55,12 @@ componentsStyles.innerHTML = Html.clean`
 	${Switch.style()} 
 	${DatePicker.style()} 
 	${Toolbar.style()}
-	${Select.style()}
 	${TimePicker.style()}
 	${Avatar.style()}
 	${Icon.style()}
 	${Badge.style()}
+	${List.style()}
+	${Select.style()}
 `;
 
 // Basic style
@@ -131,7 +134,10 @@ for(let k in flexProperties) {
 // Width and height
 ["width","height"].forEach(v => {
 	let v2 = v.charAt(0);
-	["xxs","xs","s","m","l","xl","xxl"].forEach(v3 => {basicStyle.innerHTML += `.${v2}-${v3}{${v}:var(--size-${v3});}`});
+	["xxs","xs","s","m","l","xl","xxl"].forEach(v3 => {
+		basicStyle.innerHTML += `.${v2}-${v3}{${v}:var(--size-${v3});}`;
+		basicStyle.innerHTML += `.m${v2}-${v3}{max-${v}:var(--size-${v3});}`;
+	});
 	[...Array(5)].forEach((e, i) => {
 		let v3 = i * 25;
 		basicStyle.innerHTML += `.${v2}-${v3}{${v}:${v3}%;}`;
@@ -139,6 +145,13 @@ for(let k in flexProperties) {
 	});
 	basicStyle.innerHTML += `.${v2}-auto{${v}:auto;}`;
 	basicStyle.innerHTML += `.${v2}-screen{${v}:100v${v2};}`;
+});
+
+// Overflow
+["hidden","scroll","auto"].forEach(v => {
+	basicStyle.innerHTML += `.overflow-${v}{overflow:${v};}`;
+	basicStyle.innerHTML += `.overflow-x-${v}{overflow-x:${v};}`;
+	basicStyle.innerHTML += `.overflow-y-${v}{overflow-y:${v};}`;
 });
 
 // Add styles to the document head

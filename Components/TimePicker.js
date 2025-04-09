@@ -2,9 +2,11 @@ import TextField from "./TextField.js";
 import Times from "../Utils/Times.js";
 import Events from "../Utils/Events.js";
 
-export default class Select extends TextField {
+export default class TimePicker extends TextField {
     static attrs = [...TextField.attrs, "seconde", "opened", "min", "max"];
+    static counter = 1;
     connectedCallback() {
+        this.key = this.key || `amr-time-${TimePicker.counter++}`;
         this.iconright = this.iconright || "schedule";
         this.format = this.format || (this.seconde == "true" ? Times.H_M_S : Times.H_M);
         this.pattern = this.pattern || Times.getPattern(this.format);
