@@ -32,21 +32,15 @@ export default class Icon extends BaseElement {
     template() {
         return `
             <i id="${this.key}" 
-                class="icon-main material-icons-round ${this.size} ${this.cls}" 
+                class="icon-main material-icons-round ${this.size} ${this.cls} ${this.action == "true" ? "pointer" : ""}"
                 ${this.action == "true" ? "tabindex='0' role='button'" : "role='img'"}>
                 ${this.value}
             </i>`;
     }
     static style() {
         return `
-            .icon-main.small {
-                font-size: 12px;
-            }
-            .icon-main.medium {
-                font-size: 24px;
-            }
-            .icon-main.large {
-                font-size: 36px;
+            .icon-main {
+                font-size: inherit;
             }
         `;
     }

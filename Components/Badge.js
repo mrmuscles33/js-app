@@ -9,7 +9,8 @@ export default class Badge extends BaseElement {
         this.bgcolor = this.bgcolor || "var(--secondary-shade2)";
         this.size = this.size || "medium";
         this.key = this.key || `badge-${Badge.counter++}`;
-        this.decoration = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "decoration");
+        this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
+        this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
         super.connectedCallback();
     }
     render() {
@@ -18,12 +19,13 @@ export default class Badge extends BaseElement {
     template() {
         return `
             <div id="${this.key}" 
-                class="badge-main ${this.cls} ${this.size}" 
+                class="badge-main v-align-items-center p-1 gap-x-1 ${this.cls} ${this.size}" 
                 role="status"
                 style="background-color: ${this.bgcolor}; color: ${this.color};"
             >
-                ${this.decoration ? this.decoration.outerHTML : ""}
+                ${this.left ? this.left.outerHTML : ""}
                 ${this.text}
+                ${this.right ? this.right.outerHTML : ""}
             </div>
         `;
     }
@@ -35,39 +37,6 @@ export default class Badge extends BaseElement {
 			    font-weight: 500;
 			    outline: none;
 			    white-space: nowrap;
-				align-items: center;
-    			justify-content: center;
-				position: relative;
-            }
-            .badge-main.small {
-                padding: 7px 14px;
-                font-size: 12px;
-            }
-            .badge-main.small:has(> *[slot="decoration"]) {
-                padding-left: 10px;
-            }
-            .badge-main.medium {
-                padding: 9px 18px;
-                font-size: 16px;
-            }
-            .badge-main.medium:has(> *[slot="decoration"]) {
-                padding-left: 12px;
-            }
-            .badge-main.large {
-                padding: 12px 24px;
-                font-size: 20px;
-            }
-            .badge-main.large:has(> *[slot="decoration"]) {
-                padding-left: 14px;
-            }
-            .badge-main.small > *[slot="decoration"] {
-                margin-right: 5px; 
-            }
-            .badge-main.medium > *[slot="decoration"] {
-                margin-right: 7px; 
-            }
-            .badge-main.large > *[slot="decoration"] {
-                margin-right: 10px; 
             }
         `;
     }

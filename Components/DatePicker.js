@@ -332,22 +332,22 @@ export default class DatePicker extends TextField {
 						<h2>${this.getDisplayedDate()}</h2>
 					</div>
 					<div class="datepicker-calendar">
-						<amr-toolbar justify="space-between">
+						<span>
 							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}">
 								<amr-button text="${this.getDisplayedMonth()}" bordered="false" name="year-button"></amr-button>
 							</amr-tooltip>
 							<span style="flex:1"></span>
 							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}">
-								<amr-button icon="keyboard_arrow_left" bordered="false" name="previous-button" 
+								<amr-button bordered="false" name="previous-button" icon="keyboard_arrow_left"
 									disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}">
 								</amr-button>
 							</amr-tooltip>
 							<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}">
-								<amr-button icon="keyboard_arrow_right" bordered="false" name="next-button" 
+								<amr-button bordered="false" name="next-button" icon="keyboard_arrow_right"
 									disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}">
 								</amr-button>
 							</amr-tooltip>
-						</amr-toolbar>
+						</span>
 						${this.showYear == "true" ? `
 						<div class="datepicker-years">
 							${this.getDisplayedYears().map((year) => ` 

@@ -53,12 +53,18 @@
 				<h2>Controls</h2>
 				<h3 class="my-2">Button</h3>
 				<span class="grid grid-cols-4 gap-x-4 gap-y-2">
-					<amr-button icon="search" text="Primary" primary="true" cls="test" name="primary-button"></amr-button>
-					<amr-button icon="search" text="Secondary"></amr-button>
+					<amr-button text="Primary" primary="true" cls="test" name="primary-button">
+						<amr-icon value="chevron_left" slot="left" class="font-3"></amr-icon>
+					</amr-button>
+					<amr-button text="Secondary">
+						<amr-icon value="chevron_right" slot="right" class="font-3"></amr-icon>
+					</amr-button>
 					<amr-tooltip text="tooltip">
 						<amr-button text="Tertiary" bordered="false"></amr-button>
 					</amr-tooltip>
-					<amr-button text="Disabled" disabled="true"></amr-button>
+					<amr-button text="Disabled" icon="block" disabled="true">
+						<amr-icon value="block" slot="left" class="font-3"></amr-icon>
+					</amr-button>
 				</span>
 
 				<h3 class="my-2">Checkboxes</h3>
@@ -79,30 +85,49 @@
 				<h2>Inputs</h2>
 				<h3 class="my-2">Textfield</h3>
 				<span class="gap-x-2 v-align-items-center">
-					<amr-text class="flex-1" label="Label"></amr-text>
+					<amr-text class="flex-1" label="Label" required="true"></amr-text>
 					<amr-text class="flex-1" filled="false" errormessage="tt"></amr-text>
-					<amr-text class="flex-2" label="Icons" iconleft="search" iconright="highlight_off"></amr-text>
-					<amr-text class="flex-1" label="Disable" iconleft="search" disabled="true"></amr-text>
-					<amr-text class="flex-1" label="Error" iconright="home" errormessage="Le champ est vide"></amr-text>
+					<amr-text class="flex-2" label="Icons">
+						<amr-icon value="search" slot="left" class="font-3"></amr-icon>
+						<amr-icon value="highlight_off" slot="right" class="font-3"></amr-icon>
+					</amr-text>
+					<amr-text class="flex-1" label="Disable" disabled="true">
+						<amr-icon value="search" slot="left" class="font-3"></amr-icon>
+					</amr-text>
+					<amr-text class="flex-1" label="Error" errormessage="Le champ est vide">
+						<amr-icon value="home" slot="right" class="font-3"></amr-icon>
+					</amr-text>
 				</span>
 
 				<h3 class="my-2">Passwordfield</h3>
-				<amr-password class="w-xs" label="Password" iconLeft="fingerprint"></amr-password>
+				<amr-password class="w-xs" label="Password">
+					<amr-icon value="fingerprint" slot="left" class="font-3"></amr-icon>
+				</amr-password>
 
 				<h3 class="my-2">Numberfield</h3>
 				<amr-number class="w-xxs" label="Number" integer="2" decimal="1" min="-1"></amr-number>
 
 				<h3 class="my-2">Phonefield</h3>
-				<amr-phone class="w-xs" label="Phone"></amr-phone>
+				<amr-phone class="w-xs" label="Phone">
+					<amr-icon value="phone" slot="left" class="font-3"></amr-icon>
+				</amr-phone>
 
 				<h3 class="my-2">Emailfields</h3>
-				<amr-email class="w-s" label="Email"></amr-email>
+				<amr-email class="w-s" label="Email">
+					<amr-icon value="email" slot="left" class="font-3"></amr-icon>
+				</amr-email>
 
 				<h3 class="my-2">Date & Time Pickers</h3>
 				<span class="gap-x-2">
-					<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
-					<amr-time label="Time"></amr-time>
-					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
+					<amr-date label="Date" value="25/12/2024" max="31/12/2024">
+						<amr-icon value="calendar_today" slot="right" class="font-3"></amr-icon>
+					</amr-date>
+					<amr-time label="Time">
+						<amr-icon value="access_time" slot="right" class="font-3"></amr-icon>
+					</amr-time>
+					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true">
+						<amr-icon value="access_time" slot="right" class="font-3"></amr-icon>
+					</amr-time>
 				</span>
 
 				<h3 class="my-2">List</h3>
@@ -116,6 +141,7 @@
 						<amr-option value="6">Option 6</amr-option>
 					</amr-list>
 					<amr-select class="flex-1" label="Drop List" limit="2">
+						<amr-icon value="arrow_drop_down" slot="right" class="font-3"></amr-icon>
 						<amr-option value="1" selected>Optiooooooooooooooooooooooooooon 1</amr-option>
 						<amr-option value="2">Option 2</amr-option>
 						<amr-option value="3" selected>Option 3</amr-option>
@@ -135,29 +161,37 @@
 				<h2>Decorations</h2>
 				<h3 class="my-2">Avatar</h3>
 				<span class="gap-x-2 v-align-items-center">
-					<amr-avatar status="online" src="https://www.w3schools.com/howto/img_avatar.png" size="large" firstname="John" lastname="Doe"></amr-avatar>
-					<amr-avatar status="offline" size="large" firstname="John" lastname="Doe"></amr-avatar>
-					<amr-avatar status="busy" src="https://www.w3schools.com/howto/img_avatar.png" size="medium" firstname="John" lastname="Doe"></amr-avatar>
-					<amr-avatar status="away" size="medium" firstname="John" lastname="Doe"></amr-avatar>
-					<amr-avatar status="online" src="image_qui_n_existe_pas.png" size="small" firstname="John" lastname="Doe"></amr-avatar>
-					<amr-avatar size="small" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-10" status="online" src="https://www.w3schools.com/howto/img_avatar.png" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-10 font-5" status="offline" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-8 font-4" status="busy" src="https://www.w3schools.com/howto/img_avatar.png" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-6 font-3" status="away" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-4 font-2" status="online" src="image_qui_n_existe_pas.png" firstname="John" lastname="Doe"></amr-avatar>
+					<amr-avatar class="h-2 font-1" firstname="John" lastname="Doe"></amr-avatar>
 				</span>
 
 				<h3 class="my-2">Icons</h3>
-				<span class="gap-x-2 v-align-items-center">
-					<amr-icon value="search" size="large"></amr-icon>
-					<amr-icon value="search" size="medium"></amr-icon>
-					<amr-icon value="search" size="small"></amr-icon>
+				<span class="gap-x-1 v-align-items-center">
+					<amr-icon value="search" class="font-10"></amr-icon>
+					<amr-icon value="search" class="font-9"></amr-icon>
+					<amr-icon value="search" class="font-8"></amr-icon>
+					<amr-icon value="search" class="font-7"></amr-icon>
+					<amr-icon value="search" class="font-6"></amr-icon>
+					<amr-icon value="search" class="font-5"></amr-icon>
+					<amr-icon value="search" class="font-4"></amr-icon>
+					<amr-icon value="search" class="font-3"></amr-icon>
+					<amr-icon value="search" class="font-2"></amr-icon>
+					<amr-icon value="search" class="font-1"></amr-icon>
 				</span>
 
 				<h3 class="my-2">Badges</h3>
 				<span class="h-align-between v-align-items-center">
-					<amr-badge size="large" text="Badge large"></amr-badge>
-					<amr-badge size="medium" text="John Doe" bgcolor="var(--status-success-light)" color="var(--status-success-dark)">
-						<amr-avatar size="small" firstname="John" lastname="Doe" tooltip="false" slot="decoration"></amr-avatar>
+					<amr-badge text="Badge large"></amr-badge>
+					<amr-badge class="font-2" text="John Doe" bgcolor="var(--status-success-light)" color="var(--status-success-dark)">
+						<amr-avatar class="h-4 font-2" firstname="John" lastname="Doe" tooltip="false" slot="left"></amr-avatar>
+						<amr-icon value="close" slot="right" class="font-3 pointer"></amr-icon>
 					</amr-badge>
-					<amr-badge size="small" text="Chasseuse Impitoyable" bgcolor="var(--status-error-light)" color="var(--status-error-dark)">
-						<amr-icon value="swords" size="small" slot="decoration"></amr-icon>
+					<amr-badge text="Chasseuse Impitoyable" bgcolor="var(--status-error-light)" color="var(--status-error-dark)">
+						<amr-icon value="swords" slot="left"></amr-icon>
 					</amr-badge>
 				</span>
 			</section>

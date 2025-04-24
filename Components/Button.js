@@ -10,8 +10,9 @@ export default class Button extends BaseElement {
 		this.primary = this.primary || "false";
 		this.bordered = this.bordered || "true";
 		this.disabled = this.disabled || "false";
-		this.flex = this.flex || "false";
 		this.key = this.key || `button-${Button.counter++}`;
+		this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
+		this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
 		super.connectedCallback();
 	}
 	render() {
@@ -35,25 +36,24 @@ export default class Button extends BaseElement {
 	}
 	template() {
 		return `
-			<span id="${this.key}" class="btn-main ${this.cls} 
+			<span id="${this.key}" class="btn-main px-1 gap-x-1 h-align-center v-align-items-center ${this.cls} 
 			    ${this.icon ? "btn-with-icon" : ""} 
 			    ${this.primary == "true" ? "primary" : ""} 
 			    ${this.bordered == "true" ? "border" : ""} 
 			    ${this.disabled == "true" ? "disabled" : ""} 
-			    ${this.flex == "true" ? "flex" : ""}" 
 			    role="button" 
 			    tabindex=${this.disabled == "true" ? "-1" : "0"}
 			>
-				${this.icon && this.icon != "" ? `<amr-icon value="${this.icon}"></amr-icon>` : ""}
-				<span class="btn-text">${this.text}</span>
+				${this.left ? `<span class="absolute l-1">${this.left.outerHTML}</span>` : ""}
+				${this.icon == "" ? "" : `<amr-icon class="font-3" value="${this.icon}"></amr-icon>`}
+				${this.text == "" ? "" : `<span class="btn-label">${this.text}</span>`}
+				${this.right ? `<span class="absolute r-1">${this.right.outerHTML}</span>` : ""}
 			</span>
 		`;
 	}
 	static style() {
 		return `
 			.btn-main {
-			    padding: 0 12px;
-			    margin: 0;
 			    height: 36px;
 				width: 100%;
 			    color: var(--primary-shade3);
@@ -66,8 +66,6 @@ export default class Button extends BaseElement {
 			    outline: none;
 			    white-space: nowrap;
 				font-size: 14px;
-				align-items: center;
-    			justify-content: center;
 				position: relative;
 			}
 			.btn-main:after {
@@ -103,27 +101,6 @@ export default class Button extends BaseElement {
 			.btn-main.primary:hover,
 			.btn-main.primary:focus-visible {
 				background-color: var(--primary-shade0);
-			}
-			.btn-main.flex {
-				width: 100%;
-				text-align: center;
-				box-sizing: border-box;
-			}
-			.btn-main:has(> .btn-text:empty) > .btn-with-icon {
-				padding: 0 12px;
-			}
-			.btn-main:has(> .btn-text:not(:empty)) > .btn-with-icon {
-				padding: 0 16px 0 12px;
-			}
-			.btn-main > .btn-icon {
-				font-size: inherit;
-				vertical-align: middle;
-				margin: 0;
-				padding: 0;
-				color: var(--primary-shade3);
-			}
-			.btn-main.primary > .btn-icon {
-				color: var(--light-shade0);
 			}
 			.btn-main > .btn-text {
 				letter-spacing: .7px;

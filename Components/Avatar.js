@@ -42,7 +42,7 @@ export default class Avatar extends BaseElement {
         return `
             ${this.tooltip == "true" ? `<amr-tooltip text="${this.firstname} ${this.lastname}${this.getStatusLabel()}">`: "" }
                 <div id="${this.key}" 
-                    class="avatar-main ${this.cls} ${this.size} ${this.status}" 
+                    class="avatar-main ${this.cls} ${this.status}" 
                     role="img" 
                     ${this.tooltip == "true" ? "tabindex='0'": "" }
                     style="--parent-background-color: ${this.getParentBackgroundColor()};"
@@ -87,17 +87,19 @@ export default class Avatar extends BaseElement {
                 overflow: visible;
                 position: relative;
                 outline: none;
+                width: 100%;
             }
             .avatar-main:before {
+                width: 25%;
                 aspect-ratio: 1;
                 content: " ";
                 border-radius: 50%;
                 position: absolute;
                 top: 100%;
                 left: 100%;
-                transform: translate(-80%, -80%);
+                transform: translate(-70%, -80%);
                 background-color: transparent;
-                border: 0px solid var(--parent-background-color);
+                border: 4px solid var(--parent-background-color);
             }
             .avatar-main.online:before {
                 background-color: var(--status-success);
@@ -111,18 +113,6 @@ export default class Avatar extends BaseElement {
             .avatar-main.away:before {
                 background-color: var(--status-warning);
             }
-            .avatar-main.small:before {
-                width: 6px;
-                border-width: 2px;
-            }
-            .avatar-main.medium:before {
-                width: 10px;
-                border-width: 3px;
-            }
-            .avatar-main.large:before {
-                width: 15px;
-                border-width: 4px;
-            }
             .avatar-main:after {
                 aspect-ratio: 1;
                 content: " ";
@@ -134,14 +124,8 @@ export default class Avatar extends BaseElement {
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-            .avatar-main.small:after {
-                width: 28px;
-            }
-            .avatar-main.medium:after {
-                width: 52px;
-            }
-            .avatar-main.large:after {
-                width: 76px;
+            .avatar-main:after {
+                width: calc(100% + 4px);
             }
             .avatar-main:focus-visible:after {
                 border-color: var(--primary-shade0);
@@ -156,24 +140,13 @@ export default class Avatar extends BaseElement {
                 align-items: center;
             }
             .avatar-main .initiales {
-                font-weight: bold;
+                font-weight: 600;
                 color: var(--dark-shade2);
                 background-color: var(--secondary-shade3);
             }
-            .avatar-main.small img,
-            .avatar-main.small .initiales {
-                width: 24px;
-                font-size: 10px;
-            }
-            .avatar-main.medium img,
-            .avatar-main.medium .initiales {
-                width: 48px;
-                font-size: 18px;
-            }
-            .avatar-main.large img,
-            .avatar-main.large .initiales {
-                width: 72px;
-                font-size: 28px;
+            .avatar-main img,
+            .avatar-main .initiales {
+                width: 100%;
             }
         `;
     }

@@ -81,8 +81,8 @@ export default class Radio extends BaseElement {
 					${this.disabled == "true" ? "disabled" : ""}
 					tabindex=${this.checked == "true" ? "0" : "-1"}
 				>
-				<label for=${this.key}>
-					<amr-icon value="${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}"></amr-icon>
+				<label class="v-align-items-center" for=${this.key}>
+					<amr-icon class="font-3" value="${this.checked == "true" ? "radio_button_checked" : "radio_button_unchecked"}"></amr-icon>
 					<span>${this.label}</span>
 				</label>
 			</span>

@@ -101,6 +101,7 @@ for(let k in flexProperties) {
 	basicStyle.innerHTML += `.grid-rows-${i}{grid-template-rows:repeat(${i}, 1fr);}`;
 	basicStyle.innerHTML += `.grid-col-${i}{grid-column: span ${i};}`;
 	basicStyle.innerHTML += `.grid-row-${i}{grid-row: span ${i};}`;
+	basicStyle.innerHTML += `.font-${i}{font-size:var(--size-${i});}`;
 });
 
 // Margin and padding
@@ -127,6 +128,10 @@ for(let k in flexProperties) {
 		} else {
 			basicStyle.innerHTML += `.m${v2}-${i}{margin${v3}:var(--size-${i});}`;
 			basicStyle.innerHTML += `.p${v2}-${i}{padding${v3}:var(--size-${i});}`;
+			if(v != "") {
+				basicStyle.innerHTML += `.${v2}-${i}{${v}:var(--size-${i});}`;
+				basicStyle.innerHTML += `.${v2}-${i}{${v}:var(--size-${i});}`;
+			}
 		}
 	});
 });
@@ -137,6 +142,10 @@ for(let k in flexProperties) {
 	["xxs","xs","s","m","l","xl","xxl"].forEach(v3 => {
 		basicStyle.innerHTML += `.${v2}-${v3}{${v}:var(--size-${v3});}`;
 		basicStyle.innerHTML += `.m${v2}-${v3}{max-${v}:var(--size-${v3});}`;
+	});
+	[...Array(10)].forEach((e, i) => {
+		basicStyle.innerHTML += `.${v2}-${i+1}{${v}:var(--size-${i+1});}`;
+		basicStyle.innerHTML += `.m${v2}-${i}+1{max-${v}:var(--size-${i+1});}`;
 	});
 	[...Array(5)].forEach((e, i) => {
 		let v3 = i * 25;
@@ -152,6 +161,11 @@ for(let k in flexProperties) {
 	basicStyle.innerHTML += `.overflow-${v}{overflow:${v};}`;
 	basicStyle.innerHTML += `.overflow-x-${v}{overflow-x:${v};}`;
 	basicStyle.innerHTML += `.overflow-y-${v}{overflow-y:${v};}`;
+});
+
+// Cursor
+["pointer","text","not-allowed","move","grab"].forEach(v => {
+	basicStyle.innerHTML += `.${v}{cursor:${v};}`;
 });
 
 // Add styles to the document head

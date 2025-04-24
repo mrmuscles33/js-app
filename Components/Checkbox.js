@@ -43,8 +43,8 @@ export default class Checkbox extends BaseElement {
 					${this.value == "" ? "" : "value='" + this.value + "'"} 
 					${this.disabled == "true" ? "disabled" : ""}
 				/>
-				<label for="${this.key}" >
-					<amr-icon value="${this.checked == "true" ? "check_box" : "check_box_outline_blank"}"></amr-icon>
+				<label class="v-align-items-center" for="${this.key}" >
+					<amr-icon class="font-3" value="${this.checked == "true" ? "check_box" : "check_box_outline_blank"}"></amr-icon>
 					<span>${this.label}</span>
 				</label>
 			</span>

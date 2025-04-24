@@ -63,7 +63,7 @@ export default class List extends BaseElement {
                     ${isDisabled(option) ? "tabindex='-1'" : "tabindex='0'"}
                 >
                     <span class="label flex-1 block">${option.label}</span>
-                    <amr-icon class='selected ${option.selected ? "" : "hidden w-0"}' value='check'></amr-icon>
+                    <amr-icon class='font-3 selected ${option.selected ? "" : "hidden w-0"}' value='check'></amr-icon>
                 </li>`
                 ).join("")}
            </ul>
