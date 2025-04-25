@@ -17,6 +17,17 @@ export default class DatePicker extends TextField {
 		this.startWeek = this.startWeek || Dates.MONDAY;
 		this.min = this.min || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
 		this.max = this.max || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
+		this.right = this.right || Array.from(this.childNodes).find(
+			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
+		) || (() => {
+			if(this.readonly == "true" || this.disabled == "true") return null;
+			let icon = document.createElement("amr-icon");
+			icon.setAttribute("slot", "right");
+			icon.setAttribute("value", "calendar_today");
+			icon.setAttribute("action", "true");
+			icon.classList.add("font-3");
+			return icon;
+		})();
 		super.connectedCallback();
 	}
 	render() {
@@ -32,6 +43,12 @@ export default class DatePicker extends TextField {
 		me.visible = me.visible || "false";
 		
 		super.render();
+
+		// Icon right
+		let iconRight = me.querySelector("[slot='right']");
+		if(iconRight && iconRight.tagName == "AMR-ICON" && iconRight.getAttribute("action") == "true") {
+			iconRight.onClick = () => me.onClick();
+		}
 
 		// Close button
 		let closeButton = me.querySelector('[name="close-button"]');
@@ -114,6 +131,7 @@ export default class DatePicker extends TextField {
 		}
 	}
 	onClick() {
+		if(this.readonly == "true" || this.disabled == "true") return false;
 		let me = this;
 		me.ignoreChange = true;
 		me.visible = "true";
@@ -128,7 +146,7 @@ export default class DatePicker extends TextField {
 		}, 100);
 	}
 	onKeydown(event) {
-		if(Events.isSpace(event)){
+		if(Events.isSpace(event)) {
 			this.onClick();
 			event.preventDefault();
 			event.stopPropagation();

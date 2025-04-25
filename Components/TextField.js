@@ -33,10 +33,10 @@ export default class TextField extends BaseElement {
 		this.filled = this.filled || "true";
 		this.maxlength = this.maxlength || 128;
 		this.key = this.key || `amr-text-${TextField.counter++}`;
-		this.left = Array.from(this.childNodes).find(
+		this.left = this.left || Array.from(this.childNodes).find(
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left"
 		);
-		this.right = Array.from(this.childNodes).find(
+		this.right = this.right || Array.from(this.childNodes).find(
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
 		);
 		super.connectedCallback();
@@ -98,7 +98,7 @@ export default class TextField extends BaseElement {
 	}
 	template() {
 		return `
-			<div class="textfield-main flex-row v-align-items-center px-1 gap-x-1
+			<div class="textfield-main relative text flex-row v-align-items-center px-1 gap-x-1 w-100 ${this.label ? "h-6" : "h-4"}
 				${this.cls}
 				${this.filled === "true" ? "filled" : ""}"
 			>
@@ -115,11 +115,11 @@ export default class TextField extends BaseElement {
 						${this.readonly === "true" ? "readonly" : ""}
 						${this.required === "true" ? "required" : ""}
 						${this.pattern ? "pattern='" + this.pattern + "'" : ""}
-						class="flex-1 ${this.cls}"
+						class="flex-1 font-2 ${this.cls}"
 					/>
 				</span>
 				${this.right ? this.right.outerHTML : ""}
-				${this.errormessage ? `<span class='error'>${this.errormessage}</span>` : ""}
+				${this.errormessage ? `<span class='error absolute w-100 t-100 l-0'>${this.errormessage}</span>` : ""}
 			</div>
 		`;
 	}
@@ -127,16 +127,9 @@ export default class TextField extends BaseElement {
 		return `
 			.textfield-main {
 				background-color: transparent;
-				height: 36px;
-				width: 100%;
 				border-radius: 8px;
-				position: relative;
 				border: 1px solid var(--secondary-shade5);
 				box-sizing: border-box;
-				cursor: text;
-			}
-			.textfield-main:has(label) {
-				height: 48px;
 			}
 			.textfield-main.filled {
 				background-color: var(--secondary-shade2);
@@ -165,7 +158,6 @@ export default class TextField extends BaseElement {
 				cursor: not-allowed;
 			}
 			.textfield-main > span > input {
-				font-size: 16px;
 				box-sizing: border-box;
 				border: none;
 				outline: none;
@@ -221,10 +213,6 @@ export default class TextField extends BaseElement {
 				color: var(--dark-shade2);
 			}
 			.textfield-main .error {
-				position: absolute;
-				width: 100%;
-				top: 100%;
-				left: 0;
 				transform: translateY(5px);
 				font-size: 12px;
 			}

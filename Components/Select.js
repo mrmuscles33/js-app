@@ -21,6 +21,17 @@ export default class Select extends TextField {
                     disabled: node.hasAttribute("disabled")
                 };
 			});
+        this.right = this.right || Array.from(this.childNodes).find(
+            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
+        ) || (() => {
+            if(this.disabled == "true") return null;
+            let icon = document.createElement("amr-icon");
+            icon.setAttribute("slot", "right");
+            icon.setAttribute("value", "arrow_drop_down");
+            icon.setAttribute("action", "true");
+            icon.classList.add("font-3");
+            return icon;
+        })();
 		super.connectedCallback();
 	}
 	getValue() {
@@ -41,6 +52,12 @@ export default class Select extends TextField {
 		me.ignoreChange = false;
 
 		super.render();
+
+        // Icon right
+		let iconRight = me.querySelector("[slot='right']");
+		if(iconRight && iconRight.tagName == "AMR-ICON" && iconRight.getAttribute("action") == "true") {
+			iconRight.onClick = () => me.onClick();
+		}
 
 		if (me.disabled == "false") {
             let main = me.querySelector(".droplist-main");
@@ -112,6 +129,7 @@ export default class Select extends TextField {
 		this.open();
 	}
     open() {
+        if(this.disabled == "true") return false;
         let me = this;
         me.opened = "true";
         setTimeout(() => {
@@ -122,7 +140,7 @@ export default class Select extends TextField {
         let me = this;
         me.opened = "false";
         setTimeout(() => {
-            me.querySelector(".droplist-main .textfield-main amr-icon.right").focus();
+            me.querySelector(".droplist-main .textfield-main [slot=right]").focus();
         }, 100);
     }
 	template() {
@@ -134,7 +152,7 @@ export default class Select extends TextField {
                 <div class="droplist-mask fixed w-100 h-100"></div>
                 <div class="droplist-menu flex-col mt-1 p-1 w-100 ${this.position}">
                     <amr-text filled="false" iconleft="search" flex="true" value="${this.filter}"></amr-text>
-                    <amr-list limit="${this.limit}" class="mh-xs mt-1 overflow-y-auto overflow-x-hidden">
+                    <amr-list limit="${this.limit}" class="max-h-xs mt-1 overflow-y-auto overflow-x-hidden">
                         ${filteredOptions.map((option) =>
                             `<amr-option
                                 value="${option.value}" 

@@ -11,11 +11,21 @@ export default class TimePicker extends TextField {
         this.format = this.format || (this.seconde == "true" ? Times.H_M_S : Times.H_M);
         this.pattern = this.pattern || Times.getPattern(this.format);
         this.size = this.size || (this.seconde == "true" ? "medium" : "small");
-        
         this.seconde = this.seconde || "false";
         this.opened = this.opened || "false";
         this.min = this.min || (this.seconde == "true" ? "00:00:00" : "00:00");
         this.max = this.max || (this.seconde == "true" ? "23:59:59" : "23:59");
+        this.right = this.right || Array.from(this.childNodes).find(
+			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
+		) || (() => {
+			if(this.readonly == "true" || this.disabled == "true") return null;
+			let icon = document.createElement("amr-icon");
+			icon.setAttribute("slot", "right");
+			icon.setAttribute("value", "access_time");
+			icon.setAttribute("action", "true");
+			icon.classList.add("font-3");
+			return icon;
+		})();
         super.connectedCallback();
     }
     render() {
@@ -23,6 +33,12 @@ export default class TimePicker extends TextField {
         me.position = me.getBoundingClientRect().top + me.getBoundingClientRect().height + 280 > window.innerHeight ? "top" : "bottom";
         
         super.render();
+
+        // Icon right
+		let iconRight = me.querySelector("[slot='right']");
+		if(iconRight && iconRight.tagName == "AMR-ICON" && iconRight.getAttribute("action") == "true") {
+            iconRight.onClick = () => me.onClick();
+		}
 
         let main = me.querySelector(".timepicker-main");
         main.addEventListener("keydown", (event) => {
@@ -138,6 +154,7 @@ export default class TimePicker extends TextField {
 		}
 	}
     open() {
+        if(this.readonly == "true" || this.disabled == "true") return false;
         let me = this;
         me.opened = "true";
         setTimeout(() => {

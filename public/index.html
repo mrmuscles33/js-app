@@ -62,9 +62,7 @@
 					<amr-tooltip text="tooltip">
 						<amr-button text="Tertiary" bordered="false"></amr-button>
 					</amr-tooltip>
-					<amr-button text="Disabled" icon="block" disabled="true">
-						<amr-icon value="block" slot="left" class="font-3"></amr-icon>
-					</amr-button>
+					<amr-button text="Disabled" icon="block" disabled="true"></amr-button>
 				</span>
 
 				<h3 class="my-2">Checkboxes</h3>
@@ -86,7 +84,7 @@
 				<h3 class="my-2">Textfield</h3>
 				<span class="gap-x-2 v-align-items-center">
 					<amr-text class="flex-1" label="Label" required="true"></amr-text>
-					<amr-text class="flex-1" filled="false" errormessage="tt"></amr-text>
+					<amr-text class="flex-1" filled="false"></amr-text>
 					<amr-text class="flex-2" label="Icons">
 						<amr-icon value="search" slot="left" class="font-3"></amr-icon>
 						<amr-icon value="highlight_off" slot="right" class="font-3"></amr-icon>
@@ -119,15 +117,9 @@
 
 				<h3 class="my-2">Date & Time Pickers</h3>
 				<span class="gap-x-2">
-					<amr-date label="Date" value="25/12/2024" max="31/12/2024">
-						<amr-icon value="calendar_today" slot="right" class="font-3"></amr-icon>
-					</amr-date>
-					<amr-time label="Time">
-						<amr-icon value="access_time" slot="right" class="font-3"></amr-icon>
-					</amr-time>
-					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true">
-						<amr-icon value="access_time" slot="right" class="font-3"></amr-icon>
-					</amr-time>
+					<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
+					<amr-time label="Time"></amr-time>
+					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
 				</span>
 
 				<h3 class="my-2">List</h3>
@@ -141,7 +133,6 @@
 						<amr-option value="6">Option 6</amr-option>
 					</amr-list>
 					<amr-select class="flex-1" label="Drop List" limit="2">
-						<amr-icon value="arrow_drop_down" slot="right" class="font-3"></amr-icon>
 						<amr-option value="1" selected>Optiooooooooooooooooooooooooooon 1</amr-option>
 						<amr-option value="2">Option 2</amr-option>
 						<amr-option value="3" selected>Option 3</amr-option>
