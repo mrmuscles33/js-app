@@ -18,6 +18,7 @@ import Icon from "../Components/Icon.js";
 import Badge from "../Components/Badge.js";
 import List from "../Components/List.js";
 import Select from "../Components/Select.js";
+import Calendar from "../Components/Calendar.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -38,6 +39,7 @@ customElements.define("amr-icon", Icon);
 customElements.define("amr-badge", Badge);
 customElements.define("amr-list", List);
 customElements.define("amr-select", Select);
+customElements.define("amr-calendar", Calendar);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -61,6 +63,7 @@ componentsStyles.innerHTML = Html.clean`
 	${Badge.style()}
 	${List.style()}
 	${Select.style()}
+	${Calendar.style()}
 `;
 
 // Basic style
@@ -186,6 +189,11 @@ for(let k in flexProperties) {
 // Cursor
 ["pointer","text","not-allowed","move","grab"].forEach(v => {
 	basicStyle.innerHTML += `.${v}{cursor:${v};}`;
+});
+
+// Ratio
+["1","2-1","3-2","4-3","5-4","16-9","21-9", "2-3","3-4","4-5","9-16","9-21"].forEach(v => {
+	basicStyle.innerHTML += `.ratio-${v}{aspect-ratio:${v.replace("-", "/")};}`;
 });
 
 // Add styles to the document head

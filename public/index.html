@@ -117,9 +117,12 @@
 
 				<h3 class="my-2">Date & Time Pickers</h3>
 				<span class="gap-x-2">
-					<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
-					<amr-time label="Time"></amr-time>
-					<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
+					<amr-calendar class="w-xs" readonly="true"></amr-calendar>
+					<span class="flex-col gap-y-2">
+						<amr-date label="Date" value="25/12/2024" max="31/12/2024"></amr-date>
+						<amr-time filled="false" class="w-xxs"></amr-time>
+						<amr-time label="Time" value="12:00:00" min="08:30:45" max="19:00:00" seconde="true"></amr-time>
+					</span>
 				</span>
 
 				<h3 class="my-2">List</h3>

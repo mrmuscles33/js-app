@@ -1,5 +1,4 @@
 import BaseElement from "./BaseElement.js";
-import Events from "../Utils/Events.js";
 
 export default class TextField extends BaseElement {
 	static attrs = [
@@ -115,7 +114,7 @@ export default class TextField extends BaseElement {
 						${this.readonly === "true" ? "readonly" : ""}
 						${this.required === "true" ? "required" : ""}
 						${this.pattern ? "pattern='" + this.pattern + "'" : ""}
-						class="flex-1 font-2 ${this.cls}"
+						class="w-100 font-2 ${this.cls}"
 					/>
 				</span>
 				${this.right ? this.right.outerHTML : ""}
