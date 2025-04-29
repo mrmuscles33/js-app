@@ -1,6 +1,7 @@
 import TextField from "./TextField.js";
 import Times from "../Utils/Times.js";
 import Events from "../Utils/Events.js";
+import Icon from "./Icon.js";
 
 export default class TimePicker extends TextField {
     static attrs = [...TextField.attrs, "seconde", "opened", "min", "max"];
@@ -16,16 +17,11 @@ export default class TimePicker extends TextField {
         this.min = this.min || (this.seconde == "true" ? "00:00:00" : "00:00");
         this.max = this.max || (this.seconde == "true" ? "23:59:59" : "23:59");
         this.right = this.right || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
-		) || (() => {
-			if(this.readonly == "true" || this.disabled == "true") return null;
-			let icon = document.createElement("amr-icon");
-			icon.setAttribute("slot", "right");
-			icon.setAttribute("value", "access_time");
-			icon.setAttribute("action", "true");
-			icon.classList.add("font-3");
-			return icon;
-		})();
+            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
+        ) || (() => {
+            if(this.readonly == "true" || this.disabled == "true") return null;
+            return Icon.get({ value: "access_time", action: "true", slot: "right"}, ["font-3"]);
+        })();
         super.connectedCallback();
     }
     render() {

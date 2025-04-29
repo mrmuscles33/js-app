@@ -10,6 +10,9 @@
 	background-color: var(--secondary-shade2);
 	border-radius: 50px;
 }
+*::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
 html, body {
 	position: relative;
 	width: 100%;

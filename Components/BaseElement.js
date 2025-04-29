@@ -2,12 +2,13 @@ import Events from "../Utils/Events.js";
 import Html from "../Utils/Html.js";
 
 export default class BaseElement extends HTMLElement {
-	static attrs = ["key", "name", "cls", "extrastyle"];
+	static attrs = ["key", "name", "cls", "extrastyle", "parent"];
 	static idCounter = 1;
 	constructor() {
 		super();
 		this.ignoreChange = true;
 		this.skipFocus = false;
+		this.parent = this.parent || '';
 		this.constructor.attrs.forEach((attr) => {
 			if (!Object.getOwnPropertyDescriptor(this.constructor.prototype, attr)) {
 				Object.defineProperty(this.constructor.prototype, attr, {
@@ -25,7 +26,7 @@ export default class BaseElement extends HTMLElement {
 		return this.attrs;
 	}
 	connectedCallback() {
-		this.key = this.key || `base-element-${BaseElement.idCounter++}`;
+		this.key = this.key || `element-${BaseElement.idCounter++}`;
 		this.name = this.name || "";
 		this.cls = this.cls || "";
 		this.extrastyle = this.extrastyle || "";
@@ -41,6 +42,9 @@ export default class BaseElement extends HTMLElement {
 		let tpl = Html.clean`${me.template()}`;
 		let style = Html.clean`${me.extrastyle}`;
 		let activeId = document.activeElement.id;
+		if(this.parent && me.parentElement != document.querySelector(this.parent)) {
+			document.querySelector(this.parent).appendChild(me.parentElement.removeChild(me));
+		}
 		Html.render(me, (style ? `<style>[key=${this.key}]{${style}}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering

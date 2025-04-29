@@ -1,6 +1,7 @@
 import Dates from "../Utils/Dates.js";
 import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
+import Icon from "./Icon.js";
 
 export default class DatePicker extends TextField {
 	static attrs = [...TextField.attrs, "startWeek", "min", "max"];
@@ -21,12 +22,7 @@ export default class DatePicker extends TextField {
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
 		) || (() => {
 			if(this.readonly == "true" || this.disabled == "true") return null;
-			let icon = document.createElement("amr-icon");
-			icon.setAttribute("slot", "right");
-			icon.setAttribute("value", "calendar_today");
-			icon.setAttribute("action", "true");
-			icon.classList.add("font-3");
-			return icon;
+			return Icon.get({ value: "calendar_today", action: "true", slot: "right"}, ["font-3"]);
 		})();
 		super.connectedCallback();
 	}

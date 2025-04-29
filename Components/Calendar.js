@@ -251,7 +251,7 @@ export default class Calendar extends BaseElement {
 	template() {
 		return `
 			<div class="calendar-main w-100 flex-col">
-				<span>
+				<span class="gap-1">
 					<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}">
 						<amr-button text="${this.getDisplayedMonth()}" bordered="false" name="year-button" disabled="${this.readonly}"></amr-button>
 					</amr-tooltip>

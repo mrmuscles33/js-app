@@ -1,12 +1,12 @@
 import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
+import Icon from "./Icon.js";
 
 export default class Select extends TextField {
 	static attrs = [...TextField.attrs, "limit", "opened", "filter"];
     static counter = 1;
 	connectedCallback() {
         this.key = this.key || `amr-select-${Select.counter++}`;
-		this.iconright = this.iconright || "arrow_drop_down";
 		this.readonly = "true";
         this.limit = this.limit || 1;
 		this.opened = this.opened || "false";
@@ -25,12 +25,7 @@ export default class Select extends TextField {
             (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
         ) || (() => {
             if(this.disabled == "true") return null;
-            let icon = document.createElement("amr-icon");
-            icon.setAttribute("slot", "right");
-            icon.setAttribute("value", "arrow_drop_down");
-            icon.setAttribute("action", "true");
-            icon.classList.add("font-3");
-            return icon;
+            return Icon.get({ value: "arrow_drop_down", action: "true" }, ["font-3"]);
         })();
 		super.connectedCallback();
 	}

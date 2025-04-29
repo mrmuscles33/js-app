@@ -44,4 +44,12 @@ export default class Icon extends BaseElement {
             }
         `;
     }
+    static get(attrs = {}, cls = []) {
+        let icon = document.createElement("amr-icon");
+        Object.entries(attrs).forEach(([attr, value]) => {
+            icon.setAttribute(attr, value);
+        });
+        icon.classList.add(...cls);
+        return icon;
+    }
 }

@@ -9,13 +9,38 @@
 		<link rel="stylesheet" href="./google_icons.css" />
 		<script type="module" src="./main.js"></script>
 		<script defer>
-			let get = (selector) => document.querySelector(selector);
-			let getAll = (selector) => document.querySelectorAll(selector);
+			let get = (selector, root = document) => root.querySelector(selector);
+			let getAll = (selector, root = document) => root.querySelectorAll(selector);
 
 			function onLoad() {
 				let button = get('amr-button[name="primary-button"]');
 				button.onClick = () => {
 					alert('Button clicked');
+				};
+
+				let button2 = get('amr-button[text="Secondary"]');
+				let modal1 = get('amr-modal[name="modal-1"]');
+				button2.onClick = () => {
+					modal1.open(button2);
+				};
+				let _render = modal1.render;
+				modal1.render = () => {
+					_render.call(modal1);
+					let valid = get('amr-button[text="Valider"]', modal1);
+					valid.onClick = () => {
+						modal2.open(valid);
+					};
+					let close = get('amr-button[text="Fermer"]', modal1);
+					close.onClick = () => {
+						modal1.close();
+					};
+				};
+				let modal2 = get('amr-modal[name="modal-2"]');
+				modal2.render = () => {
+					let close = get('amr-button[text="Fermer"]', modal2);
+					close.onClick = () => {
+						modal2.close();
+					};
 				};
 
 				let toogle = get('amr-switch');
@@ -53,6 +78,59 @@
 				<h2>Controls</h2>
 				<h3 class="my-2">Button</h3>
 				<span class="grid grid-cols-4 gap-x-4 gap-y-2">
+					<amr-modal cls="min-w-s max-w-m max-h-75" title="Title" name="modal-1">
+						<div slot="content" class="flex-col gap-y-2">
+							<amr-checkbox label="Check me" checked="true"></amr-checkbox>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaaa</p>
+							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
+							<p>aaaaaaaaaaaaaaa</p>
+						</div>
+						<div slot="footer" class="w-100 grid grid-cols-2 gap-x-2">
+							<amr-button text="Fermer" bordered="false"></amr-button>
+							<amr-button text="Valider" primary="true"></amr-button>
+						</div>
+					</amr-modal>
+					<amr-modal title="Title" name="modal-2">
+						<div slot="content" class="flex-col gap-y-2">
+							<p>aaaaaaaaaaaaaaa</p>
+						</div>
+						<div slot="footer" class="w-100">
+							<amr-button text="Fermer" bordered="false" class="flex-1"></amr-button>
+						</div>
+					</amr-modal>
 					<amr-button text="Primary" primary="true" cls="test" name="primary-button">
 						<amr-icon value="chevron_left" slot="left" class="font-3"></amr-icon>
 					</amr-button>

@@ -14,11 +14,12 @@ import DatePicker from "../Components/DatePicker.js";
 import Toolbar from "../Components/Toolbar.js";
 import TimePicker from "../Components/TimePicker.js";
 import Avatar from "../Components/Avatar.js";
-import Icon from "../Components/Icon.js";
 import Badge from "../Components/Badge.js";
 import List from "../Components/List.js";
 import Select from "../Components/Select.js";
 import Calendar from "../Components/Calendar.js";
+import Modal from "../Components/Modal.js";
+import Icon from "../Components/Icon.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -35,11 +36,12 @@ customElements.define("amr-date", DatePicker);
 customElements.define("amr-toolbar", Toolbar);
 customElements.define("amr-time", TimePicker);
 customElements.define("amr-avatar", Avatar);
-customElements.define("amr-icon", Icon);
 customElements.define("amr-badge", Badge);
 customElements.define("amr-list", List);
 customElements.define("amr-select", Select);
 customElements.define("amr-calendar", Calendar);
+customElements.define("amr-modal", Modal);
+customElements.define("amr-icon", Icon);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -59,11 +61,12 @@ componentsStyles.innerHTML = Html.clean`
 	${Toolbar.style()}
 	${TimePicker.style()}
 	${Avatar.style()}
-	${Icon.style()}
 	${Badge.style()}
 	${List.style()}
 	${Select.style()}
 	${Calendar.style()}
+	${Modal.style()}
+	${Icon.style()}
 `;
 
 // Basic style
@@ -194,6 +197,23 @@ for(let k in flexProperties) {
 // Ratio
 ["1","2-1","3-2","4-3","5-4","16-9","21-9", "2-3","3-4","4-5","9-16","9-21"].forEach(v => {
 	basicStyle.innerHTML += `.ratio-${v}{aspect-ratio:${v.replace("-", "/")};}`;
+});
+
+// Colors
+["primary","secondary","light","dark"].forEach(v => {
+	[...Array(6)].forEach((e, i) => {
+		basicStyle.innerHTML += `.color-${v}-${i}{color:var(--${v}-shade${i});}`;
+		basicStyle.innerHTML += `.bg-${v}-${i}{background-color:var(--${v}-shade${i});}`;
+	});
+});
+
+// Fonts
+[...Array(11)].forEach((e, i) => {
+	basicStyle.innerHTML += `.font-${i}{font-size:var(--size-${i});}`;
+});
+[...Array(9)].forEach((e, i) => {
+	let v = 100 + i * 100;
+	basicStyle.innerHTML += `.font-weight-${v}{font-weight:${v};}`;
 });
 
 // Add styles to the document head
