@@ -42,8 +42,8 @@ export default class BaseElement extends HTMLElement {
 		let tpl = Html.clean`${me.template()}`;
 		let style = Html.clean`${me.extrastyle}`;
 		let activeId = document.activeElement.id;
-		if(this.parent && me.parentElement != document.querySelector(this.parent)) {
-			document.querySelector(this.parent).appendChild(me.parentElement.removeChild(me));
+		if(me.parent && !document.querySelector(`${me.parent} > ${me.localName}[key=${me.key}]`)) {
+			document.querySelector(me.parent).appendChild(me.parentElement.removeChild(me));
 		}
 		Html.render(me, (style ? `<style>[key=${this.key}]{${style}}</style>` : "") + tpl);
 

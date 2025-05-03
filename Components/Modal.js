@@ -2,13 +2,14 @@ import BaseElement from "./BaseElement.js";
 import Events from "../Utils/Events.js";
 
 export default class Modal extends BaseElement {
-    static attrs = [...BaseElement.attrs, "visible"];
+    static attrs = [...BaseElement.attrs, "visible", "title", "closable"];
     static counter = 1;
     connectedCallback() {
         this.key = this.key || `modal-${Modal.idCounter++}`;
-        this.visible = this.visible || "false";
         this.parent = this.parent || "body";
+        this.visible = this.visible || "false";
         this.title = this.title || "";
+        this.closable = this.closable || "true";
         this.header = this.header || Array.from(this.childNodes).find(
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "header"
 		);
@@ -24,16 +25,12 @@ export default class Modal extends BaseElement {
         super.render();
 
         let me = this;
-        me.addEventListener('click', (event) => {
-            if(event.target == me) {
-                me.close();
-            }
-        });
-        me.addEventListener('keydown', (event) => {
-            if(Events.isEsc(event)) {
-                me.close();
-            }
-        });
+        if(me.closable == "true" && me.visible == "true") {
+            me.addEventListener('click', me.onClickMask);
+            me.addEventListener('keydown', me.onEscMask);
+            let closeButton = me.querySelector(".modal-header > amr-icon[value='close']");
+            closeButton.onClick = me.close;
+        }
 
         // Keep focus in modal
         let focusebleElements = me.querySelectorAll('input, select, textarea, button, [tabindex]:not([tabindex="-1"])');
@@ -56,11 +53,26 @@ export default class Modal extends BaseElement {
             });
         }
     }
+    onClickMask(event) {
+        if(event.target == this && !this.querySelector("amr-modal[visible='true']")) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.close();
+        }
+    }
+    onEscMask(event) {
+        if(Events.isEsc(event) && !this.querySelector("amr-modal[visible='true']")) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.close();
+        }
+    }
     close() {
         let me = this;
         me.ignoreChange = true;
         me.visible = "false";
         me.ignoreChange = false;
+        document.querySelector(me.parent).classList.remove("overflow-hidden");
         setTimeout(() => {
             me.render();
             if (me.caller) {
@@ -71,6 +83,7 @@ export default class Modal extends BaseElement {
     open(caller) {
         this.caller = caller;
         this.visible = "true";
+        document.querySelector(this.parent).classList.add("overflow-hidden");
         setTimeout(() => {
             // Focus first element in modal
             let firstFocusable = this.querySelector('input, select, textarea, button, [tabindex]:not([tabindex="-1"])');
@@ -84,8 +97,11 @@ export default class Modal extends BaseElement {
         let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
         return `
             <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
-                <div class="modal-header">${this.header ? this.header.outerHTML : `<h1 class="font-4 font-weight-700">${this.title}</h1>`}</div>
-                <div class="modal-content overflow-auto flex-1">${this.content ? this.content.outerHTML : ""}</div>
+                <div class="modal-header v-align-items-center h-align-between">
+                    ${this.header ? this.header.outerHTML : `<h1 class="font-4 font-weight-700">${this.title}</h1>`}
+                    ${this.closable == "true" ? `<amr-icon action="true" class="font-3" value="close"></amr-icon>` : ""}
+                </div>
+                <div class="modal-content overflow-auto flex-1 relative">${this.content ? this.content.outerHTML : ""}</div>
                 <div class="modal-footer">${this.footer ? this.footer.outerHTML : ""}</div>
             </div>
         `;
@@ -96,8 +112,8 @@ export default class Modal extends BaseElement {
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 100vw;
-                height: 100vh;
+                width: 100%;
+                height: 100%;
                 z-index: 1000;
                 justify-content: center;
                 align-items: center;

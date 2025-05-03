@@ -26,20 +26,18 @@
 				let _render = modal1.render;
 				modal1.render = () => {
 					_render.call(modal1);
+
+					let close = get('amr-button[text="Fermer"]', modal1);
+					close.onClick = () => modal1.close();
+
 					let valid = get('amr-button[text="Valider"]', modal1);
 					valid.onClick = () => {
+						let modal2 = get('amr-modal[name="modal-2"]');
+						modal2.render = () => {
+							let close2 = get('amr-button[text="Fermer"]', modal2);
+							close2.onClick = () => modal2.close();
+						};
 						modal2.open(valid);
-					};
-					let close = get('amr-button[text="Fermer"]', modal1);
-					close.onClick = () => {
-						modal1.close();
-					};
-				};
-				let modal2 = get('amr-modal[name="modal-2"]');
-				modal2.render = () => {
-					let close = get('amr-button[text="Fermer"]', modal2);
-					close.onClick = () => {
-						modal2.close();
 					};
 				};
 
@@ -117,20 +115,21 @@
 							<p>aaaaaaaaaaaaaaa</p>
 							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
 							<p>aaaaaaaaaaaaaaa</p>
+							<amr-modal title="Title" name="modal-2" parent="amr-modal[name=modal-1] .modal-main" closable="false">
+								<div slot="content" class="flex-col gap-y-2">
+									<p>aaaaaaaaaaaaaaa</p>
+								</div>
+								<div slot="footer" class="w-100">
+									<amr-button text="Fermer" bordered="false" class="flex-1"></amr-button>
+								</div>
+							</amr-modal>
 						</div>
 						<div slot="footer" class="w-100 grid grid-cols-2 gap-x-2">
 							<amr-button text="Fermer" bordered="false"></amr-button>
 							<amr-button text="Valider" primary="true"></amr-button>
 						</div>
 					</amr-modal>
-					<amr-modal title="Title" name="modal-2">
-						<div slot="content" class="flex-col gap-y-2">
-							<p>aaaaaaaaaaaaaaa</p>
-						</div>
-						<div slot="footer" class="w-100">
-							<amr-button text="Fermer" bordered="false" class="flex-1"></amr-button>
-						</div>
-					</amr-modal>
+					
 					<amr-button text="Primary" primary="true" cls="test" name="primary-button">
 						<amr-icon value="chevron_left" slot="left" class="font-3"></amr-icon>
 					</amr-button>
