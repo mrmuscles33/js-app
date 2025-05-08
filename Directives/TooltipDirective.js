@@ -14,9 +14,9 @@ export default class TooltipDirective extends Directive {
             document.body.appendChild(tooltip);
         }
         element.addEventListener("mouseenter", () => this.showTooltip(tooltip, element));
-        element.addEventListener("focus", () => this.showTooltip(tooltip, element));
+        element.addEventListener("focusin", () => this.showTooltip(tooltip, element));
         element.addEventListener("mouseleave", () => this.hideTooltip(tooltip));
-        element.addEventListener("blur", () => this.hideTooltip(tooltip));
+        element.addEventListener("focusout", () => this.hideTooltip(tooltip));
     }
 
     onAttributeRemoved(element) {
@@ -25,9 +25,9 @@ export default class TooltipDirective extends Directive {
             tooltip.remove();
         }
         element.removeEventListener("mouseenter", () => this.showTooltip(tooltip, element));
-        element.removeEventListener("focus", () => this.showTooltip(tooltip, element));
+        element.removeEventListener("focusin", () => this.showTooltip(tooltip, element));
         element.removeEventListener("mouseleave", () => this.hideTooltip(tooltip));
-        element.removeEventListener("blur", () => this.hideTooltip(tooltip));
+        element.removeEventListener("focusout", () => this.hideTooltip(tooltip));
     }
 
     onAttributeChanged(element, oldValue, newValue) {

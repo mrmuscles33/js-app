@@ -27,7 +27,7 @@ export default class Modal extends BaseElement {
             me.addEventListener('click', me.onClickMask);
             me.addEventListener('keydown', me.onEscMask);
             let closeButton = me.querySelector(".modal-header > amr-icon[value='close']");
-            closeButton.onClick = me.close;
+            closeButton.onClick = (event) => me.close(event);
         }
 
         // Keep focus in modal
@@ -71,7 +71,7 @@ export default class Modal extends BaseElement {
         me.visible = "false";
         me.ignoreChange = false;
         (me.closest(".relative") || document.body).classList.remove("overflow-hidden");
-        me.fireHandler(new CustomEvent("close"), event);
+        me.fireHandler("close", event);
         return new Promise((resolve) => setTimeout(() => {
             me.render();
             if (me.caller) {

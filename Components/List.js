@@ -29,22 +29,23 @@ export default class List extends BaseElement {
         items.forEach(item => {
             item.addEventListener("keydown", (event) => {
                 if (Events.isEnter(event) || Events.isSpace(event)) {
-                    me.onSelectItem(item.getAttribute("value"));
+                    me.onSelectItem(event, item.getAttribute("value"));
                     event.preventDefault();
                     event.stopPropagation();
                 }
             });
             item.addEventListener("click", (event) => {
-                me.onSelectItem(event.target.getAttribute("value"));
+                me.onSelectItem(event, event.target.getAttribute("value"));
                 event.preventDefault();
                 event.stopPropagation();
             });
         });
 	}
-    onSelectItem(value) {
+    onSelectItem(event, value) {
         let me = this;
         let selectedItem = this.options.find((option) => option.value === value);
         selectedItem.selected = !selectedItem.disabled && !selectedItem.selected;
+        me.fireHandler("change", event);
         setTimeout(() => {
             me.querySelector("ul.list-main > li.list-item[value='" + value + "']").focus();
         }, 100);

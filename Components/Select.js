@@ -80,8 +80,9 @@ export default class Select extends TextField {
             let list = me.querySelector("amr-list");
             if(list) {
                 let _onSelectItem = list.onSelectItem;
-                list.onSelectItem = (value) => {
-                    _onSelectItem.call(me, value);
+                list.onSelectItem = (event, value) => {
+                    _onSelectItem.call(me, event, value);
+                    me.fireHandler("change", event);
                 };
             }
 
@@ -141,12 +142,14 @@ export default class Select extends TextField {
 	template() {
         let filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(this.filter.toLowerCase()) && !option.disabled);
 		return `
-            <div class="droplist-main v-align-item-start" role="listbox">
+            <div class="droplist-main v-align-item-start relative w-100" role="listbox">
                 ${super.template()}
                 ${this.opened == "true" ? `
-                <div class="droplist-mask fixed w-100 h-100"></div>
-                <div class="droplist-menu flex-col mt-1 p-1 w-100 ${this.position}">
-                    <amr-text filled="false" iconleft="search" flex="true" value="${this.filter}"></amr-text>
+                <div class="droplist-mask fixed w-100 h-100 t-0 l-0"></div>
+                <div class="droplist-menu absolute l-0 flex-col mt-1 p-1 w-100 bg-secondary-2 font-2 ${this.position}">
+                    <amr-text filled="false" value="${this.filter}">
+                        <amr-icon slot="left" value="search"></amr-icon>
+                    </amr-text>
                     <amr-list limit="${this.limit}" class="max-h-xs mt-1 overflow-y-auto overflow-x-hidden">
                         ${filteredOptions.map((option) =>
                             `<amr-option
@@ -166,24 +169,14 @@ export default class Select extends TextField {
 	}
 	static style() {
 		return `
-            .droplist-main {
-                position: relative;
-                width: 100%;
-            }
             .droplist-main > .droplist-mask {
-                top: 0;
-                left: 0;
                 background-color: transparent;
                 z-index: 1;
             }
             .droplist-main > .droplist-menu {
-                position: absolute;
-                left: 0;
-                background-color: var(--secondary-shade2);
                 border: 1px solid var(--secondary-shade5);
                 border-radius: 10px;
                 z-index: 2;
-                font-size: 16px;
             }
             .droplist-main > .droplist-menu.bottom {
                 top: 100%;
@@ -194,12 +187,6 @@ export default class Select extends TextField {
                 top: auto;
                 bottom: 100%;
                 transform: translateY(-5px);
-            }
-            .droplist-main > .droplist-menu > amr-text {
-                display: flex;
-            }
-            .droplist-main > .droplist-menu .textfield-main {
-                margin-right: 0;
             }
             .droplist-main > .droplist-menu > amr-list::-webkit-scrollbar {
                 width: 5px;

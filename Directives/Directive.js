@@ -20,6 +20,13 @@ export default class Directive {
                 } else {
                     this.onAttributeRemoved(target);
                 }
+
+                mutation.removedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        node.querySelectorAll(`[${this.attributeName}]`).forEach(this.onAttributeRemoved)
+                        if(node.hasAttribute(this.attributeName)) this.onAttributeRemoved(node);
+                    }
+                });
             });
         });
 
@@ -27,7 +34,8 @@ export default class Directive {
             attributes: true,
             attributeOldValue: true,
             attributeFilter: [this.attributeName],
-            subtree: true
+            subtree: true,
+            childList: true
         });
         this.observer = observer;
 
@@ -36,7 +44,6 @@ export default class Directive {
             this.onAttributeAdded(element, value);
         });
     }
-
     onAttributeAdded(element, newValue) {
         console.warn(`Attribute "${this.attributeName}" added with value "${newValue}" to`, element);
     }
@@ -46,7 +53,6 @@ export default class Directive {
     onAttributeChanged(element, oldValue, newValue) {
         console.warn(`Attribute "${this.attributeName}" changed from "${oldValue}" to "${newValue}" on`, element);
     }
-
     disconnect() {
         this.observer.disconnect();
     }

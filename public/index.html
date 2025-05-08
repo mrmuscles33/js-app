@@ -19,24 +19,17 @@
 				};
 
 				let button2 = get('amr-button[text="Secondary"]');
-				button2.onClick = () => modal1.open(button2);
-
 				let modal1 = get('amr-modal[name="modal-1"]');
-				let _open1 = modal1.open;
-				modal1.open = () => {
-					_open1.call(modal1);
-
+				button2.onClick = (event) => modal1.open(event, button2);
+				modal1.onOpen = () => {
 					let close = get('amr-button[text="Fermer"]', modal1);
 					let valid = get('amr-button[text="Valider"]', modal1);
-					close.onClick = () => modal1.close();
-					valid.onClick = () => modal2.open(valid);
-
 					let modal2 = get('amr-modal[name="modal-2"]', modal1);
-					let _open2 = modal2.open;
-					modal2.open = () => {
-						_open2.call(modal2);
-						let close = get('amr-button[text="Fermer"]', modal2);
-						close.onClick = () => modal2.close();
+					close.onClick = () => modal1.close();
+					valid.onClick = (event) => modal2.open(event, valid);
+					modal2.onOpen = () => {
+						let close2 = get('amr-button[text="Fermer"]', modal2);
+						close2.onClick = () => modal2.close();
 					};
 				};
 
