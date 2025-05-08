@@ -4,7 +4,6 @@ import Events from "../Utils/Events.js";
 
 export default class Calendar extends BaseElement {
 	static attrs = [...BaseElement.attrs, "format", "value", "startWeek", "min", "max", "readonly"];
-	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 	static selector = "amr-calendar";
 	connectedCallback() {
@@ -57,7 +56,7 @@ export default class Calendar extends BaseElement {
 		} else {
 			// Days
 			me.querySelectorAll('.calendar-day:not(.header)').forEach((day) => {
-				day.addEventListener('click', () =>  me.onClickDay(day));
+				day.addEventListener('click', (event) =>  me.onClickDay(event, day));
 				day.addEventListener('keydown', (event) =>  me.onKeyDownDay(event, day));
 			});
 		}
@@ -114,7 +113,7 @@ export default class Calendar extends BaseElement {
 			me.querySelector('[name="next-button"]').focus();
 		}, 100);
 	}
-	onClickDay(day) {
+	onClickDay(event, day) {
 		let me = this;
 		if(me.readonly == "true") return false;
 		let clickedDate = Dates.toDate(day.getAttribute('value'));
@@ -125,6 +124,7 @@ export default class Calendar extends BaseElement {
 		setTimeout(() => {
 			me.querySelector('.calendar-day[tabindex="0"]').focus();
 		}, 100);
+		me.fireHandler("change", event);
 	}
 	onClickYear(year) {
 		if(this.readonly == "true") return false;
@@ -198,7 +198,7 @@ export default class Calendar extends BaseElement {
 	}
 	getDisplayedMonth(){
 		let date =  Dates.toDate(this.currentMonth, Dates.M_Y);
-		let str = Calendar.months[date.getMonth()] + ' ' + date.getFullYear();
+		let str = Dates.MONTHS[date.getMonth()] + ' ' + date.getFullYear();
 		return str;
  	}
 	getDisplayedDays(){
@@ -245,7 +245,7 @@ export default class Calendar extends BaseElement {
 		return years;
 	}
 	getSortedDays() {
-		return Calendar.days.slice(this.startWeek,7).concat(Calendar.days.slice(0,this.startWeek));
+		return Dates.DAYS.slice(this.startWeek,7).concat(Dates.DAYS.slice(0,this.startWeek));
 	}
 	template() {
 		return `

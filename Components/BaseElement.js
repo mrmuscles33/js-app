@@ -8,6 +8,7 @@ export default class BaseElement extends HTMLElement {
 		super();
 		this.ignoreChange = true;
 		this.skipFocus = false;
+		this.events = {};
 		this.constructor.attrs.forEach((attr) => {
 			if (!Object.getOwnPropertyDescriptor(this.constructor.prototype, attr)) {
 				Object.defineProperty(this.constructor.prototype, attr, {
@@ -66,6 +67,11 @@ export default class BaseElement extends HTMLElement {
 		if (this[handler] && typeof this[handler] == "function") {
 			this[handler](event);
 		}
+		this.dispatchEvent(new CustomEvent(eventName, { detail: event }));
+	}
+	addEventListener(eventName, handler) {
+		this.events[eventName] = [handler];
+		super.addEventListener(eventName, handler);
 	}
 	static get(attrs = {}, cls = [], tagName = this.selector) {
         let element = document.createElement(tagName);

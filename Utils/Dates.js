@@ -1,8 +1,10 @@
 const Dates = {
     // DAYS
     SUNDAY : 0, MONDAY : 1, TUESDAY : 2, WEDNESDAY : 3, THURSDAY : 4, FRIDAY : 5, SATURDAY : 6,
+    DAYS : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
     // MONTHS
     JANUARY : 0, FEBRUARY : 1, MARCH : 2, APRIL : 3, MAY : 4, JUNE : 5, JULY : 6, AUGUST : 7, SEPTEMBER : 8, OCTOBER : 9, NOVMEBER : 10, DECEMBER : 11,
+    MONTHS : ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
     // FORMATS
     D_M_Y : 'DD/MM/YYYY', M_D_Y : 'MM/DD/YYYY', Y_M_D : 'YYYY/MM/DD', Y_D_M : 'YYYY/DD/MM',
     DMY : 'DDMMYYYY', MDY : 'MMDDYYYY', YMD : 'YYYYMMDD', YDM : 'YYYYDDMM',
@@ -35,6 +37,10 @@ const Dates = {
         return pFormat.toUpperCase().replace('DD',pDate.getDate().toString().padStart(2,'0'))
                       .replace('MM',(pDate.getMonth() + 1).toString().padStart(2,'0'))
                       .replace('YYYY',pDate.getFullYear())
+    },
+    toFullText : (pStrDate,pFormat) => {
+        let date = Dates.toDate(pStrDate,pFormat);
+		return Dates.DAYS[date.getDay()] + ' ' + date.getDate() + ' ' + Dates.MONTHS[date.getMonth()] + ' ' + date.getFullYear();
     },
     isValid(pStrDate,pFormat){
         try {

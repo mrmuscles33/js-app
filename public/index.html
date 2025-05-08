@@ -48,6 +48,9 @@
 
 				let avatar = get('amr-avatar');
 				avatar.setAttribute('tooltip', `${avatar.getAttribute('firstname')} ${avatar.getAttribute('lastname')} • Connecté`);
+
+				let select = get('amr-select');
+				select.onFilter = () => console.log('onFilter');
 			}
 		</script>
 		<style>

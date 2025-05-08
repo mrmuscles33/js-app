@@ -24,7 +24,7 @@ export default class Select extends TextField {
             (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
         ) || (() => {
             if(this.disabled == "true") return null;
-            return Icon.get({ value: "arrow_drop_down", action: "true" }, ["font-3"]);
+            return Icon.get({ value: "arrow_drop_down", action: "true", slot: "right" }, ["font-3"]);
         })();
 		super.connectedCallback();
 	}
@@ -104,11 +104,12 @@ export default class Select extends TextField {
 				        event.stopPropagation();
                     }
                 };
-                search.onInput = () => {
+                search.onInput = (event) => {
                     clearTimeout(me.typingTimer);
                     me.typingTimer = setTimeout(() => {
                         me.filter = search.value;
                         me.focusSearch();
+                        me.fireHandler("filter", event);
                     }, 500);
                 }
             }

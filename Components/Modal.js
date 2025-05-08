@@ -55,41 +55,47 @@ export default class Modal extends BaseElement {
         if(event.target == this && !this.querySelector("amr-modal[visible='true']")) {
             event.preventDefault();
             event.stopPropagation();
-            this.close();
+            this.close(event);
         }
     }
     onEscMask(event) {
         if(Events.isEsc(event) && !this.querySelector("amr-modal[visible='true']")) {
             event.preventDefault();
             event.stopPropagation();
-            this.close();
+            this.close(event);
         }
     }
-    close() {
+    close(event) {
         let me = this;
         me.ignoreChange = true;
         me.visible = "false";
         me.ignoreChange = false;
         (me.closest(".relative") || document.body).classList.remove("overflow-hidden");
-        setTimeout(() => {
+        me.fireHandler(new CustomEvent("close"), event);
+        return new Promise((resolve) => setTimeout(() => {
             me.render();
             if (me.caller) {
                 me.caller.focus();
             }
-        }, 300);
+            me.fireHandler("closed", event);
+            resolve();
+        }, 300));
     }
-    open(caller) {
+    open(event, caller = event?.target) {
         let me = this;
         me.caller = caller;
         me.visible = "true";
         (me.closest(".relative") || document.body).classList.add("overflow-hidden");
-        setTimeout(() => {
+        me.fireHandler("open", event);
+        return new Promise((resolve) => setTimeout(() => {
             // Focus first element in modal
             let firstFocusable = me.querySelector('input, select, textarea, button, [tabindex]:not([tabindex="-1"])');
             if (firstFocusable) {
                 firstFocusable.focus();
             }
-        }, 100);
+            resolve();
+            me.fireHandler("opened", event);
+        }, 100));
     }
     template() {
         let defaultWidth = /\bmax-w-\b/.test(this.cls) ? "" : "max-w-100";

@@ -27,7 +27,6 @@ export default class DatePicker extends TextField {
 	render() {
 		// Dynamics variables
 		let me = this;
-		me.tmpValue = me.tmpValue || (Dates.isValid(me.value, me.format) ? Dates.format(me.value, me.format, Dates.D_M_Y) : Dates.toText(Dates.today(), Dates.D_M_Y));
 		me.endWeek = me.startWeek == 0 ? 6 : me.startWeek - 1;
 		me.minDate = Dates.toDate(me.min, me.format);
 		me.maxDate = Dates.toDate(me.max, me.format);
@@ -37,7 +36,7 @@ export default class DatePicker extends TextField {
 		// Icon right
 		let iconRight = me.querySelector("[slot='right']");
 		if(iconRight && iconRight.tagName == "AMR-ICON" && iconRight.getAttribute("action") == "true") {
-			iconRight.onClick = () => me.onClick();
+			iconRight.onClick = (event) => me.onClick(event);
 		}
 	}
 	onChange() {
@@ -49,26 +48,30 @@ export default class DatePicker extends TextField {
 			this.errormessage = Dates.toDate(this.value, this.format) < this.minDate || Dates.toDate(this.value, this.format) > this.maxDate ? "La date doit etre comprise entre " + this.min + " et " + this.max : "";
 		}
 	}
-	onClick() {
+	onClick(event) {
 		if(this.readonly == "true" || this.disabled == "true") return false;
 		let me = this;
-		
 		let modal = me.getModal();
-		modal.open(me.querySelector(".textfield-main input"));
-	}
-	closeModal() {
-		this.getModal().close();
+		me.tmpValue = me.value;
+		modal.open(event, me.querySelector(".textfield-main input")).then(() => {
+			let calendar = me.getCalendar();
+			calendar.onChange = () => {
+				modal.querySelector(".modal-header h2").innerHTML = Dates.toFullText(calendar.value, this.format);
+				me.tmpValue = calendar.value;
+			};
+		});
+		modal.querySelector(".modal-footer amr-button[name='valid-button']").onClick = () => me.validModal();
+		modal.querySelector(".modal-footer amr-button[name='close-button']").onClick = () => me.closeModal();
 	}
 	validModal() {
 		let me = this;
-		me.ignoreChange = true;
-		me.value = Dates.format(me.tmpValue, Dates.D_M_Y, me.format);
-		me.onChange();
-		me.closeModal();
-		me.ignoreChange = false;
-		setTimeout(() => {
-			me.render();
-		}, 300);
+		me.getModal().close().then(() => {
+			me.value = me.tmpValue;
+		});
+	}
+	closeModal() {
+		let me = this;
+		me.getModal().close();
 	}
 	onKeydown(event) {
 		if(Events.isSpace(event)) {
@@ -85,21 +88,17 @@ export default class DatePicker extends TextField {
 		if(!modal) return null;
 		return modal.querySelector(`amr-calendar`);
 	}
-	getDisplayedDate() {
-		let date = Dates.toDate(this.tmpValue,Dates.D_M_Y);
-		return DatePicker.days[date.getDay()] + ' ' + date.getDate() + ' ' + DatePicker.months[date.getMonth()] + ' ' + date.getFullYear();
-	}
 	template() {
 		return `
 			${super.template()}
 			<amr-modal cls="w-s" parent="${this.key}" visible="${this.visible}">
 				<div slot="header" class="flex-col">
 					<h1 class="font-3 font-weight-300">${this.label}</h1>
-					<h2 class="font-3 font-weight-700">${this.getDisplayedDate()}</h2>
+					<h2 class="font-3 font-weight-700">${Dates.toFullText(this.value, this.format)}</h2>
 				</div>
 				<div slot="content" class="w-100 overflow-x-hidden">
 					<amr-calendar class="w-100"
-						value="${this.tmpValue}"
+						value="${this.value}"
 						format="${this.format}"
 						startweek="${this.startWeek}"
 						min="${this.min}"
