@@ -11,7 +11,6 @@ import Radio from "../Components/Radio.js";
 import Tooltip from "../Components/Tooltip.js";
 import Switch from "../Components/Switch.js";
 import DatePicker from "../Components/DatePicker.js";
-import Toolbar from "../Components/Toolbar.js";
 import TimePicker from "../Components/TimePicker.js";
 import Avatar from "../Components/Avatar.js";
 import Badge from "../Components/Badge.js";
@@ -20,6 +19,7 @@ import Select from "../Components/Select.js";
 import Calendar from "../Components/Calendar.js";
 import Modal from "../Components/Modal.js";
 import Icon from "../Components/Icon.js";
+import TooltipDirective from "../Directives/TooltipDirective.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -33,7 +33,6 @@ customElements.define("amr-radio", Radio);
 customElements.define("amr-tooltip", Tooltip);
 customElements.define("amr-switch", Switch);
 customElements.define("amr-date", DatePicker);
-customElements.define("amr-toolbar", Toolbar);
 customElements.define("amr-time", TimePicker);
 customElements.define("amr-avatar", Avatar);
 customElements.define("amr-badge", Badge);
@@ -58,7 +57,6 @@ componentsStyles.innerHTML = Html.clean`
 	${Tooltip.style()} 
 	${Switch.style()} 
 	${DatePicker.style()} 
-	${Toolbar.style()}
 	${TimePicker.style()}
 	${Avatar.style()}
 	${Badge.style()}
@@ -68,6 +66,12 @@ componentsStyles.innerHTML = Html.clean`
 	${Modal.style()}
 	${Icon.style()}
 `;
+
+// Directives
+const tooltipDirective = new TooltipDirective();
+setTimeout(() => {
+tooltipDirective.initObserver();
+}, 500);
 
 // Basic style
 let basicStyle = document.createElement("style");
@@ -183,7 +187,7 @@ for(let k in flexProperties) {
 });
 
 // Overflow
-["hidden","scroll","auto"].forEach(v => {
+["hidden","scroll","auto","visible"].forEach(v => {
 	basicStyle.innerHTML += `.overflow-${v}{overflow:${v};}`;
 	basicStyle.innerHTML += `.overflow-x-${v}{overflow-x:${v};}`;
 	basicStyle.innerHTML += `.overflow-y-${v}{overflow-y:${v};}`;

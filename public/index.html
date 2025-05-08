@@ -19,25 +19,24 @@
 				};
 
 				let button2 = get('amr-button[text="Secondary"]');
+				button2.onClick = () => modal1.open(button2);
+
 				let modal1 = get('amr-modal[name="modal-1"]');
-				button2.onClick = () => {
-					modal1.open(button2);
-				};
-				let _render = modal1.render;
-				modal1.render = () => {
-					_render.call(modal1);
+				let _open1 = modal1.open;
+				modal1.open = () => {
+					_open1.call(modal1);
 
 					let close = get('amr-button[text="Fermer"]', modal1);
-					close.onClick = () => modal1.close();
-
 					let valid = get('amr-button[text="Valider"]', modal1);
-					valid.onClick = () => {
-						let modal2 = get('amr-modal[name="modal-2"]');
-						modal2.render = () => {
-							let close2 = get('amr-button[text="Fermer"]', modal2);
-							close2.onClick = () => modal2.close();
-						};
-						modal2.open(valid);
+					close.onClick = () => modal1.close();
+					valid.onClick = () => modal2.open(valid);
+
+					let modal2 = get('amr-modal[name="modal-2"]', modal1);
+					let _open2 = modal2.open;
+					modal2.open = () => {
+						_open2.call(modal2);
+						let close = get('amr-button[text="Fermer"]', modal2);
+						close.onClick = () => modal2.close();
 					};
 				};
 
@@ -46,6 +45,9 @@
 					let theme = document.body.getAttribute('data-theme');
 					document.body.setAttribute('data-theme', theme === 'dark' ? 'light' : 'dark');
 				};
+
+				let avatar = get('amr-avatar');
+				avatar.setAttribute('tooltip', `${avatar.getAttribute('firstname')} ${avatar.getAttribute('lastname')} • Connecté`);
 			}
 		</script>
 		<style>
@@ -71,7 +73,7 @@
 	</head>
 	<body onload="onLoad()" data-theme="dark">
 		<main class="flex-col px-1 py-2 gap-y-2">
-			<h1 class="">JS Web Components</h1>
+			<h1>JS Web Components</h1>
 			<section class="flex-col p-2">
 				<h2>Controls</h2>
 				<h3 class="my-2">Button</h3>
@@ -115,7 +117,7 @@
 							<p>aaaaaaaaaaaaaaa</p>
 							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
 							<p>aaaaaaaaaaaaaaa</p>
-							<amr-modal title="Title" name="modal-2" parent="amr-modal[name=modal-1] .modal-main" closable="false">
+							<amr-modal title="Title" name="modal-2" closable="false">
 								<div slot="content" class="flex-col gap-y-2">
 									<p>aaaaaaaaaaaaaaa</p>
 								</div>
@@ -136,9 +138,7 @@
 					<amr-button text="Secondary">
 						<amr-icon value="chevron_right" slot="right" class="font-3"></amr-icon>
 					</amr-button>
-					<amr-tooltip text="tooltip">
-						<amr-button text="Tertiary" bordered="false"></amr-button>
-					</amr-tooltip>
+					<amr-button text="Tertiary" bordered="false" tooltip="tooltip"></amr-button>
 					<amr-button text="Disabled" icon="block" disabled="true"></amr-button>
 				</span>
 
@@ -258,7 +258,7 @@
 				<span class="h-align-between v-align-items-center">
 					<amr-badge text="Badge large"></amr-badge>
 					<amr-badge class="font-2" text="John Doe" bgcolor="var(--status-success-light)" color="var(--status-success-dark)">
-						<amr-avatar class="h-4 font-2" firstname="John" lastname="Doe" tooltip="false" slot="left"></amr-avatar>
+						<amr-avatar class="h-4 font-2" firstname="John" lastname="Doe" information="false" slot="left"></amr-avatar>
 						<amr-icon value="close" slot="right" class="font-3 pointer"></amr-icon>
 					</amr-badge>
 					<amr-badge text="Chasseuse Impitoyable" bgcolor="var(--status-error-light)" color="var(--status-error-dark)">

@@ -5,9 +5,8 @@ import Icon from "./Icon.js";
 
 export default class TimePicker extends TextField {
     static attrs = [...TextField.attrs, "seconde", "opened", "min", "max"];
-    static counter = 1;
+    static selector = "amr-time";
     connectedCallback() {
-        this.key = this.key || `amr-time-${TimePicker.counter++}`;
         this.iconright = this.iconright || "schedule";
         this.format = this.format || (this.seconde == "true" ? Times.H_M_S : Times.H_M);
         this.pattern = this.pattern || Times.getPattern(this.format);

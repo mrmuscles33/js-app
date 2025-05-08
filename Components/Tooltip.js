@@ -1,77 +1,35 @@
 import BaseElement from "./BaseElement.js";
 
 export default class Tooltip extends BaseElement {
-	static attrs = [...BaseElement.attrs, "position", "text", "test"];
-	static counter = 1;
+	static attrs = [...BaseElement.attrs, "text"];
+	static selector = "amr-tooltip";
 	connectedCallback() {
-		this.key = this.key || `tooltip-${Tooltip.counter++}`;
-		this.position = this.position || "top";
 		this.text = this.text || "";
-		this.slotContent = Array.from(this.childNodes).filter(node => node.nodeType === Node.ELEMENT_NODE);
 		super.connectedCallback();
 	}
 	render() {
 		super.render();
-
-		// Slot rendering
-		let slot = this.querySelector('.slot');
-		this.slotContent.forEach(node => {
-			slot.appendChild(node);
-		});
 	}
 	template() {
-		return `
-			<span class="slot tooltip-main tooltip-position-${this.position}">
-				<div class="tooltip-text">${this.text}</div>
-			</span>
-		`;
+		return `<div class="tooltip-main font-2 p-1">${this.text}</div>`;
 	}
 	static style() {
 		return `
-			.tooltip-main {
-			    position: relative;
-				width: 100%;
-			}
-			.tooltip-main > * {
-				width: 100%;
-			}
-			.tooltip-text {
+			amr-tooltip {
+				display: none;
 				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%,-50%);
-				background-color: var(--secondary-shade2);
-				color: var(--dark-shade0);
-				font-size: 14px;
-				padding: 8px 12px;
-				border-radius: 5px;
-				white-space: nowrap;
-				text-align: center;
-				visibility: hidden;
+				z-index: 9999;
 				opacity: 0;
-				transition: opacity 0.2s ease-in;
-				z-index: 2;
-				width: auto;
+				pointer-events: none;
 			}
-			.tooltip-main:has(:focus-within, :hover) .tooltip-text {
-				visibility: visible;
+			amr-tooltip.show {
 				opacity: 1;
+				display: block;
 			}
-			.tooltip-position-top .tooltip-text{
-				top: -10px;
-				transform: translate(-50%,-100%);
-			}
-			.tooltip-position-left .tooltip-text{
-				left: -10px;
-				transform: translate(-100%,-50%);
-			}
-			.tooltip-position-right .tooltip-text{
-				left: calc(100% + 10px);
-				transform: translate(0%,-50%);
-			}
-			.tooltip-position-bottom .tooltip-text{
-				top: calc(100% + 10px);
-				transform: translate(-50%,0%);
+			.tooltip-main {
+			    background-color: var(--secondary-shade2);
+				color: var(--dark-shade0);
+				border-radius: 5px;
 			}
 		`;
 	}

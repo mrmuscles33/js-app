@@ -3,11 +3,10 @@ import Events from "../Utils/Events.js";
 
 export default class Icon extends BaseElement {
     static attrs = [...BaseElement.attrs, "value", "size", "action"];
-    static counter = 1;
+    static selector = "amr-icon";
     connectedCallback() {
         this.value = this.value || "";
         this.size = this.size || "medium";
-        this.key = this.key || `icon-${Icon.counter++}`;
         this.action = this.action || "false";
         super.connectedCallback();
     }
@@ -43,13 +42,5 @@ export default class Icon extends BaseElement {
                 font-size: inherit;
             }
         `;
-    }
-    static get(attrs = {}, cls = []) {
-        let icon = document.createElement("amr-icon");
-        Object.entries(attrs).forEach(([attr, value]) => {
-            icon.setAttribute(attr, value);
-        });
-        icon.classList.add(...cls);
-        return icon;
     }
 }

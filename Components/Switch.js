@@ -2,11 +2,10 @@ import BaseElement from "./BaseElement.js";
 
 export default class Switch extends BaseElement {
 	static attrs = [...BaseElement.attrs, "disabled", "checked"];
-	static counter = 1;
+	static selector = "amr-switch";
 	connectedCallback() {
 		this.disabled = this.disabled || "false";
 		this.checked = this.checked || "false";
-		this.key = this.key || `amr-switch-${Switch.counter++}`;
 		super.connectedCallback();
 	}
 	render() {

@@ -18,7 +18,7 @@ export default class TextField extends BaseElement {
 		"flex",
 		"maxlength",
 	];
-	static counter = 1;
+	static selector = "amr-text";
 	connectedCallback() {
 		this.value = this.value || "";
 		this.disabled = this.disabled || "false";
@@ -31,7 +31,6 @@ export default class TextField extends BaseElement {
 		this.format = this.format || "";
 		this.filled = this.filled || "true";
 		this.maxlength = this.maxlength || 128;
-		this.key = this.key || `amr-text-${TextField.counter++}`;
 		this.left = this.left || Array.from(this.childNodes).find(
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left"
 		);

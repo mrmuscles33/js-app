@@ -2,10 +2,9 @@ import BaseElement from "./BaseElement.js";
 
 export default class Checkbox extends BaseElement {
 	static attrs = [...BaseElement.attrs, "label", "checked", "value", "disabled"];
-	static counter = 1;
+	static selector = "amr-checkbox";
 	constructor() {
 		super();
-		this.key = this.key || `checkbox-${Checkbox.counter++}`;
 	}
 	connectedCallback() {
 		this.label = this.label || "";

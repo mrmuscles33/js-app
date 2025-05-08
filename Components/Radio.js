@@ -4,13 +4,12 @@ import Events from "../Utils/Events.js";
 
 export default class Radio extends BaseElement {
 	static attrs = [...BaseElement.attrs, "label", "checked", "value", "disabled"];
-	static counter = 1;
+	static selector = "amr-radio";
 	connectedCallback() {
 		this.label = this.label || "";
 		this.checked = this.checked || "false";
 		this.value = this.value || "";
 		this.disabled = this.disabled || "false";
-		this.key = this.key || `radio-${Radio.counter++}`;
 		super.connectedCallback();
 	}
 	render() {

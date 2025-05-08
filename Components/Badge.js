@@ -2,13 +2,12 @@ import BaseElement from "./BaseElement.js";
 
 export default class Badge extends BaseElement {
     static attrs = [...BaseElement.attrs, "text", "color", "bgcolor", "size"];
-    static counter = 1;
+    static selector = "amr-badge";
     connectedCallback() {
         this.text = this.text || "";
         this.color = this.color || "var(--dark-shade0)";
         this.bgcolor = this.bgcolor || "var(--secondary-shade2)";
         this.size = this.size || "medium";
-        this.key = this.key || `badge-${Badge.counter++}`;
         this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
         this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
         super.connectedCallback();

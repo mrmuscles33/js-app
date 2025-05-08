@@ -2,9 +2,8 @@ import TextField from "./TextField.js";
 
 export default class NumberField extends TextField {
 	static attrs = [...TextField.attrs, "decimal", "integer", "min", "max"];
-	static counter = 1;
+	static selector = "amr-number";
 	connectedCallback() {
-		this.key = this.key || `amr-number-${NumberField.counter++}`;
 		this.type = "number";
 		this.integer = this.integer || "9";
 		this.decimal = this.decimal || "2";

@@ -1,23 +1,18 @@
-import Events from "../Utils/Events.js";
 import Html from "../Utils/Html.js";
 
 export default class BaseElement extends HTMLElement {
 	static attrs = ["key", "name", "cls", "extrastyle", "parent"];
 	static idCounter = 1;
+	static selector = "amr-element";
 	constructor() {
 		super();
 		this.ignoreChange = true;
 		this.skipFocus = false;
-		this.parent = this.parent || '';
 		this.constructor.attrs.forEach((attr) => {
 			if (!Object.getOwnPropertyDescriptor(this.constructor.prototype, attr)) {
 				Object.defineProperty(this.constructor.prototype, attr, {
-					get() {
-						return this.getAttribute(attr);
-					},
-					set(newValue) {
-						this.setAttribute(attr, newValue);
-					},
+					get() { return this.getAttribute(attr) },
+					set(newValue) { this.setAttribute(attr, newValue) }
 				});
 			}
 		});
@@ -26,7 +21,8 @@ export default class BaseElement extends HTMLElement {
 		return this.attrs;
 	}
 	connectedCallback() {
-		this.key = this.key || `element-${BaseElement.idCounter++}`;
+		this.parent = this.parent || '';
+		this.key = `${this.constructor.selector}-${this.constructor.idCounter++}`;
 		this.name = this.name || "";
 		this.cls = this.cls || "";
 		this.extrastyle = this.extrastyle || "";
@@ -42,9 +38,6 @@ export default class BaseElement extends HTMLElement {
 		let tpl = Html.clean`${me.template()}`;
 		let style = Html.clean`${me.extrastyle}`;
 		let activeId = document.activeElement.id;
-		if(me.parent && !document.querySelector(`${me.parent} > ${me.localName}[key=${me.key}]`)) {
-			document.querySelector(me.parent).appendChild(me.parentElement.removeChild(me));
-		}
 		Html.render(me, (style ? `<style>[key=${this.key}]{${style}}</style>` : "") + tpl);
 
 		// Keep focus on current element when after rendering
@@ -66,21 +59,7 @@ export default class BaseElement extends HTMLElement {
 		`;
 	}
 	template() {
-		return [];
-	}
-	getDetail() {
-		let detail = {};
-		for (let attr of this.constructor.attrs) {
-			detail[attr] = this[attr];
-		}
-		return detail;
-	}
-	dispatch(elt, eventName) {
-		elt.addEventListener(eventName, (event) => {
-			if (event.target == elt && event.type == eventName) {
-				Events.dispatch(this, eventName, event, this.getDetail());
-			}
-		});
+		return '';
 	}
 	fireHandler(eventName, event) {
 		let handler = "on" + eventName.charAt(0).toUpperCase() + eventName.substring(1);
@@ -88,4 +67,12 @@ export default class BaseElement extends HTMLElement {
 			this[handler](event);
 		}
 	}
+	static get(attrs = {}, cls = [], tagName = this.selector) {
+        let element = document.createElement(tagName);
+        Object.entries(attrs).forEach(([attr, value]) => {
+            element.setAttribute(attr, value);
+        });
+        element.classList.add(...cls);
+        return element;
+    }
 }

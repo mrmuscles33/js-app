@@ -4,9 +4,8 @@ import Icon from "./Icon.js";
 
 export default class Select extends TextField {
 	static attrs = [...TextField.attrs, "limit", "opened", "filter"];
-    static counter = 1;
+    static selector = "amr-select";
 	connectedCallback() {
-        this.key = this.key || `amr-select-${Select.counter++}`;
 		this.readonly = "true";
         this.limit = this.limit || 1;
 		this.opened = this.opened || "false";

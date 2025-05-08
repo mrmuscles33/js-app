@@ -2,8 +2,7 @@ import BaseElement from "./BaseElement.js";
 import Html from "../Utils/Html.js";
 
 export default class Avatar extends BaseElement {
-    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "size", "status", "tooltip"];
-    static counter = 1;
+    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "size", "status", "information"];
     static status = {
         ONLINE: "online",
         OFFLINE: "offline",
@@ -11,6 +10,7 @@ export default class Avatar extends BaseElement {
         AWAY: "away",
         INVISIBLE: "invisible"
     };
+    static selector = "amr-avatar";
     connectedCallback() {
         this.src = this.src || "";
         this.alt = this.alt || "";
@@ -18,10 +18,7 @@ export default class Avatar extends BaseElement {
         this.lastname = this.lastname || "";
         this.size = this.size || "medium";
         this.status = this.status || Avatar.status.INVISIBLE;
-        this.key = this.key || `avatar-${Avatar.counter++}`;
-        this.tooltip = this.tooltip || "true";
         super.connectedCallback();
-
         Html.onThemeChange(() => {
             this.querySelector(".avatar-main").style.setProperty("--parent-background-color", this.getParentBackgroundColor());
         });
@@ -40,34 +37,32 @@ export default class Avatar extends BaseElement {
     }
     template() {
         return `
-            ${this.tooltip == "true" ? `<amr-tooltip text="${this.firstname} ${this.lastname}${this.getStatusLabel()}">`: "" }
-                <div id="${this.key}" 
-                    class="avatar-main ${this.cls} ${this.status}" 
-                    role="img" 
-                    ${this.tooltip == "true" ? "tabindex='0'": "" }
-                    style="--parent-background-color: ${this.getParentBackgroundColor()};"
-                >
-                    ${this.src ? 
-                    `<img 
-                        src="${this.src}" 
-                        alt="${this.firstname} ${this.lastname}${this.getStatusLabel()}" 
-                        loading="lazy"
-                    >` : 
-                    `<span class="initiales">${this.firstname[0].toUpperCase()}${this.lastname[0].toUpperCase()}</span>`}
-                </div>
-            ${this.tooltip == "true" ? `</amr-tooltip>`: "" }
+            <div id="${this.key}" 
+                class="avatar-main ${this.cls} ${this.status}" 
+                role="img" 
+                ${this.information == "true" ? "tabindex='0'": "" }
+                style="--parent-background-color: ${this.getParentBackgroundColor()};"
+            >
+                ${this.src ? 
+                `<img 
+                    src="${this.src}" 
+                    alt="${this.firstname} ${this.lastname} • ${Avatar.getStatusLabel(this.status)}" 
+                    loading="lazy"
+                >` : 
+                `<span class="initiales">${this.firstname[0].toUpperCase()}${this.lastname[0].toUpperCase()}</span>`}
+            </div>
         `;
     }
-    getStatusLabel() {
-        let label = "";
-        switch(this.status) {
+    static getStatusLabel(status) {
+        let label;
+        switch(status) {
             case Avatar.status.ONLINE: label = "Connecté"; break;
             case Avatar.status.OFFLINE: label = "Déconnecté"; break;
             case Avatar.status.BUSY: label = "Occupé"; break;
             case Avatar.status.AWAY: label = "Absent"; break;
-            default: return "";
+            default: label = "";
         }
-        return " • " + label;
+        return label;
     }
     getParentBackgroundColor() {
         let parent = this.parentElement;

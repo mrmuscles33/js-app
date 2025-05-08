@@ -3,10 +3,8 @@ import Events from "../Utils/Events.js";
 
 export default class Modal extends BaseElement {
     static attrs = [...BaseElement.attrs, "visible", "title", "closable"];
-    static counter = 1;
+    static selector = "amr-modal";
     connectedCallback() {
-        this.key = this.key || `modal-${Modal.idCounter++}`;
-        this.parent = this.parent || "body";
         this.visible = this.visible || "false";
         this.title = this.title || "";
         this.closable = this.closable || "true";
@@ -72,7 +70,7 @@ export default class Modal extends BaseElement {
         me.ignoreChange = true;
         me.visible = "false";
         me.ignoreChange = false;
-        document.querySelector(me.parent).classList.remove("overflow-hidden");
+        (me.closest(".relative") || document.body).classList.remove("overflow-hidden");
         setTimeout(() => {
             me.render();
             if (me.caller) {
@@ -81,12 +79,13 @@ export default class Modal extends BaseElement {
         }, 300);
     }
     open(caller) {
-        this.caller = caller;
-        this.visible = "true";
-        document.querySelector(this.parent).classList.add("overflow-hidden");
+        let me = this;
+        me.caller = caller;
+        me.visible = "true";
+        (me.closest(".relative") || document.body).classList.add("overflow-hidden");
         setTimeout(() => {
             // Focus first element in modal
-            let firstFocusable = this.querySelector('input, select, textarea, button, [tabindex]:not([tabindex="-1"])');
+            let firstFocusable = me.querySelector('input, select, textarea, button, [tabindex]:not([tabindex="-1"])');
             if (firstFocusable) {
                 firstFocusable.focus();
             }
@@ -96,14 +95,16 @@ export default class Modal extends BaseElement {
         let defaultWidth = /\bmax-w-\b/.test(this.cls) ? "" : "max-w-100";
         let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
         return `
-            <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
-                <div class="modal-header v-align-items-center h-align-between">
-                    ${this.header ? this.header.outerHTML : `<h1 class="font-4 font-weight-700">${this.title}</h1>`}
-                    ${this.closable == "true" ? `<amr-icon action="true" class="font-3" value="close"></amr-icon>` : ""}
+            ${this.visible == "true" ? `
+                <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
+                    <div class="modal-header v-align-items-center h-align-between">
+                        ${this.header ? this.header.outerHTML : `<h1 class="font-4 font-weight-700">${this.title}</h1>`}
+                        ${this.closable == "true" ? `<amr-icon action="true" class="font-3" value="close"></amr-icon>` : ""}
+                    </div>
+                    <div class="modal-content overflow-y-auto overflow-x-visible flex-1 relative">${this.content ? this.content.outerHTML : ""}</div>
+                    <div class="modal-footer">${this.footer ? this.footer.outerHTML : ""}</div>
                 </div>
-                <div class="modal-content overflow-auto flex-1 relative">${this.content ? this.content.outerHTML : ""}</div>
-                <div class="modal-footer">${this.footer ? this.footer.outerHTML : ""}</div>
-            </div>
+            ` : ""}
         `;
     }
     static style() {

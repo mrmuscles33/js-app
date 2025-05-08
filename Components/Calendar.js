@@ -4,11 +4,10 @@ import Events from "../Utils/Events.js";
 
 export default class Calendar extends BaseElement {
 	static attrs = [...BaseElement.attrs, "format", "value", "startWeek", "min", "max", "readonly"];
-	static counter = 1;
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+	static selector = "amr-calendar";
 	connectedCallback() {
-		this.key = this.key || `amr-calendar-${Calendar.counter++}`;
 		this.format = this.format || Dates.D_M_Y;
 		this.value = this.value || Dates.toText(Dates.today(), this.format);
 		this.focusedDate = this.value;
@@ -252,21 +251,29 @@ export default class Calendar extends BaseElement {
 		return `
 			<div class="calendar-main w-100 flex-col">
 				<span class="gap-1">
-					<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}">
-						<amr-button text="${this.getDisplayedMonth()}" bordered="false" name="year-button" disabled="${this.readonly}"></amr-button>
-					</amr-tooltip>
+					<amr-button 
+						tooltip="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}"
+						text="${this.getDisplayedMonth()}" 
+						bordered="false" 
+						name="year-button" 
+						disabled="${this.readonly}">
+					</amr-button>
 					<span style="flex:1"></span>
 					${this.readonly == "true" ? "" : `
-						<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}">
-							<amr-button bordered="false" name="previous-button" icon="keyboard_arrow_left"
-								disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}">
-							</amr-button>
-						</amr-tooltip>
-						<amr-tooltip position="bottom" text="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}">
-							<amr-button bordered="false" name="next-button" icon="keyboard_arrow_right"
-								disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}">
-							</amr-button>
-						</amr-tooltip>
+						<amr-button 
+							tooltip="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}"
+							bordered="false" 
+							name="previous-button" 
+							icon="keyboard_arrow_left"
+							disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}">
+						</amr-button>
+						<amr-button 
+							tooltip="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}"
+							bordered="false" 
+							name="next-button" 
+							icon="keyboard_arrow_right"
+							disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}">
+						</amr-button>
 					`}
 				</span>
 				${this.showYear == "true" ? `

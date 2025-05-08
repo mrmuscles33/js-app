@@ -2,9 +2,8 @@ import TextField from "./TextField.js";
 
 export default class PasswordField extends TextField {
 	static attrs = [...TextField.attrs, "show"];
-	static counter = 1;
+	static selector = "amr-password";
 	connectedCallback() {
-		this.key = this.key || `amr-password-${PasswordField.counter++}`;
 		this.show = this.show || "false";
 		super.connectedCallback();
 	}

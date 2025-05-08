@@ -3,14 +3,13 @@ import Events from "../Utils/Events.js";
 
 export default class Button extends BaseElement {
 	static attrs = [...BaseElement.attrs, "text", "icon", "primary", "bordered", "disabled", "flex"];
-	static counter = 1;
+	static selector = "amr-button";
 	connectedCallback() {
 		this.text = this.text || "";
 		this.icon = this.icon || "";
 		this.primary = this.primary || "false";
 		this.bordered = this.bordered || "true";
 		this.disabled = this.disabled || "false";
-		this.key = this.key || `button-${Button.counter++}`;
 		this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
 		this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
 		super.connectedCallback();

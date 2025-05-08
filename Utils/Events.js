@@ -47,13 +47,6 @@ const Events = {
                 }
         }
         return newEvent;
-    },
-    dispatch: (scope, eventName, event, detail) => {
-        let customEvt = new CustomEvent(eventName, {
-            ...event,
-            detail: detail,
-        });
-        scope.dispatchEvent(customEvt);
     }
 };
 export default Events;

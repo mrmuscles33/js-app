@@ -3,9 +3,8 @@ import Events from "../Utils/Events.js";
 
 export default class List extends BaseElement {
 	static attrs = [...BaseElement.attrs, "limit"];
-	static counter = 1;
+	static selector = "amr-list";
 	connectedCallback() {
-		this.key = this.key || `amr-list-${List.counter++}`;
         this.limit = this.limit || 0;
 		this.options = Array.from(this.childNodes)
 			.filter((node) => node.nodeType === Node.ELEMENT_NODE && node.tagName == "AMR-OPTION")
