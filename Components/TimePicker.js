@@ -182,12 +182,12 @@ export default class TimePicker extends TextField {
                 ${super.template()}
                 ${this.opened == "true" ? `
                 <div class="timepicker-mask"></div>
-                <div class="timepicker-menu ${this.position} flex-row">
+                <div class="timepicker-menu round-1 ${this.position} flex-row">
                     <div class="timepicker-section">
                         <span class="header">Heure</span>
                         <div class="timepicker-list hour">
                             ${Array.from({ length: 24 }, (_, i) => i).map(hour => `
-                            <span class="timepicker-item hour
+                            <span class="timepicker-item round-1 hour
                                 ${Times.getHours(this.value) == hour ? "selected" : ""}
                                 ${disableHour(hour) ? "disabled" : ""}"
                                 value="${hour}"
@@ -202,7 +202,7 @@ export default class TimePicker extends TextField {
                         <span class="header">Minute</span>
                         <div class="timepicker-list minute">
                             ${Array.from({ length: 12 }, (_, i) => i * 5).map(minute => `
-                            <span class="timepicker-item minute
+                            <span class="timepicker-item round-1 minute
                                 ${Times.getMinutes(this.value) == minute ? "selected" : ""}
                                 ${disableMinute(minute) ? "disabled" : ""}"
                                 value="${minute}"
@@ -218,7 +218,7 @@ export default class TimePicker extends TextField {
                         <span class="header">Seconde</span>
                         <div class="timepicker-list seconde">
                             ${Array.from({ length: 12 }, (_, i) => i * 5).map(seconde => `
-                            <span class="timepicker-item seconde
+                            <span class="timepicker-item round-1 seconde
                                 ${Times.getSeconds(this.value) == seconde ? "selected" : ""}
                                 ${disableSeconde(seconde) ? "disabled" : ""}"
                                 value="${seconde}"
@@ -260,7 +260,6 @@ export default class TimePicker extends TextField {
                 border: 1px solid var(--secondary-shade5);
                 margin-top: 10px;
                 padding: 5px 5px 5px 0;
-                border-radius: 10px;
                 z-index: 2;
                 font-size: 16px;
                 display: flex;
@@ -304,7 +303,6 @@ export default class TimePicker extends TextField {
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item {
                 padding: 5px;
                 margin: 0 5px;
-                border-radius: 5px;
                 cursor: pointer;
                 border: 1px solid transparent;
                 color: var(--dark-shade0);

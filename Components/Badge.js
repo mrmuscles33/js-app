@@ -18,7 +18,7 @@ export default class Badge extends BaseElement {
     template() {
         return `
             <div id="${this.key}" 
-                class="badge-main v-align-items-center p-1 gap-x-1 ${this.cls} ${this.size}" 
+                class="badge-main v-align-items-center p-1 gap-x-1 round-10 font-weight-500 ${this.cls} ${this.size}" 
                 role="status"
                 style="background-color: ${this.bgcolor}; color: ${this.color};"
             >
@@ -31,9 +31,6 @@ export default class Badge extends BaseElement {
     static style() {
         return `
             .badge-main {
-			    margin: 0;
-			    border-radius: 50px;
-			    font-weight: 500;
 			    outline: none;
 			    white-space: nowrap;
             }

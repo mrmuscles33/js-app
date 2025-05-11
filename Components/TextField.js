@@ -125,13 +125,14 @@ export default class TextField extends BaseElement {
 		return `
 			.textfield-main {
 				background-color: transparent;
-				border-radius: 8px;
+				border-radius: var(--size-1);
 				border: 1px solid var(--secondary-shade5);
 				box-sizing: border-box;
+				font-size: var(--size-2);
 			}
 			.textfield-main.filled {
 				background-color: var(--secondary-shade2);
-				border-radius: 8px 8px 0 0;
+				border-radius: var(--size-1) var(--size-1) 0 0;
 				border: none;
 				border-bottom: 1px solid var(--secondary-shade5);
 			}
@@ -182,7 +183,6 @@ export default class TextField extends BaseElement {
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
-				font-size: 16px;
 				color: var(--dark-shade0);
 				transition: .2s ease-out;
 				pointer-events: none;
@@ -200,7 +200,7 @@ export default class TextField extends BaseElement {
 			.textfield-main:has(span > input:not(:placeholder-shown)) > span >  label {
 				top: 5px;
 				transform: translateY(0);
-				font-size: 12px; 
+				font-size: 80%;
 				font-weight: 500;
 			}
 			.textfield-main:has(span.error) *,
@@ -212,7 +212,7 @@ export default class TextField extends BaseElement {
 			}
 			.textfield-main .error {
 				transform: translateY(5px);
-				font-size: 12px;
+				font-size: 80%;
 			}
 		`;
 	}

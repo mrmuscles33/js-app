@@ -146,7 +146,7 @@ export default class Select extends TextField {
                 ${super.template()}
                 ${this.opened == "true" ? `
                 <div class="droplist-mask fixed w-100 h-100 t-0 l-0"></div>
-                <div class="droplist-menu absolute l-0 flex-col mt-1 p-1 w-100 bg-secondary-2 font-2 ${this.position}">
+                <div class="droplist-menu round-1 absolute l-0 flex-col mt-1 p-1 w-100 bg-secondary-2 font-2 ${this.position}">
                     <amr-text filled="false" value="${this.filter}">
                         <amr-icon slot="left" value="search"></amr-icon>
                     </amr-text>
@@ -175,7 +175,6 @@ export default class Select extends TextField {
             }
             .droplist-main > .droplist-menu {
                 border: 1px solid var(--secondary-shade5);
-                border-radius: 10px;
                 z-index: 2;
             }
             .droplist-main > .droplist-menu.bottom {

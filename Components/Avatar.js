@@ -100,7 +100,7 @@ export default class Avatar extends BaseElement {
                 background-color: var(--status-success);
             }
             .avatar-main.offline:before {
-                background-color: var(--status-info);
+                background-color: var(--status-disabled);
             }
             .avatar-main.busy:before {
                 background-color: var(--status-error);

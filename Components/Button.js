@@ -35,8 +35,9 @@ export default class Button extends BaseElement {
 	}
 	template() {
 		return `
-			<span id="${this.key}" class="btn-main px-1 gap-x-1 h-align-center v-align-items-center ${this.cls} 
-			    ${this.icon ? "btn-with-icon" : ""} 
+			<span id="${this.key}" 
+				class="btn-main w-100 h-5 relative round-1 font-2 font-weight-500 px-1 gap-x-1 h-align-center v-align-items-center 
+				${this.cls} 
 			    ${this.primary == "true" ? "primary" : ""} 
 			    ${this.bordered == "true" ? "border" : ""} 
 			    ${this.disabled == "true" ? "disabled" : ""} 
@@ -53,19 +54,13 @@ export default class Button extends BaseElement {
 	static style() {
 		return `
 			.btn-main {
-			    height: 36px;
-				width: 100%;
 			    color: var(--primary-shade3);
 				background-color: transparent;
 			    border: 1px solid transparent;
-			    border-radius: 5px;
 			    cursor: pointer;
-			    font-weight: 500;
 			    user-select: none;
 			    outline: none;
 			    white-space: nowrap;
-				font-size: 14px;
-				position: relative;
 			}
 			.btn-main:after {
 				content: " ";
@@ -75,7 +70,7 @@ export default class Button extends BaseElement {
 				left: 50%;
 				width: calc(100% + 6px);
 				height: calc(100% + 6px);
-				border-radius: 8px;
+				border-radius: calc(0.5rem + 3px);
 				border: 2px solid transparent;
 				transform: translate(-50%, -50%);
 			}
@@ -100,12 +95,6 @@ export default class Button extends BaseElement {
 			.btn-main.primary:hover,
 			.btn-main.primary:focus-visible {
 				background-color: var(--primary-shade0);
-			}
-			.btn-main > .btn-text {
-				letter-spacing: .7px;
-				margin: 0;
-				padding: 0;
-				vertical-align: middle;
 			}
 		`;
 	}

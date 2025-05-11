@@ -2,11 +2,10 @@ import BaseElement from "./BaseElement.js";
 import Events from "../Utils/Events.js";
 
 export default class Modal extends BaseElement {
-    static attrs = [...BaseElement.attrs, "visible", "title", "closable"];
+    static attrs = [...BaseElement.attrs, "visible", "closable"];
     static selector = "amr-modal";
     connectedCallback() {
         this.visible = this.visible || "false";
-        this.title = this.title || "";
         this.closable = this.closable || "true";
         this.header = this.header || Array.from(this.childNodes).find(
 			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "header"
@@ -102,9 +101,12 @@ export default class Modal extends BaseElement {
         let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
         return `
             ${this.visible == "true" ? `
-                <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
+                <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} round-2 flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
                     <div class="modal-header v-align-items-center h-align-between">
-                        ${this.header ? this.header.outerHTML : `<h1 class="font-4 font-weight-700">${this.title}</h1>`}
+                        ${this.header ? this.header.outerHTML : `
+                            <h1 class="font-4 font-weight-700">${this.title}</h1 class="font-3 font-weight-100">
+                            <h2>${this.subtitle}</h2>
+                        `}
                         ${this.closable == "true" ? `<amr-icon action="true" class="font-3" value="close"></amr-icon>` : ""}
                     </div>
                     <div class="modal-content overflow-y-auto overflow-x-visible flex-1 relative">${this.content ? this.content.outerHTML : ""}</div>
@@ -133,7 +135,6 @@ export default class Modal extends BaseElement {
             amr-modal .modal-main {
                 scale: 0.8;
                 transition: scale 0.3s ease-in-out;
-                border-radius: 1rem;
             }
             amr-modal[visible="true"] {
                 opacity: 1;

@@ -19,7 +19,9 @@ import Select from "../Components/Select.js";
 import Calendar from "../Components/Calendar.js";
 import Modal from "../Components/Modal.js";
 import Icon from "../Components/Icon.js";
+import Card from "../Components/Card.js";
 import TooltipDirective from "../Directives/TooltipDirective.js";
+import Alert from "../Components/Alert.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -41,6 +43,8 @@ customElements.define("amr-select", Select);
 customElements.define("amr-calendar", Calendar);
 customElements.define("amr-modal", Modal);
 customElements.define("amr-icon", Icon);
+customElements.define("amr-card", Card);
+customElements.define("amr-alert", Alert);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -65,6 +69,8 @@ componentsStyles.innerHTML = Html.clean`
 	${Calendar.style()}
 	${Modal.style()}
 	${Icon.style()}
+	${Card.style()}
+	${Alert.style()}
 `;
 
 // Directives
@@ -218,6 +224,11 @@ for(let k in flexProperties) {
 [...Array(9)].forEach((e, i) => {
 	let v = 100 + i * 100;
 	basicStyle.innerHTML += `.font-weight-${v}{font-weight:${v};}`;
+});
+
+// Border radius
+[...Array(11)].forEach((e, i) => {
+	basicStyle.innerHTML += `.round-${i}{border-radius:var(--size-${i});}`;
 });
 
 // Add styles to the document head

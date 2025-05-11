@@ -30,6 +30,9 @@ body[data-theme="light"] {
     --dark-shade4: #555555;
     --dark-shade5: #666666;
 
+    --status-info: #427bb1;
+    --status-info-light: #5cbad1;
+    --status-info-dark: #1b2e83;
     --status-success: #008071;
     --status-success-light: #7ba39b;
     --status-success-dark: #00493e;
@@ -38,8 +41,8 @@ body[data-theme="light"] {
     --status-warning-dark: #664b00;
     --status-error: #870b25;
     --status-error-light: #c58e9a;
-    --status-error-dark: #310612;
-    --status-info: #444444;
-    --status-info-light: #AAAAAA;
-    --status-info-dark: #111111;
+    --status-error-dark: #740926;
+    --status-disabled: #444444;
+    --status-disabled-light: #AAAAAA;
+    --status-disabled-dark: #111111;
 }

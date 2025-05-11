@@ -60,7 +60,7 @@
 				box-sizing: border-box;
 			}
 			section {
-				border-radius: 10px;
+				border-radius: var(--size-1);
 				padding: 15px 30px;
 				background-color: var(--secondary-shade1);
 			}
@@ -74,7 +74,8 @@
 				<h2>Controls</h2>
 				<h3 class="my-2">Button</h3>
 				<span class="grid grid-cols-4 gap-x-4 gap-y-2">
-					<amr-modal cls="min-w-s max-w-m max-h-75" title="Title" name="modal-1">
+					<amr-modal cls="min-w-s max-w-m max-h-75" name="modal-1">
+						<div slot="header" class="font-3 font-weight-700">Title</div>
 						<div slot="content" class="flex-col gap-y-2">
 							<amr-checkbox label="Check me" checked="true"></amr-checkbox>
 							<p>aaaaaaaaaaaaaaa</p>
@@ -113,7 +114,8 @@
 							<p>aaaaaaaaaaaaaaa</p>
 							<p>aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee aaaaaaaaaaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaxx</p>
 							<p>aaaaaaaaaaaaaaa</p>
-							<amr-modal title="Title" name="modal-2" closable="false">
+							<amr-modal name="modal-2" closable="false">
+								<div slot="header" class="font-3 font-weight-700">Title</div>
 								<div slot="content" class="flex-col gap-y-2">
 									<p>aaaaaaaaaaaaaaa</p>
 								</div>
@@ -261,6 +263,55 @@
 						<amr-icon value="swords" slot="left"></amr-icon>
 					</amr-badge>
 				</span>
+			</section>
+			<section class="flex-col p-2">
+				<h2>Containers</h2>
+				<h3 class="my-2">Cards</h3>
+				<div class="flex-row gap-2">
+					<amr-card title="Article" class="h-xs">
+						<div slot="header" class="flex-col gap-1">
+							<span class="font-2 font-weight-700">Title</span>
+							<span class="font-2 font-weight-300">Subtitle</span>
+						</div>
+						<div slot="content" class="flex-col">
+							<p>blabla bla blabla bla blabla bla</p>
+							<p>bla blabla</p>
+							<p>blabla bla bla blabla bla blabla bla blabla</p>
+							<p>bla blabla bla blabla</p>
+						</div>
+						<div slot="footer" class="flex-row w-100 h-align-end">
+							<amr-button text="Lire l'article" primary="true"></amr-button>
+						</div>
+					</amr-card>
+					<amr-card title="Title" subtitle="subtitle" class="flex-1 v-align-item-start min-w-xs bg-">
+						<div slot="header" class="font-2 font-weight-700">Title</div>
+						<div slot="content">Content</div>
+					</amr-card>
+				</div>
+
+				<h3 class="my-2">Alerts</h3>
+				<div class="grid grid-cols-2 gap-2">
+					<amr-alert class="w-100">
+						<div slot="header" class="font-weight-700">Alert</div>
+						<div slot="content">Message Alert</div>
+					</amr-alert>
+					<amr-alert status="info" class="w-100">
+						<div slot="header" class="font-weight-700">Information</div>
+						<div slot="content">Message Information</div>
+					</amr-alert>
+					<amr-alert status="success" class="w-100">
+						<div slot="header" class="font-weight-700">Success</div>
+						<div slot="content">Message Success</div>
+					</amr-alert>
+					<amr-alert status="warning" class="w-100">
+						<div slot="header" class="font-weight-700">Warning</div>
+						<div slot="content">Message Warning</div>
+					</amr-alert>
+					<amr-alert status="error" class="w-100">
+						<div slot="header" class="font-weight-700">Error</div>
+						<div slot="content">Message Error</div>
+					</amr-alert>
+				</div>
 			</section>
 		</main>
 	</body>

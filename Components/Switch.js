@@ -37,14 +37,16 @@ export default class Switch extends BaseElement {
 	}
 	template() {
 		return `
-			<div role="switch" class="switch-main" ${this.disable == "true" ? "disable" : ""}>
+			<div role="switch" class="switch-main">
 				<input type="checkbox" id="${this.key}"
-				${this.checked == "true" ? "checked" : ""} 
-				${this.name ? "name='" + this.name + "'" : ""} 
-				${this.value ? "value='" + this.value + "'" : ""} 
-				${this.disabled == "true" ? "disabled" : ""} />
-				<label for=${this.key} class="switch-background">
-					<div class="switch-button"></div>
+					class="w-0 h-0 p-0 m-0"
+					${this.checked == "true" ? "checked" : ""} 
+					${this.name ? "name='" + this.name + "'" : ""} 
+					${this.value ? "value='" + this.value + "'" : ""} 
+					${this.disabled == "true" ? "disabled" : ""} 
+				/>
+				<label for=${this.key} class="switch-background round-10 h-5 w-8">
+					<div class="switch-button round-10 ratio-1"></div>
 				</label>
 			</div
 		`;
@@ -54,20 +56,13 @@ export default class Switch extends BaseElement {
 			.switch-main {
                 user-select: none;
 			}
-			.switch-main.disable {
+			.switch-main:has(input:disabled) {
 				opacity: .5;
 			}
 			.switch-main > input {
 				opacity: 0;
-				width: 0px;
-				height: 0px;
-				padding: 0px;
-				margin: 0px;
 			}
 			.switch-main > label.switch-background {
-				width: 50px;
-				height: 30px;
-				border-radius: 50px;
 				background-color: var(--secondary-shade3);
 				position: relative;
 				display: inline-block;
@@ -78,8 +73,8 @@ export default class Switch extends BaseElement {
 				content: " ";
 				border-radius: 50px;
 				border: 2px solid transparent;
-				width: 54px;
-				height: 34px;
+				width: calc(100% + 4px);
+				height: calc(100% + 4px);
 				display: block;
 				position: absolute;
 				top: 50%;
@@ -101,14 +96,13 @@ export default class Switch extends BaseElement {
 			}
 			.switch-main > label > .switch-button {
 				position: absolute;
-				width: 24px;
-				height: 24px;
+				height: calc(100% - 6px);
 				top: 3px;
 				left: 3px;
 				border-radius: 50px;
 				background-color: var(--secondary-shade1);
 				cursor: pointer;
-				transition: left .3s;
+				transition: left .3s, transform .3s;
 			}
 			.switch-main.disable > label > .switch-button {
 				cursor: not-allowed;
@@ -121,7 +115,8 @@ export default class Switch extends BaseElement {
 				background-color: var(--primary-shade0);
 			}
 			.switch-main > input:checked + .switch-background .switch-button {
-				left: 23px; 
+				left: calc(100% - 3px);
+				transform: translate(-100%, 0%);
 			}
 		`;
 	}

@@ -11,7 +11,7 @@ export default class Tooltip extends BaseElement {
 		super.render();
 	}
 	template() {
-		return `<div class="tooltip-main font-2 p-1">${this.text}</div>`;
+		return `<div class="tooltip-main round-1 font-2 p-1">${this.text}</div>`;
 	}
 	static style() {
 		return `
@@ -29,7 +29,6 @@ export default class Tooltip extends BaseElement {
 			.tooltip-main {
 			    background-color: var(--secondary-shade2);
 				color: var(--dark-shade0);
-				border-radius: 5px;
 			}
 		`;
 	}

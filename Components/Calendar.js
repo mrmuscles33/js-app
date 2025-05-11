@@ -249,7 +249,7 @@ export default class Calendar extends BaseElement {
 	}
 	template() {
 		return `
-			<div class="calendar-main w-100 flex-col">
+			<div class="calendar-main w-100 flex-col ${this.readonly == "true" ? "readonly" : ""}">
 				<span class="gap-1">
 					<amr-button 
 						tooltip="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}"
@@ -279,12 +279,12 @@ export default class Calendar extends BaseElement {
 				${this.showYear == "true" ? `
 				<div class="calendar-years w-100 ratio-1 grid grid-cols-3 grid-rows-7 v-align-items-center h-align-items-center">
 					${this.getDisplayedYears().map((year) => ` 
-					<span role="button" class="calendar-year w-100 h-100 v-align-center h-align-center pointer
+					<span role="button" class="calendar-year round-10 w-100 h-100 v-align-center h-align-center
 						${year == Dates.today().getFullYear() ? "today" : ""}
 						${year == Dates.toDate(this.value, Dates.D_M_Y).getFullYear() ? "selected" : ""}"
-						tabindex="${
-							(this.getDisplayedYears().some(y => y == this.focusedYear) && this.focusedYear == year) ||
-							(!this.getDisplayedYears().some(y => y == this.focusedYear) && this.getDisplayedYears()[0] == year)
+						tabindex="${this.readonly == "false" && 
+							((this.getDisplayedYears().some(y => y == this.focusedYear) && this.focusedYear == year) ||
+							(!this.getDisplayedYears().some(y => y == this.focusedYear) && this.getDisplayedYears()[0] == year))
 							? "0" : "-1"
 						}"
 						value=${year}>
@@ -295,18 +295,18 @@ export default class Calendar extends BaseElement {
 				` : `
 				<div class="calendar-days w-100 ratio-1 grid grid-cols-7 grid-rows-7 v-align-items-center h-align-items-center">
 					${this.getSortedDays().map((day) => `
-					<span class="calendar-day header">${day.substring(0,3)}</span>
+					<span class="calendar-day header">${day.substring(0,3) + '.'}</span>
 					`).join('')}
 					${this.getDisplayedDays().map((day) => `
 					<span role="button" 
-						class="calendar-day w-100 h-100 v-align-center h-align-center pointer
+						class="calendar-day round-10 w-100 h-100 v-align-center h-align-center
 							${Dates.toText(day, Dates.D_M_Y) == Dates.toText(Dates.today(), Dates.D_M_Y) ? "today" : ""}
 							${Dates.toText(day, Dates.D_M_Y) == this.value ? "selected" : ""}
 							${day.getMonth() != Dates.toDate(this.currentMonth, Dates.M_Y).getMonth() ? "other-month" : ""}
 							${(day < this.minDate) || (day > this.maxDate) ? "disable" : ""}"
-						tabindex="${
-							(this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.focusedDate == Dates.toText(day, Dates.D_M_Y)) ||
-							(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.minDate <= d  && d <= this.maxDate) == day)
+						tabindex="${this.readonly == "false" && 
+							((this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.focusedDate == Dates.toText(day, Dates.D_M_Y)) ||
+							(!this.getDisplayedDays().some(d => this.focusedDate == Dates.toText(d, Dates.D_M_Y)) && this.getDisplayedDays().find(d => this.minDate <= d  && d <= this.maxDate) == day))
 							? "0" : "-1"
 						}"
 						value=${Dates.toText(day, Dates.D_M_Y)}>
@@ -324,10 +324,15 @@ export default class Calendar extends BaseElement {
 			.calendar-main > .calendar-years > .calendar-year {
 				user-select: none;
 				color: var(--dark-shade0);
-				border-radius: 999px;
 				text-decoration: none;
 				font-weight: 500;
 				border: 2px solid transparent;
+				cursor: pointer;
+			}
+			.calendar-main.readonly > .calendar-days > .calendar-day,
+			.calendar-main.readonly > .calendar-years > .calendar-year {
+				cursor: initial;
+				pointer-events: none;
 			}
 			.calendar-main > .calendar-days > .calendar-day:not(.header):hover,
 			.calendar-main > .calendar-years > .calendar-year:not(.header):hover,
