@@ -34,9 +34,32 @@ export default class DatePicker extends TextField {
 		super.render();
 
 		// Icon right
-		let iconRight = me.querySelector("[slot='right']");
-		if(iconRight && iconRight.tagName == "AMR-ICON" && iconRight.getAttribute("action") == "true") {
+		let iconRight = me.querySelector(".textfield-main [slot='right']");
+		if(iconRight && iconRight.localName == "amr-icon" && iconRight.getAttribute("action") == "true") {
 			iconRight.onClick = (event) => me.onClick(event);
+		}
+
+		let modal = me.getModal();
+		if (modal) {
+			modal.onOpened = () => {
+				let calendar = me.getCalendar();
+				if (calendar) {
+					// focus on selected day
+					let selectedDay = calendar.querySelector(`.calendar-day.selected`);
+					if (selectedDay) {
+						selectedDay.focus();
+					}
+					calendar.onRender = () => {
+						// keep focus on modal
+						calendar.querySelector("amr-button[name='year-button']").addEventListener('keydown', (event) => {
+							if (Events.isTab(event) && Events.isShift(event)) {
+								event.preventDefault();
+								event.stopPropagation();
+							}
+						});
+					}
+				}
+			};
 		}
 	}
 	onChange() {
@@ -56,12 +79,12 @@ export default class DatePicker extends TextField {
 		modal.open(event, me.querySelector(".textfield-main input")).then(() => {
 			let calendar = me.getCalendar();
 			calendar.onChange = () => {
-				modal.querySelector(".modal-header h2").innerHTML = Dates.toFullText(calendar.value, this.format);
+				modal.querySelector("amr-modal [slot=header] h2").innerHTML = Dates.toFullText(calendar.value, this.format);
 				me.tmpValue = calendar.value;
 			};
 		});
-		modal.querySelector(".modal-footer amr-button[name='valid-button']").onClick = () => me.validModal();
-		modal.querySelector(".modal-footer amr-button[name='close-button']").onClick = () => me.closeModal();
+		modal.querySelector("amr-modal [slot=footer] amr-button[name='valid-button']").onClick = () => me.validModal();
+		modal.querySelector("amr-modal [slot=footer] amr-button[name='close-button']").onClick = () => me.closeModal();
 	}
 	validModal() {
 		let me = this;
@@ -91,7 +114,7 @@ export default class DatePicker extends TextField {
 	template() {
 		return `
 			${super.template()}
-			<amr-modal cls="w-s" parent="${this.key}" visible="${this.visible}">
+			<amr-modal cls="min-w-s" parent="${this.key}" visible="${this.visible}">
 				<div slot="header" class="flex-col">
 					<h1 class="font-3 font-weight-300">${this.label}</h1>
 					<h2 class="font-3 font-weight-700">${Dates.toFullText(this.value, this.format)}</h2>

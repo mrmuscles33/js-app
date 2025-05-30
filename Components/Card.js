@@ -22,7 +22,7 @@ export default class Card extends BaseElement {
         return `
             <div id="${this.key}" class="card-main w-100 flex-col p-2 gap-2 round-1 ${this.cls}">
                 ${this.header ? `<div class="card-header">${this.header.outerHTML}</div>` : ""}
-                ${this.content ? `<div class="card-content flex-1">${this.content.outerHTML}</div>` : ""}
+                ${this.content ? `<div class="card-content overflow-y-auto overflow-x-visible flex-1 relative">${this.content.outerHTML}</div>` : ""}
                 ${this.footer ? `<div class="card-footer">${this.footer.outerHTML}</div>` : ""}
             </div>
         `;

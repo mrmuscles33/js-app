@@ -31,13 +31,13 @@ body[data-theme="dark"] {
     --dark-shade5: #AAAAAA;
 
     --status-info: #4d8bc5;
-    --status-info-light: #6de6fc;
-    --status-info-dark: #1b2e83;
+    --status-info-light: #6ac1d1;
+    --status-info-dark: #08208a;
     --status-success: #12baa6;
     --status-success-light: #9bebc6;
     --status-success-dark: #005f54;
     --status-warning: #f39c12;
-    --status-warning-light: #cab99e;
+    --status-warning-light: #dcc49f;
     --status-warning-dark: #865300;
     --status-error: #eb2d69;
     --status-error-light: #e1a6b9;

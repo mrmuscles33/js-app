@@ -1,8 +1,8 @@
-import BaseElement from "./BaseElement.js";
+import Card from "./Card.js";
 import Events from "../Utils/Events.js";
 
-export default class Modal extends BaseElement {
-    static attrs = [...BaseElement.attrs, "visible", "closable"];
+export default class Modal extends Card {
+    static attrs = [...Card.attrs, "visible", "closable"];
     static selector = "amr-modal";
     connectedCallback() {
         this.visible = this.visible || "false";
@@ -16,6 +16,10 @@ export default class Modal extends BaseElement {
         this.content = this.content || Array.from(this.childNodes).find(
             (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "content"
         );
+        let defaultWidth = /\bmax-w-\b/.test(this.cls) ? "max-w-auto" : "max-w-100";
+        let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
+        this.cls = (this.cls || "") + ` ${defaultWidth} ${defaultHeight} bg-secondary-1`
+
         super.connectedCallback();
     }
     render() {
@@ -25,8 +29,6 @@ export default class Modal extends BaseElement {
         if(me.closable == "true" && me.visible == "true") {
             me.addEventListener('click', me.onClickMask);
             me.addEventListener('keydown', me.onEscMask);
-            let closeButton = me.querySelector(".modal-header > amr-icon[value='close']");
-            closeButton.onClick = (event) => me.close(event);
         }
 
         // Keep focus in modal
@@ -97,23 +99,7 @@ export default class Modal extends BaseElement {
         }, 100));
     }
     template() {
-        let defaultWidth = /\bmax-w-\b/.test(this.cls) ? "" : "max-w-100";
-        let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
-        return `
-            ${this.visible == "true" ? `
-                <div id="${this.key}" class="modal-main ${defaultWidth} ${defaultHeight} ${this.cls} round-2 flex-col m-2 overflow-y-hidden bg-secondary-1 p-2 gap-2">
-                    <div class="modal-header v-align-items-center h-align-between">
-                        ${this.header ? this.header.outerHTML : `
-                            <h1 class="font-4 font-weight-700">${this.title}</h1 class="font-3 font-weight-100">
-                            <h2>${this.subtitle}</h2>
-                        `}
-                        ${this.closable == "true" ? `<amr-icon action="true" class="font-3" value="close"></amr-icon>` : ""}
-                    </div>
-                    <div class="modal-content overflow-y-auto overflow-x-visible flex-1 relative">${this.content ? this.content.outerHTML : ""}</div>
-                    <div class="modal-footer">${this.footer ? this.footer.outerHTML : ""}</div>
-                </div>
-            ` : ""}
-        `;
+        return this.visible == "true" ? super.template() : "";
     }
     static style() {
         return `
@@ -132,15 +118,18 @@ export default class Modal extends BaseElement {
                 transition: opacity 0.3s ease-in-out;
                 pointer-events: none;
             }
-            amr-modal .modal-main {
+            amr-modal .card-main {
+                width: auto;
                 scale: 0.8;
                 transition: scale 0.3s ease-in-out;
+                border-color: transparent;
+                box-shadow: 0 4px 15px 0 color-mix(in srgb, var(--secondary-shade5) 10%, transparent);
             }
             amr-modal[visible="true"] {
                 opacity: 1;
                 pointer-events: all;
             }
-            amr-modal[visible="true"] .modal-main {
+            amr-modal[visible="true"] .card-main {
                 scale: 1;
             }
         `;

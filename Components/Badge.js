@@ -1,13 +1,11 @@
 import BaseElement from "./BaseElement.js";
 
 export default class Badge extends BaseElement {
-    static attrs = [...BaseElement.attrs, "text", "color", "bgcolor", "size"];
+    static attrs = [...BaseElement.attrs, "text", "status"];
     static selector = "amr-badge";
     connectedCallback() {
         this.text = this.text || "";
-        this.color = this.color || "var(--dark-shade0)";
-        this.bgcolor = this.bgcolor || "var(--secondary-shade2)";
-        this.size = this.size || "medium";
+        this.status = this.status || "default";
         this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
         this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
         super.connectedCallback();
@@ -18,9 +16,8 @@ export default class Badge extends BaseElement {
     template() {
         return `
             <div id="${this.key}" 
-                class="badge-main v-align-items-center p-1 gap-x-1 round-10 font-weight-500 ${this.cls} ${this.size}" 
+                class="badge-main v-align-items-center gap-x-1 round-10 font-weight-500 badge-${this.status} ${this.cls}" 
                 role="status"
-                style="background-color: ${this.bgcolor}; color: ${this.color};"
             >
                 ${this.left ? this.left.outerHTML : ""}
                 ${this.text}
@@ -33,7 +30,34 @@ export default class Badge extends BaseElement {
             .badge-main {
 			    outline: none;
 			    white-space: nowrap;
+                background-color: var(--status-disabled-light);
+                color: var(--status-disabled-dark);
+                padding: 0.5rem 1rem;
             }
+            .badge-main:has([slot="left"]) {
+                padding-left: 0.5rem;
+            }
+            .badge-main:has([slot="right"]) {
+                padding-right: 0.5rem;
+            }
+            .badge-main.badge-info {
+                background-color: var(--status-info-light);
+                color: var(--status-info-dark);
+            }
+            .badge-main.badge-success {
+                background-color: var(--status-success-light);
+                color: var(--status-success-dark);
+            }
+            .badge-main.badge-warning {
+                background-color: var(--status-warning-light);
+                color: var(--status-warning-dark);
+            }
+            .badge-main.badge-error {
+                background-color: var(--status-error-light);
+                color: var(--status-error-dark);
+            }
+
+
         `;
     }
 }

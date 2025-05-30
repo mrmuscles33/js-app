@@ -253,13 +253,17 @@
 				</span>
 
 				<h3 class="my-2">Badges</h3>
-				<span class="h-align-between v-align-items-center">
-					<amr-badge text="Badge large"></amr-badge>
-					<amr-badge class="font-2" text="John Doe" bgcolor="var(--status-success-light)" color="var(--status-success-dark)">
+				<span class="v-align-items-center gap-x-2">
+					<amr-badge text="Badge"></amr-badge>
+					<amr-badge status="info" text="Information"></amr-badge>
+					<amr-badge status="success" text="Success"></amr-badge>
+					<amr-badge status="warning" text="Warning"></amr-badge>
+					<amr-badge status="error" text="Error"></amr-badge>
+					<amr-badge class="font-2" text="John Doe">
 						<amr-avatar class="h-4 font-2" firstname="John" lastname="Doe" information="false" slot="left"></amr-avatar>
 						<amr-icon value="close" slot="right" class="font-3 pointer"></amr-icon>
 					</amr-badge>
-					<amr-badge text="Chasseuse Impitoyable" bgcolor="var(--status-error-light)" color="var(--status-error-dark)">
+					<amr-badge text="Chasseuse Impitoyable">
 						<amr-icon value="swords" slot="left"></amr-icon>
 					</amr-badge>
 				</span>
@@ -268,7 +272,7 @@
 				<h2>Containers</h2>
 				<h3 class="my-2">Cards</h3>
 				<div class="flex-row gap-2">
-					<amr-card title="Article" class="h-xs">
+					<amr-card class="h-xs">
 						<div slot="header" class="flex-col gap-1">
 							<span class="font-2 font-weight-700">Title</span>
 							<span class="font-2 font-weight-300">Subtitle</span>
@@ -283,7 +287,7 @@
 							<amr-button text="Lire l'article" primary="true"></amr-button>
 						</div>
 					</amr-card>
-					<amr-card title="Title" subtitle="subtitle" class="flex-1 v-align-item-start min-w-xs bg-">
+					<amr-card class="flex-1 v-align-item-start min-w-xs bg-">
 						<div slot="header" class="font-2 font-weight-700">Title</div>
 						<div slot="content">Content</div>
 					</amr-card>

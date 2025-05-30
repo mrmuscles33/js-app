@@ -48,6 +48,7 @@ export default class BaseElement extends HTMLElement {
 			}, 50);
 		}
 		me.ignoreChange = false;
+		me.fireHandler("render");
 	}
 	focus() {
 		// Focus on the element with the id
