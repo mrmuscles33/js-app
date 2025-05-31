@@ -21,7 +21,6 @@ export default class Tabs extends BaseElement {
     render() {
         super.render();
 
-        // Add event listeners to buttons
         this.querySelectorAll("amr-button").forEach((button, index) => {
             button.onClick = (event) => {
                 if (button.disabled == "true") return;
@@ -37,7 +36,7 @@ export default class Tabs extends BaseElement {
     template() {
         return `
             <div class="tabs-main w-100 ${this.vertical == "true" ? "vertical" : ""} ${this.cls}" id="${this.key}">
-                <div class="tabs-buttons">
+                <div class="tabs-buttons" toolbar>
                     ${this.tabs.map((tab) => `
                         <amr-button 
                             cls="px-3" 
@@ -50,7 +49,7 @@ export default class Tabs extends BaseElement {
                     `).join('')}
                 </div>
                 <hr/>
-                <div class="tabs-content w-100 grid">
+                <div class="tabs-content grid">
                     ${this.tabs.map((tab) => `
                         <div class="tab-content flex-col ${tab.selected ? 'selected' : ''}">
                             ${tab.content}
@@ -66,13 +65,9 @@ export default class Tabs extends BaseElement {
                 flex-direction: column;
                 gap: var(--size-1) 0;
             }
-            .tabs-main.vertical {
-                flex-direction: row;
-                gap: 0 var(--size-1);
-            }
             .tabs-main > .tabs-buttons {
                 width: 100%;
-                heiht: auto;
+                height: auto;
                 overflow-x: auto;
                 overflow-y: hidden;
                 flex-direction: row;
@@ -82,21 +77,7 @@ export default class Tabs extends BaseElement {
             .tabs-main > .tabs-content > .tab-content::-webkit-scrollbar {
                 height: var(--size-1);
             }
-            .tabs-main.vertical > .tabs-buttons::-webkit-scrollbar,
-            .tabs-main.vertical > .tabs-content > .tab-content::-webkit-scrollbar {
-                width: var(--size-1);
-            }
-            .tabs-main.vertical > .tabs-buttons {
-                width: auto;
-                heiht: 100%;
-                overflow-x: hidden;
-                overflow-y: auto;
-                flex-direction: column;
-                gap: var(--size-1) 0;
-            }
-            .tabs-main.vertical > .tabs-buttons > amr-button > .btn-main {
-                justify-content: flex-start;
-            }
+            
             .tabs-main > .tabs-buttons > amr-button.selected > .btn-main {
                 background-color: var(--secondary-shade2);
             }
@@ -107,11 +88,6 @@ export default class Tabs extends BaseElement {
                 border: none;
                 border-top: 1px solid var(--secondary-shade5);
             }
-            .tabs-main.vertical > hr {
-                width: 1px;
-                height: 100%;
-                border-left: 1px solid var(--secondary-shade5);
-            }
             .tabs-main > .tabs-content > .tab-content {
                 flex: 1;
                 grid-area: 1 / 1;
@@ -120,6 +96,36 @@ export default class Tabs extends BaseElement {
             }
             .tabs-main > .tabs-content > .tab-content.selected {
                 visibility: visible;
+            }
+
+            .tabs-main.vertical {
+                flex-direction: row;
+                gap: 0 var(--size-1);
+            }
+            .tabs-main.vertical > .tabs-buttons::-webkit-scrollbar,
+            .tabs-main.vertical > .tabs-content > .tab-content::-webkit-scrollbar {
+                width: var(--size-1);
+            }
+            .tabs-main.vertical > .tabs-buttons {
+                width: auto;
+                height: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+                flex-direction: column;
+                gap: var(--size-1) 0;
+                flex-shrink: 0;
+            }
+            .tabs-main.vertical > .tabs-buttons > amr-button > .btn-main {
+                justify-content: flex-start;
+            }
+            .tabs-main.vertical > hr {
+                width: 1px;
+                height: 100%;
+                border-left: 1px solid var(--secondary-shade5);
+            }
+            .tabs-main.vertical > .tabs-content {
+                flex: 1;
+                min-width: 0;
             }
         `;
     }

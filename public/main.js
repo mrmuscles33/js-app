@@ -20,9 +20,11 @@ import Calendar from "../Components/Calendar.js";
 import Modal from "../Components/Modal.js";
 import Icon from "../Components/Icon.js";
 import Card from "../Components/Card.js";
-import TooltipDirective from "../Directives/TooltipDirective.js";
 import Alert from "../Components/Alert.js";
 import Tabs from "../Components/Tabs.js";
+
+import TooltipDirective from "../Directives/TooltipDirective.js";
+import ToolbarDirective from "../Directives/ToolbarDirective.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -78,8 +80,10 @@ componentsStyles.innerHTML = Html.clean`
 
 // Directives
 const tooltipDirective = new TooltipDirective();
+const toolbarDirective = new ToolbarDirective();
 setTimeout(() => {
-tooltipDirective.initObserver();
+	tooltipDirective.initObserver();
+	toolbarDirective.initObserver();
 }, 500);
 
 // Basic style
