@@ -184,7 +184,7 @@ export default class TextField extends BaseElement {
 				top: 50%;
 				transform: translateY(-50%);
 				color: var(--dark-shade0);
-				transition: .2s ease-out;
+				transition: top 0.2s ease, transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
 				pointer-events: none;
 				user-select: none;
 			}

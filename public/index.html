@@ -253,7 +253,7 @@
 				</span>
 
 				<h3 class="my-2">Badges</h3>
-				<span class="v-align-items-center gap-x-2">
+				<span class="v-align-items-center gap-x-2 gap-y-1 flex-wrap">
 					<amr-badge text="Badge"></amr-badge>
 					<amr-badge status="info" text="Information"></amr-badge>
 					<amr-badge status="success" text="Success"></amr-badge>
@@ -319,19 +319,19 @@
 
 				<h3 class="my-2">Tabs</h3>
 				<div class="flex-row gap-x-2">
-					<amr-tabs class="w-50">
+					<amr-tabs class="flex-1">
 						<amr-tab label="Tab 1" selected="true">Tab 1 content</amr-tab>
 						<amr-tab label="Tab 2">
-							<p>Tab 2 content</p>
-							<p>Tab 2 content</p>
-							<p>Tab 2 content</p>
-							<p>Tab 2 content</p>
-							<p>Tab 2 content</p>
+							<div class="flex-col gap-y-1 py-1">
+								<amr-text class="w-xs" label="Label" required="true"></amr-text>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+								<amr-text label="Label" required="true"></amr-text>
+							</div>
 						</amr-tab>
 						<amr-tab label="Tab 3" disabled>Tab 3 content</amr-tab>
 						<amr-tab label="Tab 4">Tab 4 content</amr-tab>
 					</amr-tabs>
-					<amr-tabs class="w-50" vertical="true" style="max-height:200px">
+					<amr-tabs class="flex-1" vertical="true">
 						<amr-tab label="Tabbbbb 1" selected="true">Tab 1 content</amr-tab>
 						<amr-tab label="Tab 2">
 							<p>Tab 2 content</p>

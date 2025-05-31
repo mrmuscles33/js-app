@@ -40,7 +40,7 @@ export default class Button extends BaseElement {
 				${this.cls} 
 			    ${this.primary == "true" ? "primary" : ""} 
 			    ${this.bordered == "true" ? "border" : ""} 
-			    ${this.disabled == "true" ? "disabled" : ""} 
+			    ${this.disabled == "true" ? "disabled" : ""}"
 			    role="button" 
 			    tabindex=${this.disabled == "true" ? "-1" : "0"}
 			>

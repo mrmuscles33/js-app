@@ -72,6 +72,7 @@ export default class Tabs extends BaseElement {
                 overflow-y: hidden;
                 flex-direction: row;
                 gap: 0 var(--size-1);
+                padding: 0 0 2px 0;
             }
             .tabs-main > .tabs-buttons::-webkit-scrollbar,
             .tabs-main > .tabs-content > .tab-content::-webkit-scrollbar {
@@ -114,6 +115,7 @@ export default class Tabs extends BaseElement {
                 flex-direction: column;
                 gap: var(--size-1) 0;
                 flex-shrink: 0;
+                padding: 0 2px var(--size-1) 0;
             }
             .tabs-main.vertical > .tabs-buttons > amr-button > .btn-main {
                 justify-content: flex-start;
