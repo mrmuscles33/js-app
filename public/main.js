@@ -22,6 +22,7 @@ import Icon from "../Components/Icon.js";
 import Card from "../Components/Card.js";
 import TooltipDirective from "../Directives/TooltipDirective.js";
 import Alert from "../Components/Alert.js";
+import Tabs from "../Components/Tabs.js";
 
 // HTML Elements
 customElements.define("amr-text", TextField);
@@ -45,6 +46,7 @@ customElements.define("amr-modal", Modal);
 customElements.define("amr-icon", Icon);
 customElements.define("amr-card", Card);
 customElements.define("amr-alert", Alert);
+customElements.define("amr-tabs", Tabs);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -71,6 +73,7 @@ componentsStyles.innerHTML = Html.clean`
 	${Icon.style()}
 	${Card.style()}
 	${Alert.style()}
+	${Tabs.style()}
 `;
 
 // Directives

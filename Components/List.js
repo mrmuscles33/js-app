@@ -6,8 +6,8 @@ export default class List extends BaseElement {
 	static selector = "amr-list";
 	connectedCallback() {
         this.limit = this.limit || 0;
-		this.options = Array.from(this.childNodes)
-			.filter((node) => node.nodeType === Node.ELEMENT_NODE && node.tagName == "AMR-OPTION")
+		this.options = this.options || Array.from(this.childNodes)
+			.filter((node) => node.nodeType === Node.ELEMENT_NODE && node.localName == "amr-option")
 			.map((node) => {
 				return { 
                     value: node.getAttribute("value"), 
