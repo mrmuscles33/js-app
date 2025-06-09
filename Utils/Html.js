@@ -26,19 +26,26 @@ const Html = {
 	},
 	getNextFocusableElement: (container = document.body, currentElement = document.activeElement, previous = false, loop = true, ignoreChildren = false) => {
 		const focusableSelector = [
-			'a[href]:not([tabindex="-1"])',
-			'button:not([disabled]):not([tabindex="-1"])',
-			'input:not([disabled]):not([tabindex="-1"])',
-			'select:not([disabled]):not([tabindex="-1"])',
-			'textarea:not([disabled]):not([tabindex="-1"])',
-			'[tabindex]:not([tabindex="-1"])',
-			'[contenteditable="true"]:not([tabindex="-1"])'
+			'a[href]:not([tabindex="-1"]):not([inert])',
+			'button:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'input:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'select:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'textarea:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'[tabindex]:not([tabindex="-1"]):not([inert])',
+			'[contenteditable="true"]:not([tabindex="-1"]):not([inert])'
 		].join(',');
 		
 		let focusableElements = Array.from(container.querySelectorAll(focusableSelector));
 		if (focusableElements.length === 0) return null;
 		
 		focusableElements = focusableElements.filter(el => {
+			let parent = el;
+			while (parent) {
+				if (parent.hasAttribute('inert')) {
+					return false;
+				}
+				parent = parent.parentElement;
+			}
 			return !ignoreChildren || !currentElement.contains(el) || (currentElement.contains(el) && el == document.activeElement);
 		});
     	const currentIndex = focusableElements.indexOf(document.activeElement);

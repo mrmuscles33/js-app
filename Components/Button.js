@@ -2,16 +2,14 @@ import BaseElement from "./BaseElement.js";
 import Events from "../Utils/Events.js";
 
 export default class Button extends BaseElement {
-	static attrs = [...BaseElement.attrs, "text", "icon", "primary", "bordered", "disabled", "flex"];
+	static attrs = [...BaseElement.attrs, "text", "primary", "bordered", "disabled"];
 	static selector = "amr-button";
 	connectedCallback() {
 		this.text = this.text || "";
-		this.icon = this.icon || "";
 		this.primary = this.primary || "false";
 		this.bordered = this.bordered || "true";
 		this.disabled = this.disabled || "false";
-		this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
-		this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
+		this.content = this.content || this.querySelector("[slot='content']")?.outerHTML || "";
 		super.connectedCallback();
 	}
 	render() {
@@ -44,10 +42,7 @@ export default class Button extends BaseElement {
 			    role="button" 
 			    tabindex=${this.disabled == "true" ? "-1" : "0"}
 			>
-				${this.left ? `<span class="absolute l-1">${this.left.outerHTML}</span>` : ""}
-				${this.icon == "" ? "" : `<amr-icon class="font-3" value="${this.icon}"></amr-icon>`}
-				${this.text == "" ? "" : `<span class="btn-label">${this.text}</span>`}
-				${this.right ? `<span class="absolute r-1">${this.right.outerHTML}</span>` : ""}
+				${this.text || this.content || ""}
 			</span>
 		`;
 	}

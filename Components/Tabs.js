@@ -10,7 +10,12 @@ export default class Tabs extends BaseElement {
 			.map((node) => {
 				return { 
                     label: node.getAttribute("label"),
-                    content: node.innerHTML,
+                    button: node.querySelector("amr-button[slot='tab-button']")?.outerHTML || "",
+                    content: node.querySelector("[slot='tab-content']")?.outerHTML || `
+                        <div slot='tab-content' class="tab-content flex-col" ${node.hasAttribute("selected") ? 'selected' : 'inert'}>
+                            ${node.innerHTML}
+                        </div>
+                    ` || "",
                     selected: node.hasAttribute("selected"),
                     disabled: node.hasAttribute("disabled")
                 };
@@ -21,13 +26,25 @@ export default class Tabs extends BaseElement {
     render() {
         super.render();
 
-        this.querySelectorAll("amr-button").forEach((button, index) => {
+        this.tabs.forEach((tab, index) => {
+            if (tab.selected) {
+                this.querySelectorAll(".tabs-buttons > amr-button")[index].setAttribute("selected", "");
+                this.querySelectorAll("[slot=tab-content]")[index].removeAttribute("inert");
+                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("selected", "");
+            } else {
+                this.querySelectorAll(".tabs-buttons > amr-button")[index].removeAttribute("selected");
+                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("inert", "");
+            }
+        });
+        this.querySelectorAll(".tabs-buttons > amr-button").forEach((button, index) => {
             button.onClick = (event) => {
                 if (button.disabled == "true") return;
-                this.querySelector(`.tabs-buttons > amr-button.selected`)?.classList.remove("selected");
-                button.classList.add("selected");
-                this.querySelector(".tab-content.selected")?.classList.remove("selected");
-                this.querySelectorAll(".tab-content")[index].classList.add("selected");
+                this.querySelector(`.tabs-buttons > amr-button[selected]`)?.removeAttribute("selected");
+                button.setAttribute("selected", "");
+                this.querySelector("[slot=tab-content][selected]")?.setAttribute("inert", "");
+                this.querySelector("[slot=tab-content][selected]")?.removeAttribute("selected");
+                this.querySelectorAll("[slot=tab-content]")[index].removeAttribute("inert");
+                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("selected", "");
                 this.fireHandler("change", event);
             };
         });
@@ -37,10 +54,10 @@ export default class Tabs extends BaseElement {
         return `
             <div class="tabs-main w-100 ${this.vertical == "true" ? "vertical" : ""} ${this.cls}" id="${this.key}">
                 <div class="tabs-buttons" toolbar>
-                    ${this.tabs.map((tab) => `
+                    ${this.tabs.map((tab) => tab.button || `
                         <amr-button 
                             cls="px-3" 
-                            class="${tab.selected ? 'selected' : ''}" 
+                            ${tab.selected ? 'selected' : ''} 
                             ${tab.disabled ? 'disabled="true"' : ''} 
                             text="${tab.label}" 
                             bordered="false"
@@ -50,11 +67,7 @@ export default class Tabs extends BaseElement {
                 </div>
                 <hr/>
                 <div class="tabs-content grid">
-                    ${this.tabs.map((tab) => `
-                        <div class="tab-content flex-col ${tab.selected ? 'selected' : ''}">
-                            ${tab.content}
-                        </div>
-                    `).join('')}
+                    ${this.tabs.map((tab) => tab.content).join('')}
                 </div>
             </div>
         `;
@@ -75,11 +88,11 @@ export default class Tabs extends BaseElement {
                 padding: 0 0 2px 0;
             }
             .tabs-main > .tabs-buttons::-webkit-scrollbar,
-            .tabs-main > .tabs-content > .tab-content::-webkit-scrollbar {
+            .tabs-main > .tabs-content > [tab-content]::-webkit-scrollbar {
                 height: var(--size-1);
             }
             
-            .tabs-main > .tabs-buttons > amr-button.selected > .btn-main {
+            .tabs-main > .tabs-buttons > amr-button[selected] > .btn-main {
                 background-color: var(--secondary-shade2);
             }
             .tabs-main > hr {
@@ -89,13 +102,13 @@ export default class Tabs extends BaseElement {
                 border: none;
                 border-top: 1px solid var(--secondary-shade5);
             }
-            .tabs-main > .tabs-content > .tab-content {
+            .tabs-main > .tabs-content > [slot=tab-content] {
                 flex: 1;
                 grid-area: 1 / 1;
                 visibility: hidden;
                 overflow: auto;
             }
-            .tabs-main > .tabs-content > .tab-content.selected {
+            .tabs-main > .tabs-content > [slot=tab-content][selected] {
                 visibility: visible;
             }
 
@@ -104,7 +117,7 @@ export default class Tabs extends BaseElement {
                 gap: 0 var(--size-1);
             }
             .tabs-main.vertical > .tabs-buttons::-webkit-scrollbar,
-            .tabs-main.vertical > .tabs-content > .tab-content::-webkit-scrollbar {
+            .tabs-main.vertical > .tabs-content > [slot=tab-content]::-webkit-scrollbar {
                 width: var(--size-1);
             }
             .tabs-main.vertical > .tabs-buttons {

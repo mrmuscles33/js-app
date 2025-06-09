@@ -264,22 +264,24 @@ export default class Calendar extends BaseElement {
 							tooltip="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}"
 							bordered="false" 
 							name="previous-button" 
-							icon="keyboard_arrow_left"
-							disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}">
+							disabled="${(this.showYear == "true" && this.yearsPage == 0) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.min))}"
+						>
+							<amr-icon value="keyboard_arrow_left" slot="content" class="font-3"></amr-icon>
 						</amr-button>
 						<amr-button 
 							tooltip="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}"
 							bordered="false" 
 							name="next-button" 
-							icon="keyboard_arrow_right"
-							disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}">
+							disabled="${(this.showYear == "true" && this.getDisplayedYears().some(year => year == this.maxDate.getFullYear())) || (this.showYear == "false" && this.getDisplayedDays().some(d => Dates.toText(d, this.format) == this.max))}"
+						>
+							<amr-icon value="keyboard_arrow_right" slot="content" class="font-3"></amr-icon>
 						</amr-button>
 					`}
 				</span>
 				${this.showYear == "true" ? `
 				<div class="calendar-years w-100 ratio-1 grid grid-cols-3 grid-rows-7 v-align-items-center h-align-items-center">
 					${this.getDisplayedYears().map((year) => ` 
-					<span role="button" class="calendar-year round-10 w-100 h-100 v-align-center h-align-center
+					<span role="button" class="calendar-year round-10 w-100 h-100 v-align-items-center h-align-center
 						${year == Dates.today().getFullYear() ? "today" : ""}
 						${year == Dates.toDate(this.value, Dates.D_M_Y).getFullYear() ? "selected" : ""}"
 						tabindex="${this.readonly == "false" && 
@@ -299,7 +301,7 @@ export default class Calendar extends BaseElement {
 					`).join('')}
 					${this.getDisplayedDays().map((day) => `
 					<span role="button" 
-						class="calendar-day round-10 w-100 h-100 v-align-center h-align-center
+						class="calendar-day round-10 w-100 h-100 v-align-items-center h-align-center
 							${Dates.toText(day, Dates.D_M_Y) == Dates.toText(Dates.today(), Dates.D_M_Y) ? "today" : ""}
 							${Dates.toText(day, Dates.D_M_Y) == this.value ? "selected" : ""}
 							${day.getMonth() != Dates.toDate(this.currentMonth, Dates.M_Y).getMonth() ? "other-month" : ""}

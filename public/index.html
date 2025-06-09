@@ -18,17 +18,17 @@
 					alert('Button clicked');
 				};
 
-				let button2 = get('amr-button[text="Secondary"]');
+				let button2 = get('amr-button[name="Secondary"]');
 				let modal1 = get('amr-modal[name="modal-1"]');
 				button2.onClick = (event) => modal1.open(event, button2);
 				modal1.onOpen = () => {
-					let close = get('amr-button[text="Fermer"]', modal1);
-					let valid = get('amr-button[text="Valider"]', modal1);
+					let close = get('amr-button[name="Fermer1"]', modal1);
+					let valid = get('amr-button[name="Valider1"]', modal1);
 					let modal2 = get('amr-modal[name="modal-2"]', modal1);
 					close.onClick = () => modal1.close();
 					valid.onClick = (event) => modal2.open(event, valid);
 					modal2.onOpen = () => {
-						let close2 = get('amr-button[text="Fermer"]', modal2);
+						let close2 = get('amr-button[name="Fermer2"]', modal2);
 						close2.onClick = () => modal2.close();
 					};
 				};
@@ -120,21 +120,29 @@
 									<p>aaaaaaaaaaaaaaa</p>
 								</div>
 								<div slot="footer" class="w-100">
-									<amr-button text="Fermer" bordered="false" class="flex-1"></amr-button>
+									<amr-button name="Fermer2" text="Fermer" bordered="false" class="flex-1"></amr-button>
 								</div>
 							</amr-modal>
 						</div>
 						<div slot="footer" class="w-100 grid grid-cols-2 gap-x-2">
-							<amr-button text="Fermer" bordered="false"></amr-button>
-							<amr-button text="Valider" primary="true"></amr-button>
+							<amr-button name="Fermer1" text="Fermer" bordered="false"></amr-button>
+							<amr-button name="Valider1" text="Valider" primary="true"></amr-button>
 						</div>
 					</amr-modal>
 					
-					<amr-button text="Primary" primary="true" cls="test" name="primary-button">
-						<amr-icon value="chevron_left" slot="left" class="font-3"></amr-icon>
+					<amr-button primary="true" name="primary-button">
+						<div slot="content" class="w-100 h-align-between">
+							<amr-icon value="chevron_left" class="font-3"></amr-icon>
+							<span>Primary</span>
+							<amr-icon value="chevron_left" class="hidden"></amr-icon>
+						</div>
 					</amr-button>
-					<amr-button text="Secondary">
-						<amr-icon value="chevron_right" slot="right" class="font-3"></amr-icon>
+					<amr-button name="Secondary">
+						<div slot="content" class="w-100 h-align-between">
+							<span></span>
+							<span>Secondary</span>
+							<amr-icon value="chevron_right" slot="right" class="font-3"></amr-icon>
+						</div>
 					</amr-button>
 					<amr-button text="Tertiary" bordered="false" tooltip="tooltip"></amr-button>
 					<amr-button text="Disabled" icon="block" disabled="true"></amr-button>
@@ -320,7 +328,16 @@
 				<h3 class="my-2">Tabs</h3>
 				<div class="flex-row gap-x-2">
 					<amr-tabs class="flex-1">
-						<amr-tab label="Tab 1" selected="true">Tab 1 content</amr-tab>
+						<amr-tab selected="true">
+							<amr-button slot="tab-button" bordered="false" name="debug-button">
+								<div slot="content" class="w-100 h-align-between">
+									Tab 1
+								</div>
+							</amr-button>
+							<div slot="tab-content">
+								Tab 1 content
+							</div>
+						</amr-tab>
 						<amr-tab label="Tab 2">
 							<div class="flex-col gap-y-1 py-1">
 								<amr-text class="w-xs" label="Label" required="true"></amr-text>
@@ -349,14 +366,6 @@
 						</amr-tab>
 						<amr-tab label="Tab 3" disabled>Tab 3 content</amr-tab>
 						<amr-tab label="Tab 4">Tab 4 content</amr-tab>
-						<amr-tab label="Tab 5" disabled>Tab 5 content</amr-tab>
-						<amr-tab label="Tab 6">Tab 6 content</amr-tab>
-						<amr-tab label="Tab 7">Tab 7 content</amr-tab>
-						<amr-tab label="Tab 8">Tab 8 content</amr-tab>
-						<amr-tab label="Tab 9">Tab 9 content</amr-tab>
-						<amr-tab label="Tab 10">Tab 10 content</amr-tab>
-						<amr-tab label="Tab 11">Tab 11 content</amr-tab>
-						<amr-tab label="Tab 12">Tab 12 content</amr-tab>
 					</amr-tabs>
 				</div>
 		</main>

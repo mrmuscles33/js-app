@@ -104,12 +104,12 @@ body *:not(style) {
 .h-align-item-between { justify-self: space-between; }
 .h-align-item-around { justify-self: space-around; }
 
-.v-align-start { align-items: flex-start; }
-.v-align-end { align-items: flex-end; }
-.v-align-center { align-items: center; }
-.v-align-stretch { align-items: stretch; }
-.v-align-between { align-items: space-between; }
-.v-align-around { align-items: space-around; }
+.v-align-start { align-content: flex-start; }
+.v-align-end { align-content: flex-end; }
+.v-align-center { align-content: center; }
+.v-align-stretch { align-content: stretch; }
+.v-align-between { align-content: space-between; }
+.v-align-around { align-content: space-around; }
 .v-align-items-start { align-items: flex-start; }
 .v-align-items-end { align-items: flex-end; }
 .v-align-items-center { align-items: center; }
