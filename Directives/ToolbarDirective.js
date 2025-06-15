@@ -35,12 +35,12 @@ export default class ToolbarDirective extends Directive {
 		let itemToFocus = null;
 		if (Events.isArrow(event)) {
 			event.preventDefault();
-			itemToFocus = Html.getNextFocusableElement(container, element, Events.isArrowLeft(event) || Events.isArrowUp(event), true, false);
+			itemToFocus = Html.tabNext(container, element, Events.isArrowLeft(event) || Events.isArrowUp(event), true, false);
 		} else if (Events.isTab(event)) {
 			event.preventDefault();
 			itemToFocus = Events.isShift(event)
-				? Html.getNextFocusableElement(document.body, container, true, false, true)
-				: Html.getNextFocusableElement(document.body, container, false, false, true);
+				? Html.tabNext(document.body, container, true, false, true)
+				: Html.tabNext(document.body, container, false, false, true);
 		}
 		if (itemToFocus) {
 			itemToFocus.focus();

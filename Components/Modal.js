@@ -7,19 +7,9 @@ export default class Modal extends Card {
     connectedCallback() {
         this.visible = this.visible || "false";
         this.closable = this.closable || "true";
-        this.header = this.header || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "header"
-		);
-        this.footer = this.footer || Array.from(this.childNodes).find(
-            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "footer"
-        );
-        this.content = this.content || Array.from(this.childNodes).find(
-            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "content"
-        );
         let defaultWidth = /\bmax-w-\b/.test(this.cls) ? "max-w-auto" : "max-w-100";
         let defaultHeight = /\bmax-h-+\b/.test(this.cls) ? "" : "max-h-100";
         this.cls = (this.cls || "") + ` ${defaultWidth} ${defaultHeight} bg-secondary-1`
-
         super.connectedCallback();
     }
     render() {

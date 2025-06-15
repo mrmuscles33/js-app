@@ -1,4 +1,5 @@
 import BaseElement from "./BaseElement.js";
+import Html from "../Utils/Html.js";
 
 export default class TextField extends BaseElement {
 	static attrs = [
@@ -31,12 +32,8 @@ export default class TextField extends BaseElement {
 		this.format = this.format || "";
 		this.filled = this.filled || "true";
 		this.maxlength = this.maxlength || 128;
-		this.left = this.left || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left"
-		);
-		this.right = this.right || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
-		);
+		this.left = this.left || Html.nearest(this, "[slot='left']") || null;
+		this.right = this.right || Html.nearest(this, "[slot='right']") || null;
 		super.connectedCallback();
 	}
 	render() {
@@ -100,7 +97,7 @@ export default class TextField extends BaseElement {
 				${this.cls}
 				${this.filled === "true" ? "filled" : ""}"
 			>
-				${this.left ? this.left.outerHTML : ""}
+				${this.left?.outerHTML ?? ""}
 				<span class="flex-col flex-1 v-align-item-end">
 					${this.label ? `<label for="${this.key}">${this.label}</label>` : ""}
 					<input id="${this.key}" ${this.name ? "name='" + this.name + "'" : ""}
@@ -116,7 +113,7 @@ export default class TextField extends BaseElement {
 						class="w-100 font-2 ${this.cls}"
 					/>
 				</span>
-				${this.right ? this.right.outerHTML : ""}
+				${this.right?.outerHTML ?? ""}
 				${this.errormessage ? `<span class='error absolute w-100 t-100 l-0'>${this.errormessage}</span>` : ""}
 			</div>
 		`;

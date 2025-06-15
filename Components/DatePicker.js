@@ -2,6 +2,7 @@ import Dates from "../Utils/Dates.js";
 import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
 import Icon from "./Icon.js";
+import Html from "../Utils/Html.js";
 
 export default class DatePicker extends TextField {
 	static attrs = [...TextField.attrs, "startWeek", "min", "max"];
@@ -16,9 +17,7 @@ export default class DatePicker extends TextField {
 		this.startWeek = this.startWeek || Dates.MONDAY;
 		this.min = this.min || Dates.format('01/01/1900', Dates.D_M_Y, this.format);
 		this.max = this.max || Dates.format('31/12/2099', Dates.D_M_Y, this.format);
-		this.right = this.right || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
-		) || (() => {
+		this.right = this.right || Html.nearest(this, "[slot='right']") || (() => {
 			if(this.readonly == "true" || this.disabled == "true") return null;
 			return Icon.get({ value: "calendar_today", action: "true", slot: "right"}, ["font-3"]);
 		})();

@@ -1,3 +1,4 @@
+import Html from "../Utils/Html.js";
 import BaseElement from "./BaseElement.js";
 
 export default class Badge extends BaseElement {
@@ -6,8 +7,8 @@ export default class Badge extends BaseElement {
     connectedCallback() {
         this.text = this.text || "";
         this.status = this.status || "default";
-        this.left = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "left");
-        this.right = Array.from(this.childNodes).find(node => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right");
+        this.left = this.left || Html.nearest(this, "[slot='left']") || null;
+        this.right = this.right || Html.nearest(this, "[slot='right']") || null;
         super.connectedCallback();
     }
     render() {
@@ -19,9 +20,9 @@ export default class Badge extends BaseElement {
                 class="badge-main v-align-items-center gap-x-1 round-10 font-weight-500 badge-${this.status} ${this.cls}" 
                 role="status"
             >
-                ${this.left ? this.left.outerHTML : ""}
+                ${this.left?.outerHTML ?? ""}
                 ${this.text}
-                ${this.right ? this.right.outerHTML : ""}
+                ${this.right?.outerHTML ?? ""}
             </div>
         `;
     }

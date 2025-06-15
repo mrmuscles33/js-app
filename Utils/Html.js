@@ -24,7 +24,7 @@ const Html = {
 		const observer = new MutationObserver(callback);
 		observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 	},
-	getNextFocusableElement: (container = document.body, currentElement = document.activeElement, previous = false, loop = true, ignoreChildren = false) => {
+	tabNext: (container = document.body, currentElement = document.activeElement, previous = false, loop = true, ignoreChildren = false) => {
 		const focusableSelector = [
 			'a[href]:not([tabindex="-1"]):not([inert])',
 			'button:not([disabled]):not([tabindex="-1"]):not([inert])',
@@ -65,6 +65,25 @@ const Html = {
 		}
 		
 		return nextIndex === -1 ? null : focusableElements[nextIndex];
+	},
+	nearest: (parent, selector) => {
+		const elements = parent.querySelectorAll(selector);
+		if (elements.length === 0) return null;
+		let closestElement = null;
+		let minDepth = Infinity;
+		elements.forEach(element => {
+			let depth = 0;
+			let currentNode = element;
+			while (currentNode && currentNode !== parent) {
+				depth++;
+				currentNode = currentNode.parentNode;
+			}
+			if (depth < minDepth) {
+				minDepth = depth;
+				closestElement = element;
+			}
+		});
+		return closestElement;
 	}
 };
 export default Html;

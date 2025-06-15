@@ -1,18 +1,13 @@
 import BaseElement from "./BaseElement.js";
+import Html from "../Utils/Html.js";
 
 export default class Card extends BaseElement {
     static attrs = [...BaseElement.attrs];
     static selector = "amr-card";
     connectedCallback() {
-        this.header = this.header || Array.from(this.childNodes).find(
-			(node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "header"
-		);
-        this.footer = this.footer || Array.from(this.childNodes).find(
-            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "footer"
-        );
-        this.content = this.content || Array.from(this.childNodes).find(
-            (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "content"
-        );
+        this.header = this.header || Html.nearest(this, "[slot='header']") || null;
+        this.footer = this.footer || Html.nearest(this, "[slot='footer']") || null;
+        this.content = this.content || Html.nearest(this, "[slot='content']") || null;
         super.connectedCallback();
     }
     render() {
