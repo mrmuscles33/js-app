@@ -251,14 +251,6 @@ export default class Calendar extends BaseElement {
 		return `
 			<div class="calendar-main w-100 flex-col ${this.readonly == "true" ? "readonly" : ""}">
 				<span class="gap-1">
-					<amr-button 
-						tooltip="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}"
-						text="${this.getDisplayedMonth()}" 
-						bordered="false" 
-						name="year-button" 
-						disabled="${this.readonly}">
-					</amr-button>
-					<span style="flex:1"></span>
 					${this.readonly == "true" ? "" : `
 						<amr-button 
 							tooltip="${this.showYear == "true" ? "Années précédentes" : "Mois précedent"}"
@@ -268,6 +260,17 @@ export default class Calendar extends BaseElement {
 						>
 							<amr-icon value="keyboard_arrow_left" slot="content" class="font-3"></amr-icon>
 						</amr-button>
+					`}
+					<span style="flex:1"></span>
+					<amr-button 
+						tooltip="${this.showYear == "true" ? "Choisir le jour" : "Choisir l'année"}"
+						text="${this.getDisplayedMonth()}" 
+						bordered="false" 
+						name="year-button" 
+						disabled="${this.readonly}">
+					</amr-button>
+					<span style="flex:1"></span>
+					${this.readonly == "true" ? "" : `
 						<amr-button 
 							tooltip="${this.showYear == "true" ? "Années suivantes" : "Mois suivant"}"
 							bordered="false" 

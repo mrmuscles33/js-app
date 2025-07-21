@@ -177,92 +177,72 @@ export default class TimePicker extends TextField {
         }
 
         return `
-            <div class="timepicker-main">
+            <div class="timepicker-main relative">
                 ${super.template()}
                 ${this.opened == "true" ? `
-                <div class="timepicker-mask"></div>
-                <div class="timepicker-menu round-1 ${this.position} flex-row">
-                    <div class="timepicker-section">
-                        <span class="header">Heure</span>
-                        <div class="timepicker-list hour">
-                            ${Array.from({ length: 24 }, (_, i) => i).map(hour => `
-                            <span class="timepicker-item round-1 hour
-                                ${Times.getHours(this.value) == hour ? "selected" : ""}
-                                ${disableHour(hour) ? "disabled" : ""}"
-                                value="${hour}"
-                                ${disableHour(hour) ? "" : `${Times.getHours(this.value) == hour ? "tabindex='0'" : "tabindex='-1'"}`}>
-                                ${hour.toString().padStart(2,'0')}
-                                ${Times.getHours(this.value) == hour ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
-                            </span>`
-                            ).join('')}
+                    <div class="timepicker-mask fixed t-0 l-0 w-100 h-100"></div>
+                    <div class="timepicker-menu round-1 w-100 min-w-xs absolute l-0 bg-secondary-2 mt-1 p-1 font-2 ${this.position} flex-row">
+                        <div class="timepicker-section text-center flex-1 block">
+                            <span class="header font-weight-500 block text-center mb-1">Heure</span>
+                            <div class="timepicker-list max-h-xs overflow-y-auto flex-col hour">
+                                ${Array.from({ length: 24 }, (_, i) => i).map(hour => `
+                                <span class="timepicker-item pointer p-1 mx-1 round-1 color-dark-0 block text-center hour
+                                    ${Times.getHours(this.value) == hour ? "selected" : ""}
+                                    ${disableHour(hour) ? "disabled" : ""}"
+                                    value="${hour}"
+                                    ${disableHour(hour) ? "" : `${Times.getHours(this.value) == hour ? "tabindex='0'" : "tabindex='-1'"}`}>
+                                    ${hour.toString().padStart(2,'0')}
+                                    ${Times.getHours(this.value) == hour ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
+                                </span>`
+                                ).join('')}
+                            </div>
                         </div>
-                    </div>
-                    <div class="timepicker-section">
-                        <span class="header">Minute</span>
-                        <div class="timepicker-list minute">
-                            ${Array.from({ length: 12 }, (_, i) => i * 5).map(minute => `
-                            <span class="timepicker-item round-1 minute
-                                ${Times.getMinutes(this.value) == minute ? "selected" : ""}
-                                ${disableMinute(minute) ? "disabled" : ""}"
-                                value="${minute}"
-                                ${disableMinute(minute) ? "" : `${Times.getMinutes(this.value) == minute ? "tabindex='0'" : "tabindex='-1'"}`}>
-                                ${minute.toString().padStart(2,'0')}
-                                ${Times.getMinutes(this.value) == minute ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
-                            </span>`
-                            ).join('')}
+                        <div class="timepicker-section text-center flex-1 block">
+                            <span class="header font-weight-500 block text-center mb-1">Minute</span>
+                            <div class="timepicker-list max-h-xs overflow-y-auto flex-col minute">
+                                ${Array.from({ length: 12 }, (_, i) => i * 5).map(minute => `
+                                <span class="timepicker-item pointer p-1 mx-1 round-1 color-dark-0 block text-center minute
+                                    ${Times.getMinutes(this.value) == minute ? "selected" : ""}
+                                    ${disableMinute(minute) ? "disabled" : ""}"
+                                    value="${minute}"
+                                    ${disableMinute(minute) ? "" : `${Times.getMinutes(this.value) == minute ? "tabindex='0'" : "tabindex='-1'"}`}>
+                                    ${minute.toString().padStart(2,'0')}
+                                    ${Times.getMinutes(this.value) == minute ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
+                                </span>`
+                                ).join('')}
+                            </div>
                         </div>
-                    </div>
-                    ${this.seconde == "true" ? `
-                    <div class="timepicker-section">
-                        <span class="header">Seconde</span>
-                        <div class="timepicker-list seconde">
-                            ${Array.from({ length: 12 }, (_, i) => i * 5).map(seconde => `
-                            <span class="timepicker-item round-1 seconde
-                                ${Times.getSeconds(this.value) == seconde ? "selected" : ""}
-                                ${disableSeconde(seconde) ? "disabled" : ""}"
-                                value="${seconde}"
-                                ${disableSeconde(seconde) ? "" : `${Times.getSeconds(this.value) == seconde ? "tabindex='0'" : "tabindex='-1'"}`}>
-                                ${seconde.toString().padStart(2,'0')}
-                                ${Times.getSeconds(this.value) == seconde ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
-                            </span>`
-                            ).join('')}
+                        ${this.seconde == "true" ? `
+                        <div class="timepicker-section text-center flex-1 block">
+                            <span class="header font-weight-500 block text-center mb-1">Seconde</span>
+                            <div class="timepicker-list max-h-xs overflow-y-auto flex-col seconde">
+                                ${Array.from({ length: 12 }, (_, i) => i * 5).map(seconde => `
+                                <span class="timepicker-item pointer p-1 mx-1 round-1 color-dark-0 block text-center seconde
+                                    ${Times.getSeconds(this.value) == seconde ? "selected" : ""}
+                                    ${disableSeconde(seconde) ? "disabled" : ""}"
+                                    value="${seconde}"
+                                    ${disableSeconde(seconde) ? "" : `${Times.getSeconds(this.value) == seconde ? "tabindex='0'" : "tabindex='-1'"}`}>
+                                    ${seconde.toString().padStart(2,'0')}
+                                    ${Times.getSeconds(this.value) == seconde ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
+                                </span>`
+                                ).join('')}
+                            </div>
                         </div>
+                        ` : ""}
                     </div>
-                    ` : ""}
-                </div>
                 ` : ""}
             </div>
         `;
     }
     static style() {
         return `
-            .timepicker-main {
-                position: relative;
-            }
             .timepicker-main > .timepicker-mask {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
                 background-color: transparent;
                 z-index: 1;
             }
-            .timepicker-main > amr-textfield > {
-                display: block;
-            }
             .timepicker-main > .timepicker-menu {
-                position: absolute;
-                left: 0;
-                width: 100%;
-                background-color: var(--secondary-shade2);
                 border: 1px solid var(--secondary-shade5);
-                margin-top: 10px;
-                padding: 5px 5px 5px 0;
                 z-index: 2;
-                font-size: 16px;
-                display: flex;
-                flex-direction: row;
             }
             .timepicker-main > .timepicker-menu.bottom {
                 top: 100%;
@@ -274,24 +254,8 @@ export default class TimePicker extends TextField {
                 bottom: 100%;
                 transform: translateY(-5px);
             }
-            .timepicker-main > .timepicker-menu > .timepicker-section {
-                flex: 1;
-                text-align: center;
-                display: block;
-            }
             .timepicker-main > .timepicker-menu > .timepicker-section > .header {
-                font-weight: 500;
-				font-size: 12px;
                 color: var(--dark-shade0);
-                display: block;
-                text-align: center;
-                margin: 5px 0 10px 0;
-            }
-            .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list {
-                display: flex;
-                flex-direction: column;
-                max-height: 200px;
-                overflow-y: auto;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list::-webkit-scrollbar {
                 width: 5px;
@@ -300,14 +264,8 @@ export default class TimePicker extends TextField {
                 background-color: var(--secondary-shade5);
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item {
-                padding: 5px;
-                margin: 0 5px;
-                cursor: pointer;
                 border: 1px solid transparent;
-                color: var(--dark-shade0);
                 outline: none;
-                text-align: center;
-                display: block;
             }
             .timepicker-main > .timepicker-menu > .timepicker-section > .timepicker-list > .timepicker-item:not(.disabled):focus-visible {
                 border-color: var(--secondary-shade5);

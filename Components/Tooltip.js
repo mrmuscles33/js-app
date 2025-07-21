@@ -28,6 +28,7 @@ export default class Tooltip extends BaseElement {
 			}
 			.tooltip-main {
 			    background-color: var(--secondary-shade2);
+				border: 1px solid var(--secondary-shade5);
 				color: var(--dark-shade0);
 			}
 		`;

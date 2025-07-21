@@ -782,3 +782,11 @@ body *:not(style) {
 .round-8 { border-radius: var(--size-8); }
 .round-9 { border-radius: var(--size-9); }
 .round-10 { border-radius: var(--size-10); }
+
+/* Text Alignment */
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-justify { text-align: justify; }
+.text-start { text-align: start; }
+.text-end { text-align: end; }

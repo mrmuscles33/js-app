@@ -24,6 +24,33 @@ const Html = {
 		const observer = new MutationObserver(callback);
 		observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 	},
+	tabFirst: (container = document.body, ignoreChildren = false) => {
+		const focusableSelector = [
+			'a[href]:not([tabindex="-1"]):not([inert])',
+			'button:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'input:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'select:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'textarea:not([disabled]):not([tabindex="-1"]):not([inert])',
+			'[tabindex]:not([tabindex="-1"]):not([inert])',
+			'[contenteditable="true"]:not([tabindex="-1"]):not([inert])'
+		].join(',');
+		
+		let focusableElements = Array.from(container.querySelectorAll(focusableSelector));
+		if (focusableElements.length === 0) return null;
+		
+		focusableElements = focusableElements.filter(el => {
+			let parent = el;
+			while (parent) {
+				if (parent.hasAttribute('inert')) {
+					return false;
+				}
+				parent = parent.parentElement;
+			}
+			return !ignoreChildren || !container.contains(el) || (container.contains(el) && el == document.activeElement);
+		});
+		
+		return focusableElements[0] || null;
+	},
 	tabNext: (container = document.body, currentElement = document.activeElement, previous = false, loop = true, ignoreChildren = false) => {
 		const focusableSelector = [
 			'a[href]:not([tabindex="-1"]):not([inert])',
