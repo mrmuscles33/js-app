@@ -57,7 +57,7 @@ export default class List extends BaseElement {
 		return `
            <ul class="list-main flex-col w-100 gap-y-1 ${this.cls}" role="listbox" id="${this.key}">
                 ${this.options.map((option) =>
-                `<li class="list-item round-1 px-2 py-1 ${isDisabled(option) ? "disabled" : ""}
+                `<li class="list-item round-1 px-2 py-1 ${isDisabled(option) ? "disabled" : ""}"
                     role="option" 
                     value="${option.value}" 
                     ${isDisabled(option) ? "tabindex='-1'" : "tabindex='0'"}

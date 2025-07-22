@@ -14,11 +14,39 @@ const Html = {
 		root.innerHTML = html;
 	},
 	clean:(strings, ...values) => {
-		return strings
-			.map((str, i) => `${str}${values[i] || ''}`)
-			.join('')
-			.replace(/\s*\n\s*/g, ' ')
-			.trim();
+		// Assembler la chaîne complète
+		const fullString = strings.map((str, i) => `${str}${values[i] || ''}`).join('');
+    
+		// Préserver le contenu des balises pre
+		const parts = [];
+		let lastIndex = 0;
+		let preTagPattern = /<pre[^>]*>([\s\S]*?)<\/pre>/gi;
+		let match;
+		
+		while ((match = preTagPattern.exec(fullString)) !== null) {
+			// Ajouter la partie avant le tag pre (nettoyée)
+			if (match.index > lastIndex) {
+				const beforePre = fullString.substring(lastIndex, match.index);
+				parts.push(beforePre.replace(/\s*\n\s*/g, ' ').trim());
+			}
+			
+			// Ajouter le contenu du tag pre (préservé)
+			parts.push(match[0]);
+			lastIndex = match.index + match[0].length;
+		}
+		
+		// Ajouter la dernière partie après le dernier pre (si elle existe)
+		if (lastIndex < fullString.length) {
+			const afterLastPre = fullString.substring(lastIndex);
+			parts.push(afterLastPre.replace(/\s*\n\s*/g, ' ').trim());
+		}
+		
+		// Si aucun tag pre n'a été trouvé, retourner la chaîne nettoyée normalement
+		if (parts.length === 0) {
+			return fullString.replace(/\s*\n\s*/g, ' ').trim();
+		}
+		
+		return parts.join('');
 	},
 	onThemeChange: (callback) => {
 		const observer = new MutationObserver(callback);

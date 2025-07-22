@@ -49,6 +49,7 @@ export default class Radio extends BaseElement {
 					setTimeout(() => {
 						radios[index].focus();
 					}, 50);
+					me.fireHandler("check", { target: me });
 				}
 			});
 
@@ -68,6 +69,7 @@ export default class Radio extends BaseElement {
 				radio.checked = "false";
 			}
 		});
+		this.fireHandler("check", { target: this });
 	}
 	template() {
 		return `

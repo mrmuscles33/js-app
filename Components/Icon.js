@@ -6,7 +6,6 @@ export default class Icon extends BaseElement {
     static selector = "amr-icon";
     connectedCallback() {
         this.value = this.value || "";
-        this.size = this.size || "medium";
         this.action = this.action || "false";
         super.connectedCallback();
     }
@@ -31,7 +30,7 @@ export default class Icon extends BaseElement {
     template() {
         return `
             <i id="${this.key}" 
-                class="icon-main material-icons-round ${this.size} ${this.cls} ${this.action == "true" ? "pointer" : ""}"
+                class="icon-main material-icons-round ${this.cls} ${this.action == "true" ? "pointer" : ""}"
                 ${this.action == "true" ? "tabindex='0' role='button'" : "role='img'"}>
                 ${this.value}
             </i>`;

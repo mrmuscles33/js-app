@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Test</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="./global.css" />
+		<link rel="stylesheet" href="./flag-icons.css" />
+		<link id="theme-link" rel="stylesheet" href="./themes/light.css" />
+		<link id="theme-link" rel="stylesheet" href="./themes/dark.css" />
+		<link rel="stylesheet" href="./google_icons.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+		<script type="module" src="./main.js"></script>
+		<script defer>
+			let get = (selector, root = document) => root.querySelector(selector);
+			let getAll = (selector, root = document) => root.querySelectorAll(selector);
+
+			let alertTpl = () =>  {
+				const alertTitle = get('amr-text[name="alert-title"]');
+				const alertMessage = get('amr-text[name="alert-message"]');
+				const alertType = get('amr-radio[name="alert-type"][checked="true"]');
+
+				let tpl = '';
+				tpl += `<amr-alert status="${alertType.value}">\n`;
+				tpl += `	<span slot="header" class="font-weight-700">${alertTitle.value}</span>\n`;
+				tpl += `	<span slot="content">${alertMessage.value}</span>\n`;
+				tpl += `</amr-alert>`;
+				return tpl;
+			};
+
+			let updateAlert = () => {
+				let tpl = alertTpl();
+				get('#alert-container').innerHTML = tpl;
+				get('#alert-code').textContent = "\n" + tpl;
+				Prism.highlightElement(get('#alert-code'));
+			};
+
+			function onLoad() {
+				let theme = localStorage.getItem('theme') || 'dark';
+				document.querySelector('body').setAttribute('data-theme', theme);
+				get('#theme-button').checked = theme === 'dark' ? "true" : "false";
+				get('#theme-button').onChange = (e) => {
+					let newTheme = e.target.checked ? 'dark' : 'light';
+					document.querySelector('body').setAttribute('data-theme', newTheme);
+					localStorage.setItem('theme', newTheme);
+				};
+
+				let alertTitle = get('amr-text[name="alert-title"]');
+				let alertMessage = get('amr-text[name="alert-message"]');
+				let alertType = getAll('amr-radio[name="alert-type"]');
+				let alertCopyButton = get('#alert-copy');
+
+				alertTitle.onChange = (e) => updateAlert();
+				alertMessage.onChange = (e) => updateAlert();
+				alertType.forEach(radio => {
+					radio.addEventListener('check', (e) => {
+						updateAlert();
+					});
+				});
+				alertCopyButton.onClick = (e) => navigator.clipboard.writeText(alertTpl());
+				updateAlert();
+			}
+
+		</script>
+		<style>
+			body{
+				background-color: var(--secondary-shade0);
+				color: var(--dark-shade1);
+			}
+			main {
+				width: 100%;
+				height: 100vh;
+				box-sizing: border-box;
+			}
+			section {
+				border-radius: var(--size-1);
+			}
+			
+			pre {
+				border-radius: 8px;
+				overflow: auto;
+				display: block;
+			}
+			[data-theme="dark"] pre {
+				background: var(--secondary-shade0);
+			}
+			[data-theme="light"] pre {
+				background: var(--secondary-shade2);
+			}
+			pre code[class*=language-] { color: var(--dark-shade0); }
+			pre code[class*=language-] .punctuation { color: var(--dark-shade5); }
+			pre code[class*=language-] .tag { color: var(--status-error); }
+			pre code[class*=language-] .attr-name, .attr-equals { color: var(--status-success); }
+			pre code[class*=language-] .attr-value { color: var(--status-info); }
+		</style>
+	</head>
+	<body onload="onLoad()" data-theme="dark">
+		<main class="flex-col p-2 gap-y-2">
+			<span class="flex-row h-align-between">
+				<h1 class="color-dark-1">JS Web Components</h1>
+				<span class="flex-row gap-x-2 v-align-items-center">
+					<amr-icon value="sunny" class="font-3"></amr-icon>
+					<amr-switch checked="true" id="theme-button"></amr-switch>
+					<amr-icon value="mode_night" class="font-3"></amr-icon>
+				</span>
+			</span>
+			<section class="p-2 flex-1 overflow-hidden bg-secondary-1">
+				<amr-tabs class="flex-1 min-h-0" vertical="true">
+
+					<amr-tab label="Alert" selected="true">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Alert</h2>
+							<span class="flex-row gap-x-2 w-100">
+								<amr-card class="min-w-25">
+									<h3 slot="header">Customize</h3>
+									<span slot="content" class="flex-col w-100 gap-y-2">
+										<amr-text name="alert-title" label="Title" value="Alert"></amr-text>
+										<amr-text name="alert-message" label="Message" value="Alert message !"></amr-text>
+
+										<span class="font-2 font-weight-500">Type</span>
+										<span class="flex-col px-1 gap-y-1 mb-1">
+											<amr-radio value="" label="Default" name="alert-type" checked="true"></amr-radio>
+											<amr-radio value="info" label="Information" name="alert-type"></amr-radio>
+											<amr-radio value="warning" label="Warning" name="alert-type"></amr-radio>
+											<amr-radio value="error" label="Error" name="alert-type"></amr-radio>
+											<amr-radio value="success" label="Success" name="alert-type"></amr-radio>
+										</span>
+									</span>
+								</amr-card>
+								<amr-card class="flex-1">
+									<h3 slot="header">Component</h3>
+									<span slot="content" class="flex-col w-100 v-align-center" id="alert-container"></span>
+								</amr-card>
+								<amr-card class="flex-1">
+									<h3 slot="header">HTML</h3>
+									<span slot="content" class="flex-col w-100 v-align-center">
+										<div class="relative">
+											<pre tabindex="-1"><code class="language-markup" id="alert-code"></code></pre>
+											<amr-button class="absolute t-2 r-1" bordered="false" id="alert-copy">
+												<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+													<amr-icon value="content_copy" class="font-3"></amr-icon>
+													<span>Copy code</span>
+												</span>
+											</amr-button>
+										</div>
+									</span>
+								</amr-card>
+							</span>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Avatar">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Avatar</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Badge">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Badge</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Button">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Button</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Calendar">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Calendar</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Card">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Card</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Checkbox">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Checkbox</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Date Picker">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Date Picker</h2>
+						</span>
+					</amr-tab>
+
+
+					<amr-tab label="Email Field">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Email Field</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Icon">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Icon</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="List">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">List</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Modal">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Modal</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Number Field">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Number Field</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Password Field">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Password Field</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Phone Field">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Phone Field</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Radio">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Radio</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Select">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Select</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Switch">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Switch</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Tabs">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Tabs</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Text Field">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Text Field</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Time Picker">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Time Picker</h2>
+						</span>
+					</amr-tab>
+					
+
+					<amr-tab label="Tooltip">
+						<span class="flex-col gap-y-2 p-2">
+							<h2 class="color-dark-1 font-4">Tooltip</h2>
+						</span>
+					</amr-tab>
+
+				</amr-tabs>
+			</section>
+		</main>
+	</body>
+</html>

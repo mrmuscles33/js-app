@@ -39,16 +39,16 @@ export default class Switch extends BaseElement {
 		return `
 			<div role="switch" class="switch-main">
 				<input type="checkbox" id="${this.key}"
-					class="w-0 h-0 p-0 m-0"
+					class="absolute t-0 l-0 w-0 h-0 p-0 m-0"
 					${this.checked == "true" ? "checked" : ""} 
 					${this.name ? "name='" + this.name + "'" : ""} 
 					${this.value ? "value='" + this.value + "'" : ""} 
 					${this.disabled == "true" ? "disabled" : ""} 
 				/>
-				<label for=${this.key} class="switch-background round-10 h-5 w-8">
+				<label for="${this.key}" class="switch-background round-10 h-5 w-8">
 					<div class="switch-button round-10 ratio-1"></div>
 				</label>
-			</div
+			</div>
 		`;
 	}
 	static style() {
@@ -65,7 +65,7 @@ export default class Switch extends BaseElement {
 			.switch-main > label.switch-background {
 				background-color: var(--secondary-shade3);
 				position: relative;
-				display: inline-block;
+				display: block;
 				cursor: pointer;
 				transition: background-color .3s;
 			}
