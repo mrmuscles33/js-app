@@ -32,9 +32,11 @@
 			let updateAlert = () => {
 				let tpl = alertTpl();
 				get('#alert-container').innerHTML = tpl;
-				get('#alert-code').textContent = "\n" + tpl;
+				get('#alert-code').textContent = tpl;
 				Prism.highlightElement(get('#alert-code'));
 			};
+
+			let gridHeader = ["toto"];
 
 			function onLoad() {
 				let theme = localStorage.getItem('theme') || 'dark';
@@ -111,15 +113,15 @@
 					<amr-tab label="Alert" selected="true">
 						<span class="flex-col gap-y-2 p-2">
 							<h2 class="color-dark-1 font-4">Alert</h2>
-							<span class="flex-row gap-x-2 w-100">
-								<amr-card class="min-w-25">
+							<span class="grid grid-cols-2 gap-2 w-100">
+								<amr-card>
 									<h3 slot="header">Customize</h3>
 									<span slot="content" class="flex-col w-100 gap-y-2">
 										<amr-text name="alert-title" label="Title" value="Alert"></amr-text>
 										<amr-text name="alert-message" label="Message" value="Alert message !"></amr-text>
 
 										<span class="font-2 font-weight-500">Type</span>
-										<span class="flex-col px-1 gap-y-1 mb-1">
+										<span class="grid grid-cols-3 px-1 gap-y-1 mb-1">
 											<amr-radio value="" label="Default" name="alert-type" checked="true"></amr-radio>
 											<amr-radio value="info" label="Information" name="alert-type"></amr-radio>
 											<amr-radio value="warning" label="Warning" name="alert-type"></amr-radio>
@@ -128,15 +130,15 @@
 										</span>
 									</span>
 								</amr-card>
-								<amr-card class="flex-1">
-									<h3 slot="header">Component</h3>
+								<amr-card>
+									<h3 slot="header">Preview</h3>
 									<span slot="content" class="flex-col w-100 v-align-center" id="alert-container"></span>
 								</amr-card>
-								<amr-card class="flex-1">
-									<h3 slot="header">HTML</h3>
+								<amr-card class="grid-col-2">
+									<h3 slot="header">Code</h3>
 									<span slot="content" class="flex-col w-100 v-align-center">
 										<div class="relative">
-											<pre tabindex="-1"><code class="language-markup" id="alert-code"></code></pre>
+											<pre tabindex="-1" class="w-100"><code class="language-markup" id="alert-code"></code></pre>
 											<amr-button class="absolute t-2 r-1" bordered="false" id="alert-copy">
 												<span slot="content" class="flex-row gap-x-1 v-align-items-center">
 													<amr-icon value="content_copy" class="font-3"></amr-icon>
@@ -145,6 +147,16 @@
 											</amr-button>
 										</div>
 									</span>
+								</amr-card>
+								<amr-card name="alert-properties">
+									<h3 slot="header">Properties</h3>
+									<amr-grid slot="content" store="alert-store"></amr-grid>
+								</amr-card>
+								<amr-card>
+									<h3 slot="header">Events</h3>
+								</amr-card>
+								<amr-card>
+									<h3 slot="header">Slots</h3>
 								</amr-card>
 							</span>
 						</span>

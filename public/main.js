@@ -22,6 +22,7 @@ import Icon from "../Components/Icon.js";
 import Card from "../Components/Card.js";
 import Alert from "../Components/Alert.js";
 import Tabs from "../Components/Tabs.js";
+import Grid from "../Components/Grid.js";
 
 import TooltipDirective from "../Directives/TooltipDirective.js";
 import ToolbarDirective from "../Directives/ToolbarDirective.js";
@@ -49,6 +50,7 @@ customElements.define("amr-icon", Icon);
 customElements.define("amr-card", Card);
 customElements.define("amr-alert", Alert);
 customElements.define("amr-tabs", Tabs);
+customElements.define("amr-grid", Grid);
 
 // CSS
 let componentsStyles = document.createElement("style");
@@ -76,6 +78,7 @@ componentsStyles.innerHTML = Html.clean`
 	${Card.style()}
 	${Alert.style()}
 	${Tabs.style()}
+	${Grid.style()}
 `;
 document.head.appendChild(componentsStyles);
 
