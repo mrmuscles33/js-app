@@ -12,33 +12,54 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
 		<script type="module" src="./main.js"></script>
-		<script defer>
+		<script type="module">
+			import components from './documentation/documentation.js';
+			window.components = components;
+
 			let get = (selector, root = document) => root.querySelector(selector);
 			let getAll = (selector, root = document) => root.querySelectorAll(selector);
 
-			let alertTpl = () =>  {
-				const alertTitle = get('amr-text[name="alert-title"]');
-				const alertMessage = get('amr-text[name="alert-message"]');
-				const alertType = get('amr-radio[name="alert-type"][checked="true"]');
+			let getComponent = (prop, componentName) => {
+				let tag = prop.tag;
+				let el;
+				switch(tag) {
+					case 'amr-text':
+						el = document.createElement('amr-text');
+						el.setAttribute('name', componentName + "-" + prop.name);
+						el.setAttribute('label', prop.label);
+						el.value = prop.default || '';
+						break;
+					case 'amr-radio':
+						el = document.createElement('div');
+						el.classList.add('flex-col', 'gap-y-1');
+						var label = document.createElement('span');
+						label.classList.add('font-2', 'font-weight-500');
+						label.textContent = prop.label;
+						el.appendChild(label);
 
-				let tpl = '';
-				tpl += `<amr-alert status="${alertType.value}">\n`;
-				tpl += `	<span slot="header" class="font-weight-700">${alertTitle.value}</span>\n`;
-				tpl += `	<span slot="content">${alertMessage.value}</span>\n`;
-				tpl += `</amr-alert>`;
-				return tpl;
-			};
-
-			let updateAlert = () => {
-				let tpl = alertTpl();
-				get('#alert-container').innerHTML = tpl;
-				get('#alert-code').textContent = tpl;
-				Prism.highlightElement(get('#alert-code'));
-			};
-
-			let gridHeader = ["toto"];
+						var radioGroup = document.createElement('span');
+						radioGroup.classList.add('grid', 'grid-cols-3', 'px-1', 'gap-y-1', 'mb-1');
+						prop.options.forEach(option => {
+							let radio = document.createElement('amr-radio');
+							radio.setAttribute('name', componentName + "-" + prop.name);
+							radio.setAttribute('value', option.value);
+							radio.setAttribute('label', option.label);
+							if (option.value === prop.default) {
+								radio.setAttribute('checked', 'true');
+							}
+							radioGroup.appendChild(radio);
+						});
+						el.appendChild(radioGroup);
+						break;
+					default:
+						console.warn(`Unknown tag: ${tag}`);
+				}
+				return el;
+			}
 
 			function onLoad() {
+				// Load theme from localStorage
+				// Default to dark theme if not set
 				let theme = localStorage.getItem('theme') || 'dark';
 				document.querySelector('body').setAttribute('data-theme', theme);
 				get('#theme-button').checked = theme === 'dark' ? "true" : "false";
@@ -48,22 +69,143 @@
 					localStorage.setItem('theme', newTheme);
 				};
 
-				let alertTitle = get('amr-text[name="alert-title"]');
-				let alertMessage = get('amr-text[name="alert-message"]');
-				let alertType = getAll('amr-radio[name="alert-type"]');
-				let alertCopyButton = get('#alert-copy');
+				// Initialize tabs
+				let tabs = get('amr-tabs');
+				let first = true;
+				for(let key in components) {
+					let component = components[key];
+					let tab = document.createElement('amr-tab');
+					tab.label = component.name;
+					tab.selected = first;
+					first = false;
+					tab.content = `
+						<div slot='tab-content' class="tab-content flex-col" ${tab.selected ? 'selected' : 'inert'}>
+							<span class="flex-col gap-y-2 p-2">
+								<h2 class="color-dark-1 font-4">${component.name}</h2>
+								<div class="grid grid-cols-2 gap-2 w-100">
+									<amr-card class="max-h-xs">
+										<h3 slot="header">Customize</h3>
+										<span slot="content" class="flex-col w-100 gap-y-2">
+											${component.properties.map(prop => `
+												${getComponent(prop, key).outerHTML}
+											`).join('')}
+										</span>
+									</amr-card>
+									<amr-card>
+										<h3 slot="header">Preview</h3>
+										<span slot="content" name="${key}-preview" class="flex-col w-100 v-align-center"></span>
+									</amr-card>
+									<amr-card class="grid-col-2">
+										<h3 slot="header">Code</h3>
+										<span slot="content" class="flex-col w-100 v-align-center">
+											<div class="relative">
+												<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-code"></code></pre>
+												<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy">
+													<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+														<amr-icon value="content_copy" class="font-3"></amr-icon>
+														<span>Copy code</span>
+													</span>
+												</amr-button>
+											</div>
+										</span>
+									</amr-card>
+									<amr-card name="${key}-attributes" class="grid-col-2">
+										<h3 slot="header">Attributes</h3>
+										<amr-grid slot="content" store="${key}-attributes-store" class="w-100"></amr-grid>
+									</amr-card>
+									<amr-card name="${key}-events">
+										<h3 slot="header">Events</h3>
+										<amr-grid slot="content" store="${key}-events-store" class="w-100"></amr-grid>
+									</amr-card>
+									<amr-card name="${key}-slots">
+										<h3 slot="header">Slots</h3>
+										<amr-grid slot="content" store="${key}-slots-store" class="w-100"></amr-grid>
+									</amr-card>
+								</div>
+							</span>
+						</div>
+					`;
+					tabs.tabs.push(tab);
+				}
+				tabs.render();
 
-				alertTitle.onChange = (e) => updateAlert();
-				alertMessage.onChange = (e) => updateAlert();
-				alertType.forEach(radio => {
-					radio.addEventListener('check', (e) => {
-						updateAlert();
+				// Add listeners to each tab's customize section
+				for(let key in components) {
+					let component = components[key];
+					let previewContainer = get(`amr-card span[name="${key}-preview"]`);
+					let codeElement = get(`amr-card code[name="${key}-code"]`);
+					let copyButton = get(`amr-button[name="${key}-copy"]`);
+
+					// Initialize grids
+					['attributes', 'events', 'slots'].forEach(type => {
+						let grid = get(`amr-card[name="${key}-${type}"] amr-grid`);
+						if(type === 'attributes') {
+							grid.columns = [
+								{ label: "Name", field: "name" },
+								{ label: "Type", field: "type" },
+								{ label: "Default", field: "default" },
+								{ label: "Description", field: "description" }
+							];
+							grid.items = component[type].map(item => ({
+								name: item.name,
+								type: item.tag || item.type || '',
+								default: item.default || '',
+								description: item.description || ''
+							}));
+						} else {
+							grid.columns = [
+								{ label: "Name", field: "name" },
+								{ label: "Description", field: "description" }
+							];
+							grid.items = component[type].map(item => ({
+								name: item.name,
+								description: item.description || ''
+							}));
+						}
+						grid.render();
 					});
-				});
-				alertCopyButton.onClick = (e) => navigator.clipboard.writeText(alertTpl());
-				updateAlert();
-			}
 
+					// Update preview and code on property change
+					component.properties.forEach(prop => {
+						switch(prop.tag) {
+							case 'amr-text':
+								var textInput = get(`amr-text[name="${key}-${prop.name}"]`);
+								textInput.onChange = () => {
+									previewContainer.innerHTML = component.html();
+									codeElement.textContent = component.html();
+									Prism.highlightElement(codeElement);
+								};
+								break;
+							case 'amr-radio':
+								var radioInputs = getAll(`amr-radio[name="${key}-${prop.name}"]`);
+								radioInputs.forEach(radio => {
+									radio.addEventListener('check', () => {
+										previewContainer.innerHTML = component.html();
+										codeElement.textContent = component.html();
+										Prism.highlightElement(codeElement);
+									});
+								});
+								break;
+							default:
+								console.warn(`Unknown tag: ${prop.tag}`);
+						}
+					});
+
+					// Copy code to clipboard
+					copyButton.onClick = () => {
+						navigator.clipboard.writeText(codeElement.textContent);
+					};
+
+					// Initial render
+					previewContainer.innerHTML = component.html();
+					codeElement.textContent = component.html();
+					Prism.highlightElement(codeElement);
+				}
+			}
+			
+			document.addEventListener('DOMContentLoaded', () => {
+				onLoad();
+			});
 		</script>
 		<style>
 			body{
@@ -97,7 +239,7 @@
 			pre code[class*=language-] .attr-value { color: var(--status-info); }
 		</style>
 	</head>
-	<body onload="onLoad()" data-theme="dark">
+	<body data-theme="dark">
 		<main class="flex-col p-2 gap-y-2">
 			<span class="flex-row h-align-between">
 				<h1 class="color-dark-1">JS Web Components</h1>
@@ -109,60 +251,7 @@
 			</span>
 			<section class="p-2 flex-1 overflow-hidden bg-secondary-1">
 				<amr-tabs class="flex-1 min-h-0" vertical="true">
-
-					<amr-tab label="Alert" selected="true">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Alert</h2>
-							<span class="grid grid-cols-2 gap-2 w-100">
-								<amr-card>
-									<h3 slot="header">Customize</h3>
-									<span slot="content" class="flex-col w-100 gap-y-2">
-										<amr-text name="alert-title" label="Title" value="Alert"></amr-text>
-										<amr-text name="alert-message" label="Message" value="Alert message !"></amr-text>
-
-										<span class="font-2 font-weight-500">Type</span>
-										<span class="grid grid-cols-3 px-1 gap-y-1 mb-1">
-											<amr-radio value="" label="Default" name="alert-type" checked="true"></amr-radio>
-											<amr-radio value="info" label="Information" name="alert-type"></amr-radio>
-											<amr-radio value="warning" label="Warning" name="alert-type"></amr-radio>
-											<amr-radio value="error" label="Error" name="alert-type"></amr-radio>
-											<amr-radio value="success" label="Success" name="alert-type"></amr-radio>
-										</span>
-									</span>
-								</amr-card>
-								<amr-card>
-									<h3 slot="header">Preview</h3>
-									<span slot="content" class="flex-col w-100 v-align-center" id="alert-container"></span>
-								</amr-card>
-								<amr-card class="grid-col-2">
-									<h3 slot="header">Code</h3>
-									<span slot="content" class="flex-col w-100 v-align-center">
-										<div class="relative">
-											<pre tabindex="-1" class="w-100"><code class="language-markup" id="alert-code"></code></pre>
-											<amr-button class="absolute t-2 r-1" bordered="false" id="alert-copy">
-												<span slot="content" class="flex-row gap-x-1 v-align-items-center">
-													<amr-icon value="content_copy" class="font-3"></amr-icon>
-													<span>Copy code</span>
-												</span>
-											</amr-button>
-										</div>
-									</span>
-								</amr-card>
-								<amr-card name="alert-properties">
-									<h3 slot="header">Properties</h3>
-									<amr-grid slot="content" store="alert-store"></amr-grid>
-								</amr-card>
-								<amr-card>
-									<h3 slot="header">Events</h3>
-								</amr-card>
-								<amr-card>
-									<h3 slot="header">Slots</h3>
-								</amr-card>
-							</span>
-						</span>
-					</amr-tab>
-
-
+<!-- 
 					<amr-tab label="Avatar">
 						<span class="flex-col gap-y-2 p-2">
 							<h2 class="color-dark-1 font-4">Avatar</h2>
@@ -308,7 +397,7 @@
 							<h2 class="color-dark-1 font-4">Tooltip</h2>
 						</span>
 					</amr-tab>
-
+ -->
 				</amr-tabs>
 			</section>
 		</main>

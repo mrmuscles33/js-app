@@ -33,16 +33,30 @@ export default class Grid extends BaseElement {
 	}
 	template() {
 		return `
-			<table id="${this.key}" class="w-100">
+			<table id="${this.key}" name="${this.name}" class="main-grid w-100 ${this.cls} color-dark-0">
                 <thead>
                     <tr>
-                        ${this.columns.map(col => `<th>${col.label}</th>`).join("")}
+                        ${this.columns.map(col => `
+                            <th class="text-left p-2">
+                                ${col.label}
+                            </th>`
+                        ).join("")}
                     </tr>
                 </thead>
                 <tbody>
-                    ${this.items.map(item => `
+                ${this.items.length === 0 ? `
+                    <tr>
+                        <td colspan="${this.columns.length}" class="text-center">
+                            No data available
+                        </td>
+                    </tr>
+                    ` : this.items.map(item => `
                         <tr>
-                            ${this.columns.map(col => `<td>${item[col.field]}</td>`).join("")}
+                            ${this.columns.map(col => `
+                                <td class="text-left py-1 px-2">
+                                    ${item[col.field] || ''}
+                                </td>`
+                            ).join("")}
                         </tr>
                     `).join("")}
                 </tbody>
@@ -65,7 +79,40 @@ export default class Grid extends BaseElement {
     }
 	static style() {
 		return `
-			
+			table.main-grid {
+                display: table;
+                border-collapse: collapse;
+                table-layout: auto;
+            }
+            table.main-grid > thead {
+                display: table-header-group;
+            }
+            table.main-grid > tbody {
+                display: table-row-group;
+            }
+            table.main-grid > thead > tr {
+                background-color: var(--secondary-shade2);
+            }
+            table.main-grid > thead > tr > th:first-child {
+                border-top-left-radius: var(--size-1);
+            }
+            table.main-grid > thead > tr > th:last-child {
+                border-top-right-radius: var(--size-1);
+            }
+            table.main-grid > thead > tr,
+            table.main-grid > tbody > tr {
+                display: table-row;
+            }
+            table.main-grid > thead > tr > th,
+            table.main-grid > tbody > tr > td {
+                display: table-cell;
+            }
+            table.main-grid > thead > tr {
+                border-bottom: 1px solid var(--secondary-shade5);
+            }
+            table.main-grid > tbody > tr:not(:last-child) {
+                border-bottom: 1px solid var(--secondary-shade5);
+            }
 		`;
 	}
 }
