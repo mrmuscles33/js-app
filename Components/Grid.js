@@ -46,7 +46,7 @@ export default class Grid extends BaseElement {
                 <tbody>
                 ${this.items.length === 0 ? `
                     <tr>
-                        <td colspan="${this.columns.length}" class="text-center">
+                        <td colspan="${this.columns.length}" class="text-center py-1">
                             No data available
                         </td>
                     </tr>
@@ -83,6 +83,7 @@ export default class Grid extends BaseElement {
                 display: table;
                 border-collapse: collapse;
                 table-layout: auto;
+                height: fit-content;
             }
             table.main-grid > thead {
                 display: table-header-group;

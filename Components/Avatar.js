@@ -2,7 +2,7 @@ import BaseElement from "./BaseElement.js";
 import Html from "../Utils/Html.js";
 
 export default class Avatar extends BaseElement {
-    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "size", "status", "information"];
+    static attrs = [...BaseElement.attrs, "src", "firstname", "lastname", "status", "information"];
     static status = {
         ONLINE: "online",
         OFFLINE: "offline",
@@ -16,8 +16,8 @@ export default class Avatar extends BaseElement {
         this.alt = this.alt || "";
         this.firstname = this.firstname || "";
         this.lastname = this.lastname || "";
-        this.size = this.size || "medium";
         this.status = this.status || Avatar.status.INVISIBLE;
+        this.information = this.information || "true";
         super.connectedCallback();
         Html.onThemeChange(() => {
             this.querySelector(".avatar-main").style.setProperty("--parent-background-color", this.getParentBackgroundColor());
@@ -39,8 +39,7 @@ export default class Avatar extends BaseElement {
         return `
             <div id="${this.key}" 
                 class="avatar-main ${this.cls} ${this.status}" 
-                role="img" 
-                ${this.information == "true" ? "tabindex='0'": "" }
+                role="img" ${this.information == "true" ? "" : "tabindex='0'" }
                 style="--parent-background-color: ${this.getParentBackgroundColor()};"
             >
                 ${this.src ? 

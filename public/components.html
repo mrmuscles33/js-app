@@ -24,21 +24,23 @@
 				let el;
 				switch(tag) {
 					case 'amr-text':
-						el = document.createElement('amr-text');
+					case 'amr-number':
+						el = document.createElement(tag);
 						el.setAttribute('name', componentName + "-" + prop.name);
 						el.setAttribute('label', prop.label);
 						el.value = prop.default || '';
 						break;
 					case 'amr-radio':
 						el = document.createElement('div');
-						el.classList.add('flex-col', 'gap-y-1');
+						el.classList.add('flex-row', 'gap-x-2');
 						var label = document.createElement('span');
 						label.classList.add('font-2', 'font-weight-500');
 						label.textContent = prop.label;
+						label.style.whiteSpace = 'nowrap';
 						el.appendChild(label);
 
 						var radioGroup = document.createElement('span');
-						radioGroup.classList.add('grid', 'grid-cols-3', 'px-1', 'gap-y-1', 'mb-1');
+						radioGroup.classList.add('grid', 'grid-cols-4', 'px-1', 'gap-y-1', 'w-100');
 						prop.options.forEach(option => {
 							let radio = document.createElement('amr-radio');
 							radio.setAttribute('name', componentName + "-" + prop.name);
@@ -50,6 +52,12 @@
 							radioGroup.appendChild(radio);
 						});
 						el.appendChild(radioGroup);
+						break;
+					case 'amr-checkbox':
+						el = document.createElement('amr-checkbox');
+						el.setAttribute('name', componentName + "-" + prop.name);
+						el.setAttribute('label', prop.label);
+						el.setAttribute('checked', prop.default === 'true' ? 'true' : 'false');
 						break;
 					default:
 						console.warn(`Unknown tag: ${tag}`);
@@ -85,19 +93,19 @@
 								<div class="grid grid-cols-2 gap-2 w-100">
 									<amr-card class="max-h-xs">
 										<h3 slot="header">Customize</h3>
-										<span slot="content" class="flex-col w-100 gap-y-2">
+										<span slot="content" class="flex-col w-100 gap-y-2 pb-1">
 											${component.properties.map(prop => `
 												${getComponent(prop, key).outerHTML}
 											`).join('')}
 										</span>
 									</amr-card>
-									<amr-card>
+									<amr-card class="max-h-xs">
 										<h3 slot="header">Preview</h3>
-										<span slot="content" name="${key}-preview" class="flex-col w-100 v-align-center"></span>
+										<span slot="content" name="${key}-preview" class="flex-col w-100 v-align-items-center"></span>
 									</amr-card>
 									<amr-card class="grid-col-2">
 										<h3 slot="header">Code</h3>
-										<span slot="content" class="flex-col w-100 v-align-center">
+										<span slot="content" class="flex-col w-100">
 											<div class="relative">
 												<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-code"></code></pre>
 												<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy">
@@ -151,7 +159,7 @@
 								type: item.tag || item.type || '',
 								default: item.default || '',
 								description: item.description || ''
-							}));
+							})).sort((a, b) => a.name.localeCompare(b.name));
 						} else {
 							grid.columns = [
 								{ label: "Name", field: "name" },
@@ -160,7 +168,7 @@
 							grid.items = component[type].map(item => ({
 								name: item.name,
 								description: item.description || ''
-							}));
+							})).sort((a, b) => a.name.localeCompare(b.name));
 						}
 						grid.render();
 					});
@@ -185,6 +193,14 @@
 										Prism.highlightElement(codeElement);
 									});
 								});
+								break;
+							case 'amr-checkbox':
+								var checkboxInput = get(`amr-checkbox[name="${key}-${prop.name}"]`);
+								checkboxInput.onChange = () => {
+									previewContainer.innerHTML = component.html();
+									codeElement.textContent = component.html();
+									Prism.highlightElement(codeElement);
+								};
 								break;
 							default:
 								console.warn(`Unknown tag: ${prop.tag}`);
@@ -250,155 +266,7 @@
 				</span>
 			</span>
 			<section class="p-2 flex-1 overflow-hidden bg-secondary-1">
-				<amr-tabs class="flex-1 min-h-0" vertical="true">
-<!-- 
-					<amr-tab label="Avatar">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Avatar</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Badge">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Badge</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Button">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Button</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Calendar">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Calendar</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Card">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Card</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Checkbox">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Checkbox</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Date Picker">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Date Picker</h2>
-						</span>
-					</amr-tab>
-
-
-					<amr-tab label="Email Field">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Email Field</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Icon">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Icon</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="List">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">List</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Modal">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Modal</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Number Field">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Number Field</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Password Field">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Password Field</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Phone Field">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Phone Field</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Radio">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Radio</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Select">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Select</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Switch">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Switch</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Tabs">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Tabs</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Text Field">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Text Field</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Time Picker">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Time Picker</h2>
-						</span>
-					</amr-tab>
-					
-
-					<amr-tab label="Tooltip">
-						<span class="flex-col gap-y-2 p-2">
-							<h2 class="color-dark-1 font-4">Tooltip</h2>
-						</span>
-					</amr-tab>
- -->
-				</amr-tabs>
+				<amr-tabs class="flex-1 min-h-0" vertical="true"></amr-tabs>
 			</section>
 		</main>
 	</body>

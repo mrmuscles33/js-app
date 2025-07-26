@@ -1,21 +1,9 @@
-import BaseElement from './baseElement.js';
+import Card from './card.js';
 
 export default {
   name: 'Alert',
   properties: [
-    ...BaseElement.properties,
-    {
-      name: 'title',
-      label: 'Title',
-      tag: 'amr-text',
-      default: 'Alert'
-    },
-    {
-      name: 'message',
-      label: 'Message',
-      tag: 'amr-text',
-      default: 'Alert message !'
-    },
+    ...Card.properties,
     {
       name: 'type',
       label: 'Type',
@@ -33,17 +21,19 @@ export default {
   html: function() {
     const title = document.querySelector(`amr-text[name="alert-title"]`);
     const message = document.querySelector(`amr-text[name="alert-message"]`);
+    const footer = document.querySelector(`amr-text[name="alert-footer"]`);
     const type = document.querySelector(`amr-radio[name="alert-type"][checked="true"]`);
 
     let tpl = '';
-    tpl += `<amr-alert${type.value ? ` status="${type.value}"` : ''}>\n`;
-    tpl += `    <span slot="header" class="font-weight-700">${title.value}</span>\n`;
-    tpl += `    <span slot="content">${message.value}</span>\n`;
+    tpl += `<amr-alert class="w-100"${type.value ? ` status="${type.value}"` : ''}>\n`;
+    tpl += `${title.value ? `\t<span slot="header" class="font-weight-700">${title.value}</span>\n` : ''}`;
+    tpl += `${message.value ? `\t<span slot="content">${message.value}</span>\n` : ''}`;
+    tpl += `${footer.value ? `\t<span slot="footer">${footer.value}</span>\n` : ''}`;
     tpl += `</amr-alert>`;
     return tpl;
   },
   attributes: [
-    ...BaseElement.attributes,
+    ...Card.attributes,
     { 
       name: 'status', 
       type: `
@@ -59,10 +49,6 @@ export default {
       description: 'The status of the alert which determines its visual representation'
     }
   ],
-  events: [...BaseElement.events],
-  slots: [
-    ...BaseElement.slots,
-    { name: 'header', description: 'The title of the alert' },
-    { name: 'content', description: 'The message of the alert' }
-  ]
+  events: [...Card.events],
+  slots: [...Card.slots]
 };
