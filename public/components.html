@@ -65,6 +65,22 @@
 				return el;
 			}
 
+			let preview = (component, key) => {
+				let previewContainer = get(`amr-card span[name="${key}-preview"]`);
+				let codeHtml = get(`amr-card code[name="${key}-html"]`);
+				let codeJs = get(`amr-card code[name="${key}-js"]`);
+				if(component.html && previewContainer && codeHtml) {
+					previewContainer.innerHTML = component.html();
+					codeHtml.textContent = component.html();
+					Prism.highlightElement(codeHtml);
+				}
+				if(component.js && codeJs) {
+					codeJs.textContent = component.js();
+					Prism.highlightElement(codeJs);
+					eval(component.js());
+				}
+			}
+
 			function onLoad() {
 				// Load theme from localStorage
 				// Default to dark theme if not set
@@ -105,17 +121,37 @@
 									</amr-card>
 									<amr-card class="grid-col-2">
 										<h3 slot="header">Code</h3>
-										<span slot="content" class="flex-col w-100">
-											<div class="relative">
-												<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-code"></code></pre>
-												<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy">
-													<span slot="content" class="flex-row gap-x-1 v-align-items-center">
-														<amr-icon value="content_copy" class="font-3"></amr-icon>
-														<span>Copy code</span>
-													</span>
-												</amr-button>
-											</div>
-										</span>
+											<span slot="content" class="flex-col w-100">
+												<amr-tabs>
+													${component.html ? `
+														<amr-tab label="HTML" selected="true">
+															<div slot="content" class="relative">
+																<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-html"></code></pre>
+																<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-html">
+																	<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+																		<amr-icon value="content_copy" class="font-3"></amr-icon>
+																		<span>Copy code</span>
+																	</span>
+																</amr-button>
+															</div>
+														</amr-tab>
+													` : ''}
+													${component.js ? `
+														<amr-tab label="JS">
+															<div slot="content" class="relative">
+																<pre tabindex="-1" class="w-100"><code class="language-javascript" name="${key}-js"></code></pre>
+																<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-js">
+																	<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+																		<amr-icon value="content_copy" class="font-3"></amr-icon>
+																		<span>Copy code</span>
+																	</span>
+																</amr-button>
+															</div>
+														</amr-tab>
+													` : ''}
+												</amr-tabs>
+											</span>
+										</amr-tabs>
 									</amr-card>
 									<amr-card name="${key}-attributes" class="grid-col-2">
 										<h3 slot="header">Attributes</h3>
@@ -140,9 +176,10 @@
 				// Add listeners to each tab's customize section
 				for(let key in components) {
 					let component = components[key];
-					let previewContainer = get(`amr-card span[name="${key}-preview"]`);
-					let codeElement = get(`amr-card code[name="${key}-code"]`);
-					let copyButton = get(`amr-button[name="${key}-copy"]`);
+					let codeHtml = get(`amr-card code[name="${key}-html"]`);
+					let codeJs = get(`amr-card code[name="${key}-js"]`);
+					let copyHtml = get(`amr-button[name="${key}-copy-html"]`);
+					let copyJs = get(`amr-button[name="${key}-copy-js"]`);
 
 					// Initialize grids
 					['attributes', 'events', 'slots'].forEach(type => {
@@ -181,18 +218,14 @@
 							case 'amr-checkbox':
 								var input = get(`${prop.tag}[name="${key}-${prop.name}"]`);
 								input.onChange = () => {
-									previewContainer.innerHTML = component.html();
-									codeElement.textContent = component.html();
-									Prism.highlightElement(codeElement);
+									preview(component, key);
 								};
 								break;
 							case 'amr-radio':
 								var radioInputs = getAll(`${prop.tag}[name="${key}-${prop.name}"]`);
 								radioInputs.forEach(radio => {
 									radio.addEventListener('check', () => {
-										previewContainer.innerHTML = component.html();
-										codeElement.textContent = component.html();
-										Prism.highlightElement(codeElement);
+										preview(component, key);
 									});
 								});
 								break;
@@ -202,14 +235,19 @@
 					});
 
 					// Copy code to clipboard
-					copyButton.onClick = () => {
-						navigator.clipboard.writeText(codeElement.textContent);
-					};
+					if(copyHtml) {
+						copyHtml.onClick = () => {
+							navigator.clipboard.writeText(codeHtml.textContent);
+						};
+					}
+					if(copyJs) {
+						copyJs.onClick = () => {
+							navigator.clipboard.writeText(codeJs.textContent);
+						};
+					}
 
 					// Initial render
-					previewContainer.innerHTML = component.html();
-					codeElement.textContent = component.html();
-					Prism.highlightElement(codeElement);
+					preview(component, key);
 				}
 			}
 			
@@ -246,11 +284,27 @@
 			[data-theme="light"] pre ~ amr-button .btn-main:focus-visible {
 				background-color: var(--secondary-shade3);
 			}
-			pre code[class*=language-] { color: var(--dark-shade0); }
-			pre code[class*=language-] .punctuation { color: var(--dark-shade5); }
-			pre code[class*=language-] .tag { color: var(--status-error); }
-			pre code[class*=language-] .attr-name, .attr-equals { color: var(--status-success); }
-			pre code[class*=language-] .attr-value { color: var(--status-info); }
+			pre code[class*=language-] { 
+				color: var(--dark-shade0); 
+			}
+			pre code[class*=language-] .punctuation,
+			pre code[class*=language-] .operator { 
+				color: var(--dark-shade5); 
+			}
+			pre code[class*=language-] .tag,
+			pre code[class*=language-] .keyword,
+			pre code[class*=language-] .property { 
+				color: var(--status-error); 
+			}
+			pre code[class*=language-] .attr-name, 
+			pre code[class*=language-] .attr-equals,
+			pre code[class*=language-] .function { 
+				color: var(--status-success); 
+			}
+			pre code[class*=language-] .attr-value,
+			pre code[class*=language-] .string { 
+				color: var(--status-info); 
+			}
 		</style>
 	</head>
 	<body data-theme="dark">

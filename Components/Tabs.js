@@ -1,4 +1,5 @@
 import BaseElement from "./BaseElement.js";
+import Html from "../Utils/Html.js";
 
 export default class Tabs extends BaseElement {
     static attrs = [...BaseElement.attrs, "vertical"];
@@ -10,8 +11,8 @@ export default class Tabs extends BaseElement {
 			.map((node) => {
 				return { 
                     label: node.getAttribute("label"),
-                    button: node.querySelector("amr-button[slot='tab-button']")?.outerHTML || "",
-                    content: node.querySelector("[slot='tab-content']")?.outerHTML || `
+                    button: Html.nearest(this, "amr-button[slot='tab-button']")?.outerHTML || "",
+                    content: Html.nearest(this, "[slot='tab-content']")?.outerHTML || `
                         <div slot='tab-content' class="tab-content flex-col" ${node.hasAttribute("selected") ? 'selected' : 'inert'}>
                             ${node.innerHTML}
                         </div>
@@ -28,23 +29,23 @@ export default class Tabs extends BaseElement {
 
         this.tabs.forEach((tab, index) => {
             if (tab.selected) {
-                this.querySelectorAll(".tabs-buttons > amr-button")[index].setAttribute("selected", "");
-                this.querySelectorAll("[slot=tab-content]")[index].removeAttribute("inert");
-                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("selected", "");
+                this.querySelectorAll(`#${this.key} > .tabs-buttons > amr-button`)[index].setAttribute("selected", "");
+                this.querySelectorAll(`#${this.key} > .tabs-content > [slot=tab-content]`)[index].removeAttribute("inert");
+                this.querySelectorAll(`#${this.key} > .tabs-content > [slot=tab-content]`)[index].setAttribute("selected", "");
             } else {
-                this.querySelectorAll(".tabs-buttons > amr-button")[index].removeAttribute("selected");
-                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("inert", "");
+                this.querySelectorAll(`#${this.key} > .tabs-buttons > amr-button`)[index].removeAttribute("selected");
+                this.querySelectorAll(`#${this.key} > .tabs-content > [slot=tab-content]`)[index].setAttribute("inert", "");
             }
         });
-        this.querySelectorAll(".tabs-buttons > amr-button").forEach((button, index) => {
+        this.querySelectorAll(`#${this.key} > .tabs-buttons > amr-button`).forEach((button, index) => {
             button.onClick = (event) => {
                 if (button.disabled == "true") return;
-                this.querySelector(`.tabs-buttons > amr-button[selected]`)?.removeAttribute("selected");
+                this.querySelector(`#${this.key} > .tabs-buttons > amr-button[selected]`)?.removeAttribute("selected");
                 button.setAttribute("selected", "");
-                this.querySelector("[slot=tab-content][selected]")?.setAttribute("inert", "");
-                this.querySelector("[slot=tab-content][selected]")?.removeAttribute("selected");
-                this.querySelectorAll("[slot=tab-content]")[index].removeAttribute("inert");
-                this.querySelectorAll("[slot=tab-content]")[index].setAttribute("selected", "");
+                this.querySelector(`#${this.key} > .tabs-content > [slot=tab-content][selected]`)?.setAttribute("inert", "");
+                this.querySelector(`#${this.key} > .tabs-content > [slot=tab-content][selected]`)?.removeAttribute("selected");
+                this.querySelectorAll(`#${this.key} > .tabs-content > [slot=tab-content]`)[index].removeAttribute("inert");
+                this.querySelectorAll(`#${this.key} > .tabs-content > [slot=tab-content]`)[index].setAttribute("selected", "");
                 this.fireHandler("change", event);
             };
         });
@@ -110,6 +111,10 @@ export default class Tabs extends BaseElement {
             }
             .tabs-main > .tabs-content > [slot=tab-content][selected] {
                 visibility: visible;
+            }
+            .tabs-main > .tabs-content > [slot=tab-content]:not([selected]) .tabs-main *,
+            .tabs-main > .tabs-content > [slot=tab-content][inert] .tabs-main * {
+                visibility: hidden;
             }
 
             .tabs-main.vertical {
