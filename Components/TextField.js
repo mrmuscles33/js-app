@@ -6,7 +6,6 @@ export default class TextField extends BaseElement {
 		...BaseElement.attrs,
 		"value",
 		"disabled",
-		"iconleft",
 		"iconright",
 		"label",
 		"errormessage",

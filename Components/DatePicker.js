@@ -10,7 +10,6 @@ export default class DatePicker extends TextField {
 	static days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 	static months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 	connectedCallback() {
-		this.iconright = this.readonly ? "" : this.iconright || "today";
 		this.format = this.format || Dates.D_M_Y;
 		this.pattern = this.pattern || Dates.getPattern(this.format);
 		this.maxlength = this.format.length;

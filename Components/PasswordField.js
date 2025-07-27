@@ -1,3 +1,4 @@
+import Icon from "./Icon.js";
 import TextField from "./TextField.js";
 
 export default class PasswordField extends TextField {
@@ -11,13 +12,26 @@ export default class PasswordField extends TextField {
 		// Dynamics variables
 		this.ignoreChange = true;
 		this.type = this.show == "true" ? "text" : "password";
-		this.iconright = this.show == "true" ? "visibility_off" : "visibility";
+		this.right = Icon.get({
+			value: this.show == "true" ? "visibility_off" : "visibility",
+			action: "true",
+			slot: "right"
+		}, ["font-3"]);
 		this.ignoreChange = false;
 
 		super.render();
+
+		let icon = this.querySelector("amr-icon[slot='right']");
+		if (icon) {
+			icon.onClick = () => this.onClick();
+		}
 	}
-	onClick(event) {
+	onClick() {
 		this.show = this.show == "true" ? "false" : "true";
+		setTimeout(() => {
+			let icon = this.querySelector("amr-icon[slot='right']");
+			icon.focus();
+		}, 100);
 	}
 	static style() { return "";}
 }

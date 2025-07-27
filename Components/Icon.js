@@ -2,7 +2,7 @@ import BaseElement from "./BaseElement.js";
 import Events from "../Utils/Events.js";
 
 export default class Icon extends BaseElement {
-    static attrs = [...BaseElement.attrs, "value", "size", "action"];
+    static attrs = [...BaseElement.attrs, "value", "action"];
     static selector = "amr-icon";
     connectedCallback() {
         this.value = this.value || "";

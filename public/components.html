@@ -177,15 +177,17 @@
 					component.properties.forEach(prop => {
 						switch(prop.tag) {
 							case 'amr-text':
-								var textInput = get(`amr-text[name="${key}-${prop.name}"]`);
-								textInput.onChange = () => {
+							case 'amr-number':
+							case 'amr-checkbox':
+								var input = get(`${prop.tag}[name="${key}-${prop.name}"]`);
+								input.onChange = () => {
 									previewContainer.innerHTML = component.html();
 									codeElement.textContent = component.html();
 									Prism.highlightElement(codeElement);
 								};
 								break;
 							case 'amr-radio':
-								var radioInputs = getAll(`amr-radio[name="${key}-${prop.name}"]`);
+								var radioInputs = getAll(`${prop.tag}[name="${key}-${prop.name}"]`);
 								radioInputs.forEach(radio => {
 									radio.addEventListener('check', () => {
 										previewContainer.innerHTML = component.html();
@@ -193,14 +195,6 @@
 										Prism.highlightElement(codeElement);
 									});
 								});
-								break;
-							case 'amr-checkbox':
-								var checkboxInput = get(`amr-checkbox[name="${key}-${prop.name}"]`);
-								checkboxInput.onChange = () => {
-									previewContainer.innerHTML = component.html();
-									codeElement.textContent = component.html();
-									Prism.highlightElement(codeElement);
-								};
 								break;
 							default:
 								console.warn(`Unknown tag: ${prop.tag}`);
@@ -247,6 +241,10 @@
 			}
 			[data-theme="light"] pre {
 				background: var(--secondary-shade2);
+			}
+			[data-theme="light"] pre ~ amr-button .btn-main:not(.disabled):hover,
+			[data-theme="light"] pre ~ amr-button .btn-main:focus-visible {
+				background-color: var(--secondary-shade3);
 			}
 			pre code[class*=language-] { color: var(--dark-shade0); }
 			pre code[class*=language-] .punctuation { color: var(--dark-shade5); }

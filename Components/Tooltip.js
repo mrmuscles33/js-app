@@ -21,6 +21,8 @@ export default class Tooltip extends BaseElement {
 				z-index: 9999;
 				opacity: 0;
 				pointer-events: none;
+				top: 0;
+				left: 0;
 			}
 			amr-tooltip.show {
 				opacity: 1;

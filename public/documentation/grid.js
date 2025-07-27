@@ -1,21 +1,21 @@
 import BaseElement from './baseElement.js';
 
 export default {
-  name: 'Grid',
-  properties: [
-    ...BaseElement.properties,
-  ],
-  html: function() {
-    let tpl = '';
-    return tpl;
-  },
-  attributes: [
-    ...BaseElement.attributes,
-  ],
-  events: [
-    ...BaseElement.events,
-  ],
-  slots: [
-    ...BaseElement.slots,
-  ]
+	name: 'Grid',
+	properties: [
+		...BaseElement.properties,
+	],
+	html: function() {
+		let tpl = '';
+		return tpl;
+	},
+	attributes: [
+		...BaseElement.attributes,
+	],
+	events: [
+		...BaseElement.events,
+	],
+	slots: [
+		...BaseElement.slots,
+	]
 };
