@@ -15,9 +15,16 @@ export default {
 		let store = document.querySelector(`amr-text[name="grid-store"]`);
 
 		let tpl = '';
-		tpl += `<amr-grid class="w-100"\n`;
+		tpl += `<amr-grid\n`;
+		tpl += `\tclass="w-100"\n`;
 		tpl += `${store.value ? `\tstore="${store.value}"\n` : ''}`;
-		tpl += `></amr-grid>`;
+		tpl += `>\n`;
+		tpl += `\t<amr-column field="name" label="Name"></amr-column>\n`;
+		tpl += `\t<amr-column field="value" label="Value"></amr-column>\n`;
+		tpl += `\t<amr-data name="Item 1" value="Value 1"></amr-data>\n`;
+		tpl += `\t<amr-data name="Item 2" value="Value 2"></amr-data>\n`;
+		tpl += `\t<amr-data name="Item 3" value="Value 3"></amr-data>\n`;
+		tpl += `</amr-grid>`;
 
 		return tpl;
 	},

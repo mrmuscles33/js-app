@@ -40,6 +40,10 @@ export default class Tabs extends BaseElement {
         this.querySelectorAll(`#${this.key} > .tabs-buttons > amr-button`).forEach((button, index) => {
             button.onClick = (event) => {
                 if (button.disabled == "true") return;
+                this.tabs.forEach(tab => {
+                    tab.selected = false;
+                });
+                this.tabs[index].selected = true;
                 this.querySelector(`#${this.key} > .tabs-buttons > amr-button[selected]`)?.removeAttribute("selected");
                 button.setAttribute("selected", "");
                 this.querySelector(`#${this.key} > .tabs-content > [slot=tab-content][selected]`)?.setAttribute("inert", "");

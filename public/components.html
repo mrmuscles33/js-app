@@ -95,13 +95,16 @@
 
 				// Initialize tabs
 				let tabs = get('amr-tabs');
-				let first = true;
+				tabs.onChange = (evt) => {
+					localStorage.setItem('selectedTab', evt.target.closest('amr-tabs').tabs.find(tab => tab.selected).getAttribute("name"));
+				};
+				let selected = localStorage.getItem('selectedTab') || Object.keys(components)[0];
 				for(let key in components) {
 					let component = components[key];
 					let tab = document.createElement('amr-tab');
 					tab.label = component.name;
-					tab.selected = first;
-					first = false;
+					tab.setAttribute("name", key);
+					tab.selected = selected === key;
 					tab.content = `
 						<div slot='tab-content' class="tab-content flex-col" ${tab.selected ? 'selected' : 'inert'}>
 							<span class="flex-col gap-y-2 p-2">
@@ -125,7 +128,7 @@
 												<amr-tabs>
 													${component.html ? `
 														<amr-tab label="HTML" selected="true">
-															<div slot="content" class="relative">
+															<div slot="content" class="max-h-s relative">
 																<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-html"></code></pre>
 																<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-html">
 																	<span slot="content" class="flex-row gap-x-1 v-align-items-center">
@@ -155,15 +158,35 @@
 									</amr-card>
 									<amr-card name="${key}-attributes" class="grid-col-2">
 										<h3 slot="header">Attributes</h3>
-										<amr-grid slot="content" store="${key}-attributes-store" class="w-100"></amr-grid>
+										<amr-grid slot="content" store="${key}-attributes-store" class="w-100">
+											<amr-column field="name" label="Name"></amr-column>
+											<amr-column field="type" label="Type"></amr-column>
+											<amr-column field="default" label="Default"></amr-column>
+											<amr-column field="description" label="Description"></amr-column>
+											${component.attributes.sort((a, b) => a.name.localeCompare(b.name)).map(item => `
+												<amr-data name="${item.name}" type="${item.type}" default="${item.default}" description="${item.description}"></amr-data>
+											`).join('')}
+										</amr-grid>
 									</amr-card>
 									<amr-card name="${key}-events">
 										<h3 slot="header">Events</h3>
-										<amr-grid slot="content" store="${key}-events-store" class="w-100"></amr-grid>
+										<amr-grid slot="content" store="${key}-events-store" class="w-100">
+											<amr-column field="name" label="Name"></amr-column>
+											<amr-column field="description" label="Description"></amr-column>
+											${component.events.sort((a, b) => a.name.localeCompare(b.name)).map(item => `
+												<amr-data name="${item.name}" description="${item.description}"></amr-data>
+											`).join('')}
+										</amr-grid>
 									</amr-card>
 									<amr-card name="${key}-slots">
 										<h3 slot="header">Slots</h3>
-										<amr-grid slot="content" store="${key}-slots-store" class="w-100"></amr-grid>
+										<amr-grid slot="content" store="${key}-slots-store" class="w-100">
+											<amr-column field="name" label="Name"></amr-column>
+											<amr-column field="description" label="Description"></amr-column>
+											${component.slots.sort((a, b) => a.name.localeCompare(b.name)).map(item => `
+												<amr-data name="${item.name}" description="${item.description}"></amr-data>
+											`).join('')}
+										</amr-grid>
 									</amr-card>
 								</div>
 							</span>
@@ -180,35 +203,6 @@
 					let codeJs = get(`amr-card code[name="${key}-js"]`);
 					let copyHtml = get(`amr-button[name="${key}-copy-html"]`);
 					let copyJs = get(`amr-button[name="${key}-copy-js"]`);
-
-					// Initialize grids
-					['attributes', 'events', 'slots'].forEach(type => {
-						let grid = get(`amr-card[name="${key}-${type}"] amr-grid`);
-						if(type === 'attributes') {
-							grid.columns = [
-								{ label: "Name", field: "name" },
-								{ label: "Type", field: "type" },
-								{ label: "Default", field: "default" },
-								{ label: "Description", field: "description" }
-							];
-							grid.items = component[type].map(item => ({
-								name: item.name,
-								type: item.tag || item.type || '',
-								default: item.default || '',
-								description: item.description || ''
-							})).sort((a, b) => a.name.localeCompare(b.name));
-						} else {
-							grid.columns = [
-								{ label: "Name", field: "name" },
-								{ label: "Description", field: "description" }
-							];
-							grid.items = component[type].map(item => ({
-								name: item.name,
-								description: item.description || ''
-							})).sort((a, b) => a.name.localeCompare(b.name));
-						}
-						grid.render();
-					});
 
 					// Update preview and code on property change
 					component.properties.forEach(prop => {

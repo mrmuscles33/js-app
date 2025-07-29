@@ -22,6 +22,16 @@ const Objects = {
     },
     merge: (obj1, obj2) => {
         return { ...obj1, ...obj2 };
+    },
+    elToObj: (el) => {
+        const obj = {};
+        for (const attr of el.attributes) {
+            obj[attr.name] = attr.value;
+        }
+        if(el.children && el.children.length > 0) {
+            obj.children = Array.from(el.children).map(child => Objects.elToObj(child));
+        }
+        return obj;
     }
 }
 export default Objects;

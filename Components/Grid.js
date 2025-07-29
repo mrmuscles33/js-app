@@ -1,6 +1,7 @@
 import BaseElement from "./BaseElement.js";
 import Store from "../Utils/Store.js";
 import Strings from "../Utils/Strings.js";
+import Objects from "../Utils/Objects.js";
 
 export default class Grid extends BaseElement {
 	static attrs = [...BaseElement.attrs, "store"];
@@ -12,6 +13,22 @@ export default class Grid extends BaseElement {
             Store.subscribe(this.store + "-items", () => this.render()),
             Store.subscribe(this.store + "-columns", () => this.render())
         );
+        let _columns = [];
+        this.querySelectorAll("amr-column").forEach(column => {
+            _columns.push(Objects.elToObj(column));
+        });
+        let _items = [];
+        this.querySelectorAll("amr-data").forEach(data => {
+            _items.push(Objects.elToObj(data));
+        });
+        this.ignoreChange = true;
+        if(_columns.length > 0){
+            this.columns = _columns;
+        }
+        if (_items.length > 0){
+            this.items = _items;
+        }
+        this.ignoreChange = false;
         super.connectedCallback();
 	}
     disconnectedCallback() {
