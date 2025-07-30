@@ -130,12 +130,14 @@
 														<amr-tab label="HTML" selected="true">
 															<div slot="content" class="max-h-s relative">
 																<pre tabindex="-1" class="w-100"><code class="language-markup" name="${key}-html"></code></pre>
-																<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-html">
-																	<span slot="content" class="flex-row gap-x-1 v-align-items-center">
-																		<amr-icon value="content_copy" class="font-3"></amr-icon>
-																		<span>Copy code</span>
-																	</span>
-																</amr-button>
+																${navigator.clipboard ? `
+																	<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-html">
+																		<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+																			<amr-icon value="content_copy" class="font-3"></amr-icon>
+																			<span>Copy code</span>
+																		</span>
+																	</amr-button>
+																` : ''}
 															</div>
 														</amr-tab>
 													` : ''}
@@ -143,12 +145,14 @@
 														<amr-tab label="JS">
 															<div slot="content" class="relative">
 																<pre tabindex="-1" class="w-100"><code class="language-javascript" name="${key}-js"></code></pre>
-																<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-js">
-																	<span slot="content" class="flex-row gap-x-1 v-align-items-center">
-																		<amr-icon value="content_copy" class="font-3"></amr-icon>
-																		<span>Copy code</span>
-																	</span>
-																</amr-button>
+																${navigator.clipboard ? `
+																	<amr-button class="absolute t-2 r-1" bordered="false" name="${key}-copy-js">
+																		<span slot="content" class="flex-row gap-x-1 v-align-items-center">
+																			<amr-icon value="content_copy" class="font-3"></amr-icon>
+																			<span>Copy code</span>
+																		</span>
+																	</amr-button>
+																` : ''}
 															</div>
 														</amr-tab>
 													` : ''}
@@ -229,12 +233,12 @@
 					});
 
 					// Copy code to clipboard
-					if(copyHtml) {
+					if(copyHtml && navigator.clipboard) {
 						copyHtml.onClick = () => {
 							navigator.clipboard.writeText(codeHtml.textContent);
 						};
 					}
-					if(copyJs) {
+					if(copyJs && navigator.clipboard) {
 						copyJs.onClick = () => {
 							navigator.clipboard.writeText(codeJs.textContent);
 						};

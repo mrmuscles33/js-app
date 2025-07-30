@@ -8,14 +8,14 @@ const Objects = {
         }
         return true;
     },
-    undenifed: (obj) => {
+    undefined: (obj) => {
         return obj == undefined;
     },
     null: (obj) => {
         return obj == null;
     },
     defined: (obj) => {
-        return !Objects.undenifed(obj) && !Objects.null(obj);
+        return !Objects.undefined(obj) && !Objects.null(obj);
     },
     clone: (obj) => {
         return JSON.parse(JSON.stringify(obj));

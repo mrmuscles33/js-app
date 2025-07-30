@@ -8,7 +8,7 @@ export default {
 			name: 'store',
 			label: 'Store',
 			tag: 'amr-text',
-			default: 'store-id'
+			default: 'grid-store'
 		}
 	],
 	html: function() {

@@ -1,6 +1,9 @@
 import TextField from "./TextField.js";
 import Events from "../Utils/Events.js";
 import Icon from "./Icon.js";
+import Strings from "../Utils/Strings.js";
+import Store from "../Utils/Store.js";
+import Objects from "../Utils/Objects.js";
 
 export default class Select extends TextField {
 	static attrs = [...TextField.attrs, "limit", "opened", "filter"];
@@ -10,16 +13,20 @@ export default class Select extends TextField {
         this.limit = this.limit || 1;
 		this.opened = this.opened || "false";
         this.filter = this.filter || "";
-        this.options = Array.from(this.childNodes)
-            .filter(node => node.nodeType === Node.ELEMENT_NODE && node.tagName == "AMR-OPTION")
-            .map((node) => {
-				return { 
-                    value: node.getAttribute("value"), 
-                    label: node.innerHTML,
-                    selected: node.hasAttribute("selected"),
-                    disabled: node.hasAttribute("disabled")
-                };
-			});
+        this.store = this.store || Strings.random(16);
+        this._subscriptions = [];
+        this._subscriptions.push(
+            Store.subscribe(this.store + "-options", () => this.render()),
+        );
+        let _options = [];
+        this.querySelectorAll("amr-option").forEach(column => {
+            _options.push(Objects.elToObj(column));
+        });
+		this.ignoreChange = true;
+        if(_options.length > 0){
+            this.options = _options;
+        }
+        this.ignoreChange = false;
         this.right = this.right || Array.from(this.childNodes).find(
             (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
         ) || (() => {
@@ -40,7 +47,7 @@ export default class Select extends TextField {
 		let me = this;
         me.position = me.getBoundingClientRect().top + me.getBoundingClientRect().height + 390 > window.innerHeight ? "top" : "bottom";
 		me.ignoreChange = true;
-        me.selection = me.options.filter((option) => option.selected);
+        me.selection = me.options.filter((option) => option.selected == "true");
 		me.value = me.getValue();
         me.errormessage = me.selection.length > me.limit ? "Vous ne pouvez pas sélectionner plus de " + me.limit + " élément(s)" : "";
 		me.ignoreChange = false;
@@ -140,7 +147,7 @@ export default class Select extends TextField {
         }, 100);
     }
 	template() {
-        let filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(this.filter.toLowerCase()) && !option.disabled);
+        let filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(this.filter.toLowerCase()));
 		return `
             <div class="droplist-main v-align-item-start relative w-100" role="listbox">
                 ${super.template()}
@@ -154,9 +161,10 @@ export default class Select extends TextField {
                         ${filteredOptions.map((option) =>
                             `<amr-option
                                 value="${option.value}" 
-                                ${option.disabled ? "disabled" : ""}
-                                ${option.selected ? "selected" : ""}
-                            >${option.label}</amr-option>`
+                                label="${option.label}"
+                                ${option.disabled == "true" ? 'disabled="true"' : ""}
+                                ${option.selected == "true" ? 'selected="true"' : ""}'
+                            ></amr-option>`
                         ).join("")}
                     </amr-list>
                     ${filteredOptions.length == 0 ?
