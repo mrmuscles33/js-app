@@ -18,11 +18,9 @@ export default class List extends BaseElement {
         this.querySelectorAll("amr-option").forEach(column => {
             _options.push(Objects.elToObj(column));
         });
-		this.ignoreChange = true;
         if(_options.length > 0){
             this.options = _options;
         }
-        this.ignoreChange = false;
 		super.connectedCallback();
 	}
     disconnectedCallback() {

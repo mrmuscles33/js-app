@@ -22,11 +22,9 @@ export default class Select extends TextField {
         this.querySelectorAll("amr-option").forEach(column => {
             _options.push(Objects.elToObj(column));
         });
-		this.ignoreChange = true;
         if(_options.length > 0){
             this.options = _options;
         }
-        this.ignoreChange = false;
         this.right = this.right || Array.from(this.childNodes).find(
             (node) => node.nodeType === Node.ELEMENT_NODE && node.getAttribute("slot") == "right"
         ) || (() => {

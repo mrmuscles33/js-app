@@ -21,14 +21,12 @@ export default class Grid extends BaseElement {
         this.querySelectorAll("amr-data").forEach(data => {
             _items.push(Objects.elToObj(data));
         });
-        this.ignoreChange = true;
         if(_columns.length > 0){
             this.columns = _columns;
         }
         if (_items.length > 0){
             this.items = _items;
         }
-        this.ignoreChange = false;
         super.connectedCallback();
 	}
     disconnectedCallback() {
