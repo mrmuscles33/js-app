@@ -81,6 +81,16 @@
 				}
 			}
 
+			let copyCode = (button, code) => {
+				navigator.clipboard.writeText(code.textContent);
+				var textButton = get('[slot="content"] > span', button);
+				var originalText = textButton.innerHTML;
+				textButton.innerHTML = 'Copied !';
+				setTimeout(() => {
+					textButton.innerHTML = originalText;
+				}, 1000);
+			}
+
 			function onLoad() {
 				// Load theme from localStorage
 				// Default to dark theme if not set
@@ -234,13 +244,13 @@
 
 					// Copy code to clipboard
 					if(copyHtml && navigator.clipboard) {
-						copyHtml.onClick = () => {
-							navigator.clipboard.writeText(codeHtml.textContent);
+						copyHtml.onClick = (event) => {
+							copyCode(copyHtml, codeHtml);
 						};
 					}
 					if(copyJs && navigator.clipboard) {
-						copyJs.onClick = () => {
-							navigator.clipboard.writeText(codeJs.textContent);
+						copyJs.onClick = (event) => {
+							copyCode(copyJs, codeJs);
 						};
 					}
 
