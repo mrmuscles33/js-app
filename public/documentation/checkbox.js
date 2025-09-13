@@ -50,12 +50,6 @@ export default {
 			description: 'Indicates whether the checkbox is checked or not'
 		},
 		{ 
-			name: 'value', 
-			type: 'string',
-			default: '',
-			description: 'Value associated with the checkbox, used when submitting forms'
-		},
-		{ 
 			name: 'disabled', 
 			type: 'boolean',
 			default: 'false',

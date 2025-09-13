@@ -5,17 +5,17 @@ import Icon from "./Icon.js";
 import Html from "../Utils/Html.js";
 
 export default class TimePicker extends TextField {
-    static attrs = [...TextField.attrs, "seconde", "opened", "min", "max"];
+    static attrs = [...TextField.attrs, "second", "opened", "min", "max"];
     static selector = "amr-time";
     connectedCallback() {
         this.iconright = this.iconright || "schedule";
-        this.format = this.format || (this.seconde == "true" ? Times.H_M_S : Times.H_M);
+        this.format = this.format || (this.second == "true" ? Times.H_M_S : Times.H_M);
         this.pattern = this.pattern || Times.getPattern(this.format);
-        this.size = this.size || (this.seconde == "true" ? "medium" : "small");
-        this.seconde = this.seconde || "false";
+        this.size = this.size || (this.second == "true" ? "medium" : "small");
+        this.second = this.second || "false";
         this.opened = this.opened || "false";
-        this.min = this.min || (this.seconde == "true" ? "00:00:00" : "00:00");
-        this.max = this.max || (this.seconde == "true" ? "23:59:59" : "23:59");
+        this.min = this.min || (this.second == "true" ? "00:00:00" : "00:00");
+        this.max = this.max || (this.second == "true" ? "23:59:59" : "23:59");
         this.right = this.right || Html.nearest(this, "[slot=right]") || (() => {
             if(this.readonly == "true" || this.disabled == "true") return null;
             return Icon.get({ value: "access_time", action: "true", slot: "right"}, ["font-3"]);
@@ -56,7 +56,7 @@ export default class TimePicker extends TextField {
         // Scroll to selected item
         let selectedHour = me.querySelector(".timepicker-item.hour.selected");
         let selectedMinute = me.querySelector(".timepicker-item.minute.selected");
-        let selectedSeconde = me.querySelector(".timepicker-item.seconde.selected");
+        let selectedSeconde = me.querySelector(".timepicker-item.second.selected");
         if(selectedHour) {
             selectedHour.scrollIntoView({block: "center", inline: "center"});
         }
@@ -71,15 +71,15 @@ export default class TimePicker extends TextField {
         let me = this;
         let hour = Times.getHours(me.value);
         let minute = Times.getMinutes(me.value);
-        let seconde = Times.getSeconds(me.value);
+        let second = Times.getSeconds(me.value);
         let tmpValue = item.getAttribute("value").padStart(2,'0');
         if(item.classList.contains("hour")) {
-            tmpValue = tmpValue + ":" + minute.toString().padStart(2,'0') + ":" + seconde.toString().padStart(2,'0');
+            tmpValue = tmpValue + ":" + minute.toString().padStart(2,'0') + ":" + second.toString().padStart(2,'0');
         }
         if(item.classList.contains("minute")) {
-            tmpValue = hour.toString().padStart(2,'0') + ":" + tmpValue + ":" + seconde.toString().padStart(2,'0');
+            tmpValue = hour.toString().padStart(2,'0') + ":" + tmpValue + ":" + second.toString().padStart(2,'0');
         }
-        if(item.classList.contains("seconde")) {
+        if(item.classList.contains("second")) {
             tmpValue = hour.toString().padStart(2,'0') + ":" + minute.toString().padStart(2,'0') + ":" + tmpValue;
         }
         let selector = '.' + Array.from(item.classList).join('.') + '.selected';
@@ -108,16 +108,16 @@ export default class TimePicker extends TextField {
             event.stopPropagation();
         } else if(Events.isTab(event)) {
             if( (Events.isShift(event) && item.classList.contains("hour")) || 
-                (!Events.isShift(event) && item.classList.contains("minute") && me.seconde == "false") || 
-                (!Events.isShift(event) && item.classList.contains("seconde"))
+                (!Events.isShift(event) && item.classList.contains("minute") && me.second == "false") || 
+                (!Events.isShift(event) && item.classList.contains("second"))
             ) {
-                // Block tab navigation before hour, after minute (if not seconde) and after seconde
+                // Block tab navigation before hour, after minute (if not second) and after second
                 event.preventDefault();
                 event.stopPropagation();
             } else if(!Events.isShift(event)) {
-                // Focus next minute/seconde with tabindex 0 or -1
-                if(!me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='0']`)) {
-                    let next = me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "seconde"}[tabindex='-1']`);
+                // Focus next minute/second with tabindex 0 or -1
+                if(!me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "second"}[tabindex='0']`)) {
+                    let next = me.querySelector(`.timepicker-item.${item.classList.contains("hour") ? "minute" : "second"}[tabindex='-1']`);
                     if(next) {
                         next.setAttribute("tabindex", "0");
                         next.focus();
@@ -171,9 +171,9 @@ export default class TimePicker extends TextField {
             return  Times.before(Times.getHours(this.value).toString().padStart(2,'0') + ':' + minute.toString().padStart(2,'0') + ':55', this.min) ||
                     Times.after(Times.getHours(this.value).toString().padStart(2,'0') + ':' + minute.toString().padStart(2,'0') + ':00', this.max);
         };
-        let disableSeconde = (seconde) => {
-            return  Times.before(Times.getHours(this.value).toString().padStart(2,'0') + ':' + Times.getMinutes(this.value).toString().padStart(2,'0') + ':' + seconde.toString().padStart(2,'0'), this.min) ||
-                    Times.after(Times.getHours(this.value).toString().padStart(2,'0') + ':' + Times.getMinutes(this.value).toString().padStart(2,'0') + ':' + seconde.toString().padStart(2,'0'), this.max);
+        let disableSeconde = (second) => {
+            return  Times.before(Times.getHours(this.value).toString().padStart(2,'0') + ':' + Times.getMinutes(this.value).toString().padStart(2,'0') + ':' + second.toString().padStart(2,'0'), this.min) ||
+                    Times.after(Times.getHours(this.value).toString().padStart(2,'0') + ':' + Times.getMinutes(this.value).toString().padStart(2,'0') + ':' + second.toString().padStart(2,'0'), this.max);
         }
 
         return `
@@ -212,18 +212,18 @@ export default class TimePicker extends TextField {
                                 ).join('')}
                             </div>
                         </div>
-                        ${this.seconde == "true" ? `
+                        ${this.second == "true" ? `
                         <div class="timepicker-section text-center flex-1 block">
                             <span class="header font-weight-500 block text-center mb-1">Seconde</span>
-                            <div class="timepicker-list max-h-xs overflow-y-auto flex-col seconde">
-                                ${Array.from({ length: 12 }, (_, i) => i * 5).map(seconde => `
-                                <span class="timepicker-item pointer p-1 mx-1 round-1 color-dark-0 block text-center seconde
-                                    ${Times.getSeconds(this.value) == seconde ? "selected" : ""}
-                                    ${disableSeconde(seconde) ? "disabled" : ""}"
-                                    value="${seconde}"
-                                    ${disableSeconde(seconde) ? "" : `${Times.getSeconds(this.value) == seconde ? "tabindex='0'" : "tabindex='-1'"}`}>
-                                    ${seconde.toString().padStart(2,'0')}
-                                    ${Times.getSeconds(this.value) == seconde ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
+                            <div class="timepicker-list max-h-xs overflow-y-auto flex-col second">
+                                ${Array.from({ length: 12 }, (_, i) => i * 5).map(second => `
+                                <span class="timepicker-item pointer p-1 mx-1 round-1 color-dark-0 block text-center second
+                                    ${Times.getSeconds(this.value) == second ? "selected" : ""}
+                                    ${disableSeconde(second) ? "disabled" : ""}"
+                                    value="${second}"
+                                    ${disableSeconde(second) ? "" : `${Times.getSeconds(this.value) == second ? "tabindex='0'" : "tabindex='-1'"}`}>
+                                    ${second.toString().padStart(2,'0')}
+                                    ${Times.getSeconds(this.value) == second ? "<amr-icon value='check' size='small'></amr-icon>" : ""}
                                 </span>`
                                 ).join('')}
                             </div>

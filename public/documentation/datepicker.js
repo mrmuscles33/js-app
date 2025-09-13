@@ -42,7 +42,7 @@ export default {
 		tpl += `${disabled.checked == 'true' ? '\tdisabled="true"\n' : ''}`;
 		tpl += `${filled.checked == 'false' ? '\tfilled="false"\n' : ''}`;
 		tpl += `${error.value ? `\terrormessage="${error.value}"\n` : ''}`;
-		tpl += `${format.value && format.value != 'DD/MM/YYYY' ? `\tformat="${format.value}"\n` : ''}`;
+		tpl += `${format.value && format.value != Dates.D_M_Y ? `\tformat="${format.value}"\n` : ''}`;
 		tpl += `${startWeek.value && startWeek.value != Dates.MONDAY ? `\tstartWeek="${startWeek.value}"\n` : ''}`;
 		tpl += `${min.value && min.value != '01/01/1900' ? `\tmin="${min.value}"\n` : ''}`;
 		tpl += `${max.value && max.value != '31/12/2099' ? `\tmax="${max.value}"\n` : ''}`;

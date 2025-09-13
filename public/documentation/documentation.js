@@ -17,7 +17,7 @@ import passwordfield from './passwordfield.js';
 import phonefield from './phonefield.js';
 import radio from './radio.js';
 import select from './select.js';
-import Switch from './switch.js';
+import switchbutton from './switch.js';
 import tabs from './tabs.js';
 import textfield from './textfield.js';
 import timepicker from './timepicker.js';
@@ -42,7 +42,7 @@ export default {
 	phonefield,
 	radio,
 	select,
-	Switch,
+	switchbutton,
 	tabs,
 	textfield,
 	timepicker,
